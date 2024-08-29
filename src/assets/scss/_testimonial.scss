@@ -1,0 +1,18 @@
+.testimonial{
+  background-color: #f6f6f6;
+  
+  .card{
+    border: none !important;
+    box-shadow: 0 0 5px rgba(0,0,0,.1);
+    background-color: #fff;
+    height: 250px;
+    min-height: 250px;
+
+    .card-body{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+    }
+  }
+}

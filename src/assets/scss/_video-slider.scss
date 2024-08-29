@@ -1,0 +1,36 @@
+.productvideoslider{
+    .swiper-wrapper { transition-timing-function: linear; }
+    
+    .product-image{
+        width: 300px !important;
+        height: 300px !important;
+        position: relative;
+        margin: 0 auto;
+        display: flex !important;
+        text-align: center;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+
+        .play-icon{
+            height: 75px;
+            position: absolute;
+            color: red;
+            left: 112px;
+            top: 112px;
+            opacity: .8;
+        }
+
+        &::after{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,.2);
+            z-index: 2;
+            cursor: pointer;
+        }
+    }
+}

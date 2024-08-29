@@ -1,0 +1,29 @@
+.why-drbwc-container{
+    background: radial-gradient(35% 60% at 54% 46%, #5a3926 53%, #0b0704 177%);
+
+    .page-heading{
+        color: $white;
+    }
+    .desc-sm{
+        color: $white;
+    }
+    .card{
+        border: 2px solid #fff;
+        background-color: transparent;
+        border-radius: 0;
+
+        .card-number {
+            font-weight: 500;
+            font-size: 40px;
+            line-height: 60px;
+            text-transform: capitalize;
+            color: #fff;
+            margin: 0 25px 0 0;
+        }
+        .card-desc{
+            color: #ffffff;
+            font-size: 14px;
+            line-height: $lh-md;
+        }
+    }
+}

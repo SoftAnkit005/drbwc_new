@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name": "Facebook",
+    "link":"https://www.facebook.com/profile.php?id=100083215367869&amp;mibextid=ZbWKwL",
+    "src":"/assets/img/product/drbwc_images/facebook.svg"
+  },
+  {
+    "id": "2",
+    "name": "Twitter",
+    "link":"https://x.com/BhanusaliW",
+    "src":"/assets/img/product/drbwc_images/twitter.svg"
+  },
+  {
+    "id": "3",
+    "name": "Instagram",
+    "link":"https://www.instagram.com/dr.bwc?igsh=NmF5ZmhuZXJkNzZw",
+    "src":"/assets/img/product/drbwc_images/instagram.svg"
+  },
+  {
+    "id": "4",
+    "name": "Youtube",
+    "link":"https://youtube.com/@drbwc?si=ZnYNbRJqidVOIij0",
+    "src":"/assets/img/product/drbwc_images/youtube.svg"
+  },
+  {
+    "id": "5",
+    "name": "Linkedin",
+    "link":"https://www.linkedin.com/in/dr-bwc-a3428a1a6?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=android_app",
+    "src":"/assets/img/product/drbwc_images/linkedin.svg"
+  },
+  {
+    "id": "6",
+    "name": "Whatsapp",
+    "link":"https://api.whatsapp.com/send?phone=919909993597&amp;text=I%20come%20from%20drbwc.com",
+    "src":"/assets/img/product/drbwc_images/whatsapp.svg"
+  },
+  {
+    "id": "7",
+    "name": "Flipkart",
+    "link":"https://dl.flipkart.com/dl/product/p/itme?pid=MCHGSKPKFQHDGZYH&amp;lid=LSTMCHGSKPKFQHDGZYHIZ2E4O",
+    "src":"/assets/img/product/drbwc_images/flipkart.svg"
+  },
+  {
+    "id": "8",
+    "name": "Amazon",
+    "link":"https://www.amazon.in/Automatic-Robotic-Gravity-Massage-Heating/dp/B0CMH545YP/ref=mp_s_a_1_5?crid=31AFPQPAYXBVN&amp;keywords=dr+bwc+massage+chair&amp;qid=1703226247&amp;sprefix=dr+bwc+massage+chair%2Caps%2C198&amp;sr=8-5",
+    "src":"/assets/img/product/drbwc_images/amazon.svg"
+  },
+  {
+    "id": "9",
+    "name": "Justdial",
+    "link":"GUBGMHVpwcTsPFvNNVdG5DKtpv6UwksAfzw5aULcGzgG",
+    "src":"/assets/img/product/drbwc_images/justdial.svg"
+  },
+  {
+    "id": "10",
+    "name": "Government e Marketplace",
+    "link":"",
+    "src":"/assets/img/product/drbwc_images/gem.svg"
+  }
+]

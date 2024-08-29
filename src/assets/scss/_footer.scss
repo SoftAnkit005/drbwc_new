@@ -1,0 +1,227 @@
+/*-------- 8. Footer style  -----*/
+.footer-area{
+  background: radial-gradient(58% 100% at 50% 50%, #664a3a 0%, #26211f 100%);
+  .footer-title {
+    h3 {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 35px;
+      text-align: left;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: #e5ba51;
+    }
+  }
+
+  .footer-widget {
+    .footer-title {
+      h3 {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 35px;
+        text-align: left;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: #e5ba51;
+      }
+    }
+    .footer-list {
+      ul {
+        li {
+          color: #fff;
+          margin: 0 0 11px;
+          &:last-child {
+            margin: 0 0 0;
+          }
+          a {
+            letter-spacing: 0.3px;
+            font-size: 16px;
+            color: #fff;
+            &:hover {
+              color: $theme-color;
+            }
+          }
+        }
+      }
+    }
+    .subscribe-style {
+      p {
+        margin: 0 0 20px;
+  
+        color: #7a7a7a;
+      }
+      .subscribe-form {
+        input {
+          font-size: 13px;
+  
+          padding: 2px 10px 2px 0;
+  
+          color: #333;
+          border: none;
+          border-bottom: 2px solid #ebebeb;
+          background: transparent;
+        }
+        .mc-news {
+          display: none;
+        }
+        .clear {
+          button {
+            font-size: 14px;
+            line-height: 1;
+  
+            width: auto;
+            height: auto;
+            margin: 13px 0 0;
+            padding: 0 0 1px;
+  
+            text-transform: uppercase;
+  
+            color: #313131;
+            border: none;
+            border-bottom: 2px solid #9b9b9c;
+            background: none;
+            &:hover {
+              color: $theme-color;
+              border-bottom: 2px solid $theme-color;
+            }
+          }
+        }
+      }
+      &.subscribe-style-white {
+        p {
+          color: #e6e6e6;
+        }
+        .subscribe-form {
+          input {
+            color: #a4a4a4;
+            border-bottom: 2px solid #ebebeb;
+          }
+          .clear {
+            input,
+            button {
+              color: #fff;
+              border-bottom: 2px solid #b5b5b6;
+              &:hover {
+                color: $theme-color;
+                border-bottom: 2px solid $theme-color;
+              }
+            }
+          }
+        }
+      }
+    }
+    @media #{$xx-layout} {
+      &.ml-95 {
+        margin-left: 20px;
+      }
+      &.ml-145 {
+        margin-left: 50px;
+      }
+    }
+    @media #{$xl-layout} {
+      &.ml-95 {
+        margin-left: 0;
+      }
+      &.ml-145 {
+        margin-left: 20px;
+      }
+      &.ml-30 {
+        margin-left: 0;
+      }
+      &.ml-ntv5 {
+        margin-left: -50px;
+      }
+    }
+    @media #{$lg-layout} {
+      &.ml-95 {
+        margin-left: 0;
+      }
+      &.ml-145 {
+        margin-left: 0;
+      }
+      &.ml-30 {
+        margin-left: 0;
+      }
+      &.ml-ntv5 {
+        margin-left: 0;
+      }
+    }
+    @media #{$md-layout} {
+      &.ml-95 {
+        margin-left: 0;
+      }
+      &.ml-145 {
+        margin-left: 0;
+      }
+      &.ml-30 {
+        margin-left: 0;
+      }
+      &.ml-ntv5 {
+        margin-left: 0;
+      }
+    }
+    @media #{$xs-layout} {
+      &.ml-95 {
+        margin-left: 0;
+      }
+      &.ml-145 {
+        margin-left: 0;
+      }
+      &.ml-30 {
+        margin-left: 0;
+      }
+      &.ml-ntv5 {
+        margin-left: 0;
+      }
+    }
+  
+    &.footer-widget-white {
+      .footer-title {
+        h3 {
+          color: #fff;
+        }
+      }
+      .footer-list {
+        ul {
+          li {
+            a {
+              color: #e6e6e6;
+              &:hover {
+                color: $theme-color;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .footer-widget.ml-30,
+  .footer-widget.ml-50,
+  .footer-widget.ml-75 {
+    @media #{$md-layout} {
+      margin-left: 0;
+    }
+    @media #{$xs-layout} {
+      margin-left: 0;
+    }
+    @media #{$lg-layout} {
+      margin-left: 0;
+    }
+  }
+  
+  .footer-widget.ml-70 {
+    @media #{$md-layout} {
+      margin-left: -130px;
+    }
+    @media #{$xs-layout} {
+      margin-left: 0;
+    }
+    @media #{$sm-layout} {
+      margin-left: -90px;
+    }
+    @media #{$lg-layout} {
+      margin-left: 0;
+    }
+  }
+}

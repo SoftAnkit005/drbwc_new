@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "image": "assets/img/product/drbwc_images/products_two.png",
+    "title": "MASSAGE CHAIRS",
+    "description":"Determine your Life Wellness with Advanced Whole body massage technology with auto wellness program.",
+    "link":"/products",
+    "brand":"dr bwc"
+  },
+  {
+    "id": 2,
+    "image": "assets/img/product/drbwc_images/massage_bed.png",
+    "title": "Massage Bed",
+    "description":"Determine your Life Wellness with Advanced Whole body massage technology with auto wellness program.",
+    "link":"/products",
+    "brand":"dr bwc"
+  }
+]
