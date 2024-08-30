@@ -90,7 +90,7 @@
 }
 .logo {
   margin-top: 20px;
-  margin-right: -50px;
+  margin-right: -80px;
   position: relative;
 
   &::before{
@@ -502,7 +502,7 @@
     &:first-child {
       margin-left: 0;
     }
-    &:hover > a,
+    &:hover > .header-icon,
     &:hover > button {
       color: $theme-color;
     }

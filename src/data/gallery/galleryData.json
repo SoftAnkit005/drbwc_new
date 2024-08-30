@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "image": "assets/img/product/drbwc_images/products_one.png"
+  },
+  {
+    "id": "2",
+    "image": "assets/img/product/drbwc_images/products_two.png"
+  },
+  {
+    "id": "3",
+    "image": "assets/img/product/drbwc_images/products_three.png"
+  },
+  {
+    "id": "4",
+    "image": "assets/img/product/drbwc_images/products_four.png"
+  },
+  {
+    "id": "5",
+    "image": "assets/img/product/drbwc_images/products_five.png"
+  },
+  {
+    "id": "6",
+    "image": "assets/img/product/drbwc_images/products_six.png"
+  }
+]

@@ -38,22 +38,22 @@ const FooterOne = ({
                       <Link to={process.env.PUBLIC_URL + "/about"}>About us</Link>
                     </li>
                     <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}> Gallery </Link>
+                      <Link to={process.env.PUBLIC_URL + "/gallery"}> Gallery </Link>
                     </li>
                     <li>
                       <Link to={process.env.PUBLIC_URL + "/contact"}> Contact Us </Link>
                     </li>
                     <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}> Terms & Conditions </Link>
+                      <Link to={process.env.PUBLIC_URL + "/terms-condition"}> Terms & Conditions </Link>
                     </li>
                     <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}> Shipping Policy </Link>
+                      <Link to={process.env.PUBLIC_URL + "/shipping-policy"}> Shipping Policy </Link>
                     </li>
                     <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}> Privacy Policy </Link>
+                      <Link to={process.env.PUBLIC_URL + "/privacy-policy"}> Privacy Policy </Link>
                     </li>
                     <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}> Refund Policy </Link>
+                      <Link to={process.env.PUBLIC_URL + "/refund-policy"}> Refund Policy </Link>
                     </li>
                   </ul>
                 </div>
@@ -68,7 +68,7 @@ const FooterOne = ({
                       <Link to={process.env.PUBLIC_URL + "#/"}>Home</Link>
                     </li>
                     <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Advance Master V4 Thermal Heating Bed</Link>
+                      <Link to={process.env.PUBLIC_URL + "/automatic-thermal-massage-bed"}>Advance Master V4 Thermal Heating Bed</Link>
                     </li>
                     <li>
                       <Link to={process.env.PUBLIC_URL + "#/"}>New Arrivals</Link>

@@ -4,6 +4,7 @@ import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import GoogleMap from "../../components/google-map"
+import { TbTruckDelivery } from "react-icons/tb";
 
 const Contact = () => {
   let { pathname } = useLocation();
@@ -16,88 +17,47 @@ const Contact = () => {
       />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
-        <Breadcrumb 
-          pages={[
-            {label: "Home", path: process.env.PUBLIC_URL + "/" },
-            {label: "Contact", path: process.env.PUBLIC_URL + pathname }
-          ]} 
-        />
-        <div className="contact-area pt-100 pb-100">
+        <Breadcrumb pages={[ {label: "Home", path: process.env.PUBLIC_URL + "/" }, {label: "Contact", path: process.env.PUBLIC_URL + pathname } ]} />
+        <div className="contact-area pt-20 pb-100">
           <div className="container">
-            <div className="contact-map mb-10">
-              <GoogleMap lat={47.444} lng={-122.176} />
-            </div>
-            <div className="custom-row-2">
-              <div className="col-12 col-lg-4 col-md-5">
+            <div className="custom-row-2 mb-10">
+              <div className="col-12 col-lg-6">
                 <div className="contact-info-wrap">
+                  <h3>about bhanusali wellness care</h3>
+                  <p className="desc-sm">DR.BWC is established in 2000 and has continued to grow and expand into India’s leading massage brands. Dr. BWC, The Brand represents value for money and strive for customers around the pan India. Network with best massage experience at affordable prices.</p>
+                  <hr/>
                   <div className="single-contact-info">
-                    <div className="contact-icon">
-                      <i className="fa fa-phone" />
-                    </div>
+                    <div className="contact-icon"> <i className="fa fa-phone" /> </div>
                     <div className="contact-info-dec">
-                      <p>+012 345 678 102</p>
-                      <p>+012 345 678 102</p>
-                    </div>
-                  </div>
-                  <div className="single-contact-info">
-                    <div className="contact-icon">
-                      <i className="fa fa-globe" />
-                    </div>
-                    <div className="contact-info-dec">
-                      <p>
-                        <a href="mailto:yourname@email.com">
-                          yourname@email.com
-                        </a>
-                      </p>
-                      <p>
-                        <a href="https://yourwebsitename.com">
-                          yourwebsitename.com
-                        </a>
-                      </p>
+                      <p>Phone</p>
+                      <p><a href="callto:18004195973">+91 9825735973</a></p>
                     </div>
                   </div>
                   <div className="single-contact-info">
-                    <div className="contact-icon">
-                      <i className="fa fa-map-marker" />
-                    </div>
+                    <div className="contact-icon"> <i className="fa fa-globe" /> </div>
                     <div className="contact-info-dec">
-                      <p>Address goes here, </p>
-                      <p>street, Crossroad 123.</p>
+                      <p>Email</p>
+                      <p><a href="mailto:info@DrBWC.com">info@DrBWC.com</a></p>
                     </div>
                   </div>
-                  <div className="contact-social text-center">
-                    <h3>Follow Us</h3>
-                    <ul>
-                      <li>
-                        <a href="//facebook.com">
-                          <i className="fa fa-facebook" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="//pinterest.com">
-                          <i className="fa fa-pinterest-p" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="//thumblr.com">
-                          <i className="fa fa-tumblr" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="//vimeo.com">
-                          <i className="fa fa-vimeo" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="//twitter.com">
-                          <i className="fa fa-twitter" />
-                        </a>
-                      </li>
-                    </ul>
+                  <div className="single-contact-info">
+                    <div className="contact-icon"> <i className="fa fa-map-marker" /> </div>
+                    <div className="contact-info-dec">
+                      <p>Address</p>
+                      <p>VIP road, Vesu Surat, Gujarat - 395007, India</p>
+                    </div>
                   </div>
+                  <div className="single-contact-info">
+                    <div className="contact-icon"><TbTruckDelivery className="p-2"/> </div>
+                    <div className="contact-info-dec">
+                      <p>Free Delivery</p>
+                    </div>
+                  </div>
+                  <hr/>
+                  <p className="desc-sm">Do you have questions about how we can help your company? <span className="fw-bold">Send us an email and we’ll get in touch shortly.</span> </p>
                 </div>
               </div>
-              <div className="col-12 col-lg-8 col-md-7">
+              <div className="col-12 col-lg-6">
                 <div className="contact-form">
                   <div className="contact-title mb-30">
                     <h2>Get In Touch</h2>
@@ -110,28 +70,25 @@ const Contact = () => {
                       <div className="col-lg-6">
                         <input name="email" placeholder="Email*" type="email" />
                       </div>
-                      <div className="col-lg-12">
-                        <input
-                          name="subject"
-                          placeholder="Subject*"
-                          type="text"
-                        />
+                      <div className="col-lg-6">
+                        <input name="phone" placeholder="Phone*" type="tel" />
                       </div>
+                      <div className="col-lg-6">
+                        <input name="company" placeholder="Company*" type="text" />
+                      </div>
+                      
                       <div className="col-lg-12">
-                        <textarea
-                          name="message"
-                          placeholder="Your Message*"
-                          defaultValue={""}
-                        />
-                        <button className="submit" type="submit">
-                          SEND
-                        </button>
+                        <textarea name="message" placeholder="Your Message*" defaultValue={""} />
+                        <button className="submit btn-primary" type="submit"> ASK A QUESTION </button>
                       </div>
                     </div>
                   </form>
                   <p className="form-message" />
                 </div>
               </div>
+            </div>
+            <div className="contact-map">
+              <GoogleMap lat={21.139730} lng={72.771550} />
             </div>
           </div>
         </div>

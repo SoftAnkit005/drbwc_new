@@ -34,22 +34,15 @@ const HeaderOne = ({
 
   return (
     <header className={clsx("header-area clearfix", headerBgClass, headerPositionClass)}>
-      <div className={clsx( "header-top-area", headerPaddingClass, top === "visible" ? "d-none d-lg-block" : "d-none", borderStyle === "fluid-border" && "border-none" )} >
-        <div className={layout === "container-fluid" ? layout : "container"}>
-          {/* header top */}
-          <HeaderTop borderStyle={borderStyle} />
-        </div>
-      </div>
-
       <HeaderDiscount />
       <div className={clsx( headerPaddingClass, "sticky-bar header-res-padding clearfix", scroll > headerTop && "stick" )} >
         <div className={layout === "container-fluid" ? layout : "container"}>
           <div className="row">
-            <div className="col-md-6 col-4">
+            <div className="col-md-6 col-4 pb-2">
               {/* header logo */}
               <Logo imageUrl="/assets/img/logo/logo.svg" logoClass="logo text-lg-end" />
             </div>
-            <div className="col-md-6 col-8 d-flex justify-content-end align-items-end">
+            <div className="col-md-6 col-8 d-flex justify-content-end align-items-end pb-2">
               {/* Icon group */}
               <IconGroup />
             </div>

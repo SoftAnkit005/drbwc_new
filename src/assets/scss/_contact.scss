@@ -10,19 +10,26 @@
 }
 
 .contact-info-wrap {
-  padding: 120px 70px 116px 90px;
+  padding:90px;
+  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  height: 100%;
 
-  background-color: #f3f3f3;
-  @media #{$lg-layout} {
-    padding: 120px 20px 116px 40px;
+  h3 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0 0 17px;
+    color: #4d4d4d;
+    text-transform: capitalize;
   }
   @media #{$md-layout} {
-    padding: 120px 20px 116px 30px;
+    padding:50px;
   }
   @media #{$xs-layout} {
     margin-top: 20px;
     margin-bottom: 30px;
-    padding: 50px 20px 45px 30px;
+    padding:50px;
   }
   .single-contact-info {
     display: flex;
@@ -31,20 +38,16 @@
     margin-bottom: 40px;
     .contact-icon {
       margin-right: 20px;
-      i {
+      i, svg {
         font-size: 20px;
         line-height: 40px;
-
         display: inline-block;
-
         width: 40px;
         height: 40px;
-
         transition: all 0.3s ease 0s;
         text-align: center;
-
-        color: #252525;
-        border: 1px solid #252525;
+        color: #72442F;
+        border: 1px solid #72442F;
         border-radius: 100%;
       }
     }
@@ -68,7 +71,7 @@
     }
     &:hover .contact-icon i {
       color: #fff;
-      background-color: #252525;
+      background-color: #72442F;
     }
   }
 }
@@ -102,17 +105,16 @@
 }
 
 .contact-form {
-  padding: 50px 110px 50px 110px;
-
-  background-color: #f3f3f3;
-  @media #{$lg-layout} {
-    padding: 50px 50px 50px 50px;
-  }
+  padding:90px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  
   @media #{$md-layout} {
-    padding: 50px 30px 50px 30px;
+    padding:50px;
   }
   @media #{$xs-layout} {
-    padding: 50px 30px 50px 30px;
+    padding:50px;
   }
   .contact-title {
     h2 {

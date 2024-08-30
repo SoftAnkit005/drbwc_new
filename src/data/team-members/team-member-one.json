@@ -1,38 +1,21 @@
 [
   {
     "id": "1",
-    "image": "/assets/img/team/team-1.jpg",
-    "fbLink": "//www.facebook.com",
-    "twitterLink": "//www.twitter.com",
-    "instagramLink": "//www.instagram.com",
-    "name": "Mr.Mike Banding",
-    "position": "Manager"
+    "image": "assets/img/product/drbwc_images/ceo_kaushal.png",
+    "fbLink": "https://www.facebook.com/DrBhanusaliwellnesscare",
+    "twitterLink": "https://x.com/BhanusaliW",
+    "instagramLink": "https://www.instagram.com/dr.bhanusaliwellnesscare/",
+    "name": "Kaushal Bhanusali",
+    "position": "CEO / FOUNDER"
   },
   {
     "id": "2",
-    "image": "/assets/img/team/team-3.jpg",
-    "fbLink": "//www.facebook.com",
-    "twitterLink": "//www.twitter.com",
-    "instagramLink": "//www.instagram.com",
-    "name": "Mr.Peter Pan",
-    "position": "Developer"
-  },
-  {
-    "id": "3",
-    "image": "/assets/img/team/team-2.jpg",
-    "fbLink": "//www.facebook.com",
-    "twitterLink": "//www.twitter.com",
-    "instagramLink": "//www.instagram.com",
-    "name": "Ms.Sophia",
-    "position": "Designer"
-  },
-  {
-    "id": "4",
-    "image": "/assets/img/team/team-4.jpg",
-    "fbLink": "//www.facebook.com",
-    "twitterLink": "//www.twitter.com",
-    "instagramLink": "//www.instagram.com",
-    "name": "Mr.John Lee",
-    "position": "Chairman"
+    "image": "assets/img/product/drbwc_images/ceo_alpa.png",
+    "fbLink": "https://www.facebook.com/DrBhanusaliwellnesscare",
+    "twitterLink": "https://x.com/BhanusaliW",
+    "instagramLink": "https://www.instagram.com/dr.bhanusaliwellnesscare/",
+    "name": "Alpa Bhanusali",
+    "position": "CEO / FOUNDER"
   }
+  
 ]

@@ -3871,3 +3871,18 @@
     }
   }
 }
+
+.shop-area{
+  .swiper-wrapper{
+    .swiper-slide {
+      &:not(.swiper-slide-active) {
+        height: 100px !important;
+        width: 100% !important;
+      }
+    }
+  }
+  
+  .product-small-image-wrapper--side-thumb{
+    height: 100% !important;
+  }
+}

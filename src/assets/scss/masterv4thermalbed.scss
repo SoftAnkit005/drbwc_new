@@ -1,0 +1,190 @@
+.automatic-thermal-massage-bed-page {
+  .product-banner, .product-experience, .spine-scanning {
+    background: radial-gradient(50% 70% at 36% 58%, #8a715f 15%, #160e09 100%);
+    padding: 60px 20px;
+    position: relative;
+    .products-img {
+      img {
+        width: 100%;
+      }
+    }
+
+    .products-info {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 30px;
+
+      .products-feature {
+        font-size: 25px;
+        font-family: "Satisfy", cursive;
+        font-weight: 400;
+        line-height: 48px;
+        text-transform: capitalize;
+        margin: 0;
+        color: $white;
+        line-height: normal;
+      }
+      .products-title {
+        color: $white;
+        font-size: 46px;
+        font-weight: 400;
+        color: $white;
+        text-transform: uppercase;
+        margin: 0;
+        line-height: normal;
+      }
+      .product-desc {
+        font-weight: 400;
+        font-size: $desc-md;
+        line-height: 20px;
+        letter-spacing: 0.03em;
+        text-transform: capitalize;
+        color: $white;
+        margin: 0;
+        padding: 0 0 15px 0;
+      }
+      .btn-primary {
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 10px;
+        text-transform: capitalize;
+        color: $white;
+        background: $black;
+        padding: 18px 35px !important;
+        text-decoration: none;
+        margin: 0;
+        display: inline-block;
+        border-radius: 0px;
+        width: fit-content;
+        border: none;
+      }
+    }
+
+    .spine-scanning-img {
+        width: 100%;
+        max-width: 850px;
+    }
+
+    @media #{$md-layout},#{$xs-layout} {
+        .products-img {
+          height: fit-content !important;
+        }
+        .products-info {
+          width: 100%;
+          padding: 30px 0px;
+
+          .products-feature {
+            font-size: 20px !important;
+            margin-bottom: 20px;
+          }
+          .products-title {
+            font-size: 30px !important;
+            line-height: 35px;
+            margin-bottom: 20px;
+          }
+          .btn-primary {
+            margin: auto !important;
+          }
+        }
+    }
+   
+  }
+}
+
+.product-experience{
+    .member-img{
+        transition: transform .5s;
+        max-width: 100%;
+        height: auto;
+
+        &:hover{
+            transform: scale(1.05);
+        }
+    }
+}
+.product-benefits{
+    padding: 60px 20px;
+}
+.intensity-control, .smart-sliding{
+    padding: 60px 20px 0px 20px;
+    .products-info {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 30px;
+  
+        .products-feature {
+          font-size: 25px;
+          font-family: "Satisfy", cursive;
+          font-weight: 400;
+          line-height: 48px;
+          text-transform: capitalize;
+          margin: 0;
+          color: $white;
+          line-height: normal;
+        }
+        .products-title {
+          color: $white;
+          font-size: 46px;
+          font-weight: 400;
+          color: $white;
+          text-transform: uppercase;
+          margin: 0;
+          line-height: normal;
+        }
+        .product-desc {
+          font-weight: 400;
+          font-size: $desc-md;
+          line-height: 20px;
+          letter-spacing: 0.03em;
+          text-transform: capitalize;
+          color: $white;
+          margin: 0;
+          padding: 0 0 15px 0;
+        }
+        .btn-primary {
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 10px;
+          text-transform: capitalize;
+          color: $white;
+          background: $black;
+          padding: 18px 35px !important;
+          text-decoration: none;
+          margin: 0;
+          display: inline-block;
+          border-radius: 0px;
+          width: fit-content;
+          border: none;
+        }
+      }
+
+      .spine-scanning-img {
+        width: 100%;
+        max-width: 850px;
+      }
+
+      @media #{$md-layout},#{$xs-layout} {
+        .products-img {
+          height: fit-content !important;
+        }
+        .products-info {
+          width: 100%;
+          padding: 30px 0px;
+
+          .products-feature {
+            font-size: 20px !important;
+            margin-bottom: 20px;
+          }
+          .products-title {
+            font-size: 30px !important;
+            line-height: 35px;
+            margin-bottom: 20px;
+          }
+          .btn-primary {
+            margin: auto !important;
+          }
+        }
+    }
+}

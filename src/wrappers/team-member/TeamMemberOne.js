@@ -9,16 +9,11 @@ const TeamMemberOne = ({ spaceTopClass, spaceBottomClass }) => {
     <div className={clsx("team-area", spaceTopClass, spaceBottomClass)}>
       <div className="container">
         {/* section title */}
-        <SectionTitleTwo
-          titleText="Team Members"
-          subTitleText="Lorem ipsum dolor sit amet conse ctetu."
-          positionClass="text-center"
-          spaceClass="mb-60"
-        />
+        <h3 class="page-heading text-uppercase mb-4">about out team</h3>
 
-        <div className="row">
+        <div className="row about-team">
           {teamMemberData?.map((single, key) => (
-            <div className="col-lg-3 col-md-6 col-sm-6" key={key}>
+            <div className="col-md-6 col-sm-6" key={key}>
               <TeamMemberOneSingle
                 data={single}
                 spaceBottomClass="mb-30"

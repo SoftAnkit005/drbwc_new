@@ -90,8 +90,24 @@
   }
 }
 
+.team-area{
+  .about-team{
+    width: 50%;
+    margin: auto;
+
+    @media #{$md-layout} {
+      width: 100%;
+    }
+    @media #{$xs-layout} {
+      width: 100%;
+    }
+  }
+
+}
+
 .team-wrapper {
-  background-color: #f7f7f7;
+  background-color: #f8f5f4;
+
   .team-img {
     position: relative;
 
@@ -131,11 +147,11 @@
           }
         }
         &.twitter {
-          border: 1px solid #55acee;
-          background-color: #55acee;
+          border: 1px solid #000;
+          background-color: #000;
           &:hover {
             background-color: transparent;
-            color: #55acee;
+            color: #000;
           }
         }
         &.instagram {

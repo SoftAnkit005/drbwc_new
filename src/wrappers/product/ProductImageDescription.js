@@ -7,7 +7,7 @@ import ProductDescriptionInfo from "../../components/product/ProductDescriptionI
 import ProductImageGallerySideThumb from "../../components/product/ProductImageGallerySideThumb";
 import ProductImageFixed from "../../components/product/ProductImageFixed";
 
-const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType, product }) => {
+const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, product }) => {
   const currency = useSelector((state) => state.currency);
   const { cartItems } = useSelector((state) => state.cart);
   const { wishlistItems } = useSelector((state) => state.wishlist);
@@ -27,18 +27,7 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
         <div className="row">
           <div className="col-lg-6 col-md-6">
             {/* product image gallery */}
-            {galleryType === "leftThumb" ? (
-              <ProductImageGallerySideThumb
-                product={product}
-                thumbPosition="left"
-              />
-            ) : galleryType === "rightThumb" ? (
-              <ProductImageGallerySideThumb product={product} />
-            ) : galleryType === "fixedImage" ? (
-              <ProductImageFixed product={product} />
-            ) : (
-              <ProductImageGallery product={product} />
-            )}
+            <ProductImageGallerySideThumb product={product} />
           </div>
           <div className="col-lg-6 col-md-6">
             {/* product description info */}
@@ -60,7 +49,6 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
 };
 
 ProductImageDescription.propTypes = {
-  galleryType: PropTypes.string,
   product: PropTypes.shape({}),
   spaceBottomClass: PropTypes.string,
   spaceTopClass: PropTypes.string,

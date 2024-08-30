@@ -214,8 +214,33 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
                 </Link>
               </li>
               <li>
+                <Link to={process.env.PUBLIC_URL + "/gallery"}>
+                  {t("gallery")}
+                </Link>
+              </li>
+              <li>
                 <Link to={process.env.PUBLIC_URL + "/contact"}>
                   {t("contact_us")}
+                </Link>
+              </li>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/terms-condition"}>
+                  {t("terms and condition")}
+                </Link>
+              </li>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/shipping-policy"}>
+                  {t("Shipping Policy")}
+                </Link>
+              </li>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/privacy-policy"}>
+                  {t("Privacy Policy")}
+                </Link>
+              </li>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/refund-policy"}>
+                  {t("Refund Policy")}
                 </Link>
               </li>
               <li>

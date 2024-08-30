@@ -63,11 +63,7 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
   return (
     <Fragment>
       <div className="row row-5 test">
-        <div
-          className={clsx(thumbPosition && thumbPosition === "left"
-              ? "col-xl-10 order-1 order-xl-2"
-              : "col-xl-10")}
-        >
+        <div className={clsx("col-xl-10 order-xl-2")} >
           <div className="product-large-image-wrapper">
             {product.discount || product.new ? (
               <div className="product-img-badges">
@@ -89,11 +85,7 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
                       <i className="pe-7s-expand1"></i>
                     </button>
                     <div className="single-image">
-                      <img
-                        src={process.env.PUBLIC_URL + single}
-                        className="img-fluid"
-                        alt=""
-                      />
+                      <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt="" />
                     </div>
                   </SwiperSlide>
                 ))}

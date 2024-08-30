@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
 import MenuCart from "./sub-components/MenuCart";
+import { FaHeart, FaUser } from "react-icons/fa";
+import { IoBagHandle } from "react-icons/io5";
 
 const IconGroup = ({ iconWhiteClass }) => {
   const handleClick = e => {
@@ -22,7 +24,7 @@ const IconGroup = ({ iconWhiteClass }) => {
   return (
     <div className={clsx("header-right-wrap", iconWhiteClass)} >
       <div className="same-style header-search d-none d-lg-block">
-        <button className="search-active" onClick={e => handleClick(e)}>
+        <button className="search-active header-icon" onClick={e => handleClick(e)}>
           <i className="pe-7s-search" />
         </button>
         <div className="search-content">
@@ -35,11 +37,8 @@ const IconGroup = ({ iconWhiteClass }) => {
         </div>
       </div>
       <div className="same-style account-setting d-none d-lg-block">
-        <button
-          className="account-setting-active"
-          onClick={e => handleClick(e)}
-        >
-          <i className="pe-7s-user-female" />
+        <button className="account-setting-active header-icon" onClick={e => handleClick(e)} >
+          <FaUser className="fs-5"/>
         </button>
         <div className="account-dropdown">
           <ul>
@@ -59,25 +58,17 @@ const IconGroup = ({ iconWhiteClass }) => {
           </ul>
         </div>
       </div>
-      <div className="same-style header-compare">
-        <Link to={process.env.PUBLIC_URL + "/compare"}>
-          <i className="pe-7s-shuffle" />
-          <span className="count-style">
-            {compareItems && compareItems.length ? compareItems.length : 0}
-          </span>
-        </Link>
-      </div>
       <div className="same-style header-wishlist">
-        <Link to={process.env.PUBLIC_URL + "/wishlist"}>
-          <i className="pe-7s-like" />
+        <Link className="header-icon" to={process.env.PUBLIC_URL + "/wishlist"}>
+          <FaHeart className="fs-5" />
           <span className="count-style">
             {wishlistItems && wishlistItems.length ? wishlistItems.length : 0}
           </span>
         </Link>
       </div>
       <div className="same-style cart-wrap d-none d-lg-block">
-        <button className="icon-cart" onClick={e => handleClick(e)}>
-          <i className="pe-7s-shopbag" />
+        <button className="icon-cart header-icon" onClick={e => handleClick(e)}>
+          <IoBagHandle />
           <span className="count-style">
             {cartItems && cartItems.length ? cartItems.length : 0}
           </span>

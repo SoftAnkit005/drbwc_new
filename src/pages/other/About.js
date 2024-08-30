@@ -3,13 +3,9 @@ import { useLocation } from "react-router-dom";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
-import SectionTitleWithText from "../../components/section-title/SectionTitleWithText";
-import BannerOne from "../../wrappers/banner/BannerOne";
 import TextGridOne from "../../wrappers/text-grid/TextGridOne";
-import FunFactOne from "../../wrappers/fun-fact/FunFactOne";
 import TeamMemberOne from "../../wrappers/team-member/TeamMemberOne";
-import BrandLogoSliderOne from "../../wrappers/brand-logo/BrandLogoSliderOne";
-import ProductVideoSlider from "../../wrappers/product-video-slider/ProductVideoSlider";
+import CustomersSlider from "../../wrappers/customers-slider/CustomersSlider";
 
 const About = () => {
   let { pathname } = useLocation();
@@ -18,7 +14,7 @@ const About = () => {
     <Fragment>
       <SEO
         titleTemplate="About us"
-        description="About page of flone react minimalist eCommerce template."
+        description="About page of DrBWC"
       /> 
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
@@ -30,28 +26,17 @@ const About = () => {
         />
 
         {/* section title with text */}
-        <SectionTitleWithText spaceTopClass="pt-100" spaceBottomClass="pb-95" />
+        {/* <SectionTitleWithText spaceTopClass="pt-100" spaceBottomClass="pb-95" /> */}
 
         {/* text grid */}
-        <TextGridOne spaceBottomClass="pb-70" />
-
-        {/* banner */}
-        <BannerOne spaceBottomClass="pb-70" />
-
-        <ProductVideoSlider spaceBottomClass="pb-70" />
-
-        {/* fun fact */}
-        <FunFactOne
-          spaceTopClass="pt-100"
-          spaceBottomClass="pb-70"
-          bgClass="bg-gray-3"
-        />
+        <TextGridOne spaceTopClass="pt-90"/>
 
         {/* team member */}
-        <TeamMemberOne spaceTopClass="pt-95" spaceBottomClass="pb-70" />
+        <TeamMemberOne spaceTopClass="pt-90"/>
 
-        {/* brand logo slider */}
-        <BrandLogoSliderOne spaceBottomClass="pb-70" />
+        {/* Customer Slider */}
+        <CustomersSlider spaceTopClass="pt-90" spaceBottomClass="pb-90" />
+
       </LayoutOne>
     </Fragment>
   );
