@@ -2,6 +2,7 @@
   "name": "flone-react",
   "version": "2.0.0",
   "private": true,
+  "proxy": "http://192.168.29.152:5000",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "animate.css": "^4.1.1",
@@ -9,6 +10,7 @@
     "bootstrap": "^5.2.2",
     "clsx": "^1.2.1",
     "cogo-toast": "https://github.com/hasanm95/cogo-toast",
+    "dotenv": "^16.4.5",
     "google-map-react": "^2.2.1",
     "i18next": "^22.0.4",
     "i18next-browser-languagedetector": "^7.0.0",
