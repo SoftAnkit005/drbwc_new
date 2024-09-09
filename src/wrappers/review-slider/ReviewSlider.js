@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import clsx from "clsx"
 import Swiper, { SwiperSlide } from "../../components/swiper";
-import reviewsData from "../../data/reviews/reviews.json";
 import ReviewSingle from "../../components/review/ReviewSingle";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchReviews } from "../../store/slices/review-slice";
 
 const settings = {
   loop: true,
@@ -22,16 +24,34 @@ const settings = {
 };
 
 const ReviewSlider = ({ spaceBottomClass, spaceTopClass }) => {
+  const dispatch = useDispatch();
+  const { reviews, loading, error } = useSelector((state) => state.reviews);
+  const [allReviews, setallReviews] = useState([])
+
+  useEffect(() => {
+    dispatch(fetchReviews());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (reviews.success) {
+      setallReviews(reviews.reviews);
+    }
+  }, [error]);
+
+  console.log(reviews);
+
+
+
   return (
     <div className={clsx("testimonial", spaceBottomClass, spaceTopClass)}>
       <div className="container">
         <div className="">
-        <h2 className="satisfy-heading">Testimonial</h2>
-        <h3 className="page-heading">Customer Review</h3>
-        <h6 className="heading-xs lh-sm text-center pb-3">They have already used our services.</h6>
-          {reviewsData && (
+          <h2 className="satisfy-heading">Testimonial</h2>
+          <h3 className="page-heading mt-3">Customer Review</h3>
+          <h6 className="heading-xs lh-sm text-center pb-3 mt-2">They have already used our services.</h6>
+          {reviews && (
             <Swiper options={settings}>
-              {reviewsData.map((single, key) => (
+              {allReviews?.map((single, key) => (
                 <SwiperSlide key={key}>
                   <ReviewSingle
                     data={single}
