@@ -6,9 +6,17 @@ import MenuCart from "./sub-components/MenuCart";
 import { FaHeart, FaUser } from "react-icons/fa";
 import { IoBagHandle } from "react-icons/io5";
 
+
 const IconGroup = ({ iconWhiteClass }) => {
   const handleClick = e => {
     e.currentTarget.nextSibling.classList.toggle("active");
+  };
+
+  const userToken = localStorage.getItem('authToken');
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    window.location.reload();
   };
 
   const triggerMobileMenu = () => {
@@ -38,7 +46,7 @@ const IconGroup = ({ iconWhiteClass }) => {
       </div>
       <div className="same-style account-setting d-none d-lg-block">
         <button className="account-setting-active header-icon" onClick={e => handleClick(e)} >
-          <FaUser className="fs-5"/>
+          <FaUser className="fs-5" />
         </button>
         <div className="account-dropdown">
           <ul>
@@ -55,6 +63,11 @@ const IconGroup = ({ iconWhiteClass }) => {
                 my account
               </Link>
             </li>
+            {userToken ? (
+              <li>
+                <Link onClick={handleLogout}>Logout</Link>
+              </li>
+            ) : null}
           </ul>
         </div>
       </div>
