@@ -1,42 +1,33 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import {
-  getIndividualCategories,
-  getIndividualTags,
-  getIndividualColors,
-  getProductsIndividualSizes
-} from "../../helpers/product";
-import ShopSearch from "../../components/product/ShopSearch";
 import ShopCategories from "../../components/product/ShopCategories";
-import ShopColor from "../../components/product/ShopColor";
-import ShopSize from "../../components/product/ShopSize";
-import ShopTag from "../../components/product/ShopTag";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "../../store/slices/category-slice";
+import { useEffect, useState } from "react";
 
 const ShopSidebar = ({ products, getSortParams, sideSpaceClass }) => {
-  const uniqueCategories = getIndividualCategories(products);
-  const uniqueColors = getIndividualColors(products);
-  const uniqueSizes = getProductsIndividualSizes(products);
-  const uniqueTags = getIndividualTags(products);
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.categories);
+  const [categoryData, setCategoryData] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (categories?.success) {
+      const sortedCategories = [...categories.categories].sort((a, b) => a.position - b.position);
+      setCategoryData(sortedCategories);
+    }
+  }, [categories]);
+
+  const uniqueCategories = categoryData.map(item => ({ id: item.id, name: item.name.toLowerCase() }));
 
   return (
     <div className={clsx("sidebar-style", sideSpaceClass)}>
-      {/* shop search */}
-      <ShopSearch />
-
+      
       {/* filter by categories */}
-      <ShopCategories
-        categories={uniqueCategories}
-        getSortParams={getSortParams}
-      />
-
-      {/* filter by color */}
-      <ShopColor colors={uniqueColors} getSortParams={getSortParams} />
-
-      {/* filter by size */}
-      <ShopSize sizes={uniqueSizes} getSortParams={getSortParams} />
-
-      {/* filter by tag */}
-      <ShopTag tags={uniqueTags} getSortParams={getSortParams} />
+      <ShopCategories categories={uniqueCategories} getSortParams={getSortParams} />
     </div>
   );
 };

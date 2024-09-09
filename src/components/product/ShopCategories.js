@@ -11,12 +11,7 @@ const ShopCategories = ({ categories, getSortParams }) => {
           <ul>
             <li>
               <div className="sidebar-widget-list-left">
-                <button
-                  onClick={e => {
-                    getSortParams("category", "");
-                    setActiveSort(e);
-                  }}
-                >
+                <button onClick={e => { getSortParams("category", ""); setActiveSort(e); }} >
                   <span className="checkmark" /> All Categories
                 </button>
               </div>
@@ -25,14 +20,9 @@ const ShopCategories = ({ categories, getSortParams }) => {
               return (
                 <li key={key}>
                   <div className="sidebar-widget-list-left">
-                    <button
-                      onClick={e => {
-                        getSortParams("category", category);
-                        setActiveSort(e);
-                      }}
-                    >
+                    <button onClick={e => { getSortParams(category.name, category.id); setActiveSort(e); }} >
                       {" "}
-                      <span className="checkmark" /> {category}{" "}
+                      <span className="checkmark" /> {category.name}{" "}
                     </button>
                   </div>
                 </li>

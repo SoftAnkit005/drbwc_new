@@ -6,46 +6,22 @@ import Nav from "react-bootstrap/Nav";
 const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc }) => {
   return (
     <div className={clsx("description-review-area", spaceBottomClass)}>
-      <div className="container">
+      <div className="px-3 px-md-5">
         <div className="description-review-wrapper">
           <Tab.Container defaultActiveKey="productDescription">
-            <Nav variant="pills" className="description-review-topbar">
+            <Nav variant="pills" className="description-review-topbar justify-content-start">
               <Nav.Item>
-                <Nav.Link eventKey="additionalInfo">
-                  Additional Information
-                </Nav.Link>
+                <Nav.Link eventKey="productDescription" className="ms-0">Description</Nav.Link>
               </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="productDescription">Description</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
+              {/* <Nav.Item>
                 <Nav.Link eventKey="productReviews">Reviews(2)</Nav.Link>
-              </Nav.Item>
+              </Nav.Item> */}
             </Nav>
             <Tab.Content className="description-review-bottom">
-              <Tab.Pane eventKey="additionalInfo">
-                <div className="product-anotherinfo-wrapper">
-                  <ul>
-                    <li>
-                      <span>Weight</span> 400 g
-                    </li>
-                    <li>
-                      <span>Dimensions</span>10 x 10 x 15 cm{" "}
-                    </li>
-                    <li>
-                      <span>Materials</span> 60% cotton, 40% polyester
-                    </li>
-                    <li>
-                      <span>Other Info</span> American heirloom jean shorts pug
-                      seitan letterpress
-                    </li>
-                  </ul>
-                </div>
-              </Tab.Pane>
               <Tab.Pane eventKey="productDescription">
                 {productFullDesc}
               </Tab.Pane>
-              <Tab.Pane eventKey="productReviews">
+              {/* <Tab.Pane eventKey="productReviews">
                 <div className="row">
                   <div className="col-lg-7">
                     <div className="review-wrapper">
@@ -169,7 +145,7 @@ const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc }) => {
                     </div>
                   </div>
                 </div>
-              </Tab.Pane>
+              </Tab.Pane> */}
             </Tab.Content>
           </Tab.Container>
         </div>

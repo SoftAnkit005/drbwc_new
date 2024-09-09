@@ -9,8 +9,8 @@ const GalleryOne = ({ spaceTopClass, spaceBottomClass }) => {
     <div className={clsx("gallery", spaceTopClass, spaceBottomClass)}>
       <div className="container">
         {/* section title */}
-        <h3 class="page-heading text-uppercase mb-2">Gallery</h3>
-        <h3 class="desc-lg text-muted text-center mb-4">Bhanusali Wellness is a proficient company that provides state-of-the-art massages accessories for its users.</h3>
+        <h3 className="page-heading text-uppercase mb-2">Gallery</h3>
+        <h3 className="desc-lg text-muted text-center mb-4">Bhanusali Wellness is a proficient company that provides state-of-the-art massages accessories for its users.</h3>
 
         <div className="row">
           {galleryData?.map((single, key) => (

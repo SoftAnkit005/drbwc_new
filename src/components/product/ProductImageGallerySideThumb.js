@@ -7,6 +7,7 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Swiper, { SwiperSlide } from "../../components/swiper";
+import ImageMagnifier from "../image-magnifier/ImageMagnifier";
 
 const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -84,8 +85,9 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
                     <button className="lightgallery-button" onClick={() => setIndex(key)}>
                       <i className="pe-7s-expand1"></i>
                     </button>
-                    <div className="single-image">
-                      <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt="" />
+                    <div className="single-image overflow-visible">
+                      {/* <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt="" /> */}
+                      <ImageMagnifier imgsrc={process.env.PUBLIC_URL + single}/>
                     </div>
                   </SwiperSlide>
                 ))}
@@ -111,11 +113,7 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
                 {product.image.map((single, key) => (
                   <SwiperSlide key={key}>
                     <div className="single-image">
-                      <img
-                        src={process.env.PUBLIC_URL + single}
-                        className="img-fluid"
-                        alt=""
-                      />
+                      <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt="" />
                     </div>
                   </SwiperSlide>
                 ))}

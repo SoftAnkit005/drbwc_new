@@ -1,18 +1,20 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom"; 
+import { Link, useLocation, useNavigate } from "react-router-dom"; 
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
+import { loginUser, resetLoginState } from "../../store/slices/login-slice";
 import { resetUser, signUpUser } from "../../store/slices/signup-slice";
-import { login } from "../../store/slices/login-slice";
 import cogoToast from "cogo-toast";
 
 const LoginRegister = () => {
   let { pathname } = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   
   // Sign Up Start
   const signedUser = useSelector((state) => state.signup);
@@ -49,36 +51,61 @@ const LoginRegister = () => {
   // Sign Up End
   
   // Login Start
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPass, setLoginPass] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const { user, error } = useSelector((state) => state.login);
+
   
-  const [loginEmail, setloginEmail] = useState('');
-  const [loginPass, setloginPass] = useState('');
-  const [isLoginAttempted, setIsLoginAttempted] = useState(false);
-
-  const loggedUser = useSelector((state) => state.login);
-
+  // Prefill the login form if credentials are stored in localStorage
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedPassword = localStorage.getItem("rememberedPassword");
+    
+    if (savedEmail && savedPassword) {
+      setLoginEmail(savedEmail);
+      setLoginPass(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+  
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(login({ "email": loginEmail, "password": loginPass }));
-    setIsLoginAttempted(true);
+    if (rememberMe) {
+      // Store the email and password in localStorage
+      localStorage.setItem("rememberedEmail", loginEmail);
+      localStorage.setItem("rememberedPassword", loginPass);
+    } else {
+      // Clear the saved credentials if "Remember me" is unchecked
+      localStorage.removeItem("rememberedEmail");
+      localStorage.removeItem("rememberedPassword");
+    }
+
+    dispatch(loginUser({ email: loginEmail, password: loginPass }));
   };
-  console.log(loggedUser.user);
+
+  // console.log(user);
+  useEffect(() => {
+    if (user && user.success) {
+      cogoToast.success("Logged in successfully!");
+      localStorage.setItem("loggedUser", JSON.stringify(user.user));
+      localStorage.setItem("authToken", user.token);
+      dispatch(resetLoginState());
+      navigate("/");
+    } else if (user && !user.success) {
+      cogoToast.error(user.message || "Login failed");
+      dispatch(resetLoginState());
+    }
+  }, [user, dispatch]);
 
   useEffect(() => {
-    if (isLoginAttempted && loggedUser.user?.success) {
-      if(loggedUser.user.success === true){
-        localStorage.setItem("loggedUser",JSON.stringify(loggedUser.user.user))
-        cogoToast.success("Logged In Successfully");
-        setloginEmail('');
-        setloginPass('');
-      }else{
-        cogoToast.error(loggedUser.user.message);
-      }
+    if (error) {
+      cogoToast.error(error);
+      dispatch(resetLoginState());
     }
-    setIsLoginAttempted(false);
-  }, [isLoginAttempted,loggedUser.user]);
+  }, [error, dispatch]);
 
   // Login End
-
 
   return (
     <Fragment>
@@ -106,12 +133,12 @@ const LoginRegister = () => {
                         <div className="login-form-container">
                           <div className="login-register-form">
                             <form onSubmit={handleLogin}>
-                              <input type="text" value={loginEmail} onChange={(e) => setloginEmail(e.target.value)} placeholder="Email" required/>
-                              <input type="password" value={loginPass} onChange={(e) => setloginPass(e.target.value)} placeholder="Password" required/>
+                              <input type="text" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} placeholder="Email" required/>
+                              <input type="password" value={loginPass} onChange={(e) => setLoginPass(e.target.value)} placeholder="Password" required/>
                               <div className="button-box">
                                 <div className="login-toggle-btn">
-                                  <input type="checkbox" />
-                                  <label className="ml-10">Remember me</label>
+                                  <input id="remember-me" type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}/>
+                                  <label htmlFor="remember-me" className="ml-10">Remember me</label>
                                   <Link to={process.env.PUBLIC_URL + "/"}> Forgot Password? </Link>
                                 </div>
                                 <button type="submit"> <span>Login</span> </button>

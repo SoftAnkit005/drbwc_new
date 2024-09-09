@@ -25,6 +25,8 @@ const ShopGridStandard = () => {
     const pageLimit = 15;
     let { pathname } = useLocation();
 
+    console.log( sortValue);
+
     const getLayout = (layout) => {
         setLayout(layout)
     }
@@ -49,10 +51,7 @@ const ShopGridStandard = () => {
 
     return (
         <Fragment>
-            <SEO
-                titleTemplate="Shop Page"
-                description="Shop page of flone react minimalist eCommerce template."
-            />
+            <SEO titleTemplate="Shop Page" description="Shop page of DrBWC." />
 
             <LayoutOne headerTop="visible">
                 {/* breadcrumb */}

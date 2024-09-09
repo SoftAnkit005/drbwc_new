@@ -173,6 +173,11 @@
       margin-top: -5px;
 
       text-align: center;
+      .active{
+        a{
+          color: $theme-color !important;
+        }
+      }
       li {
         position: relative;
 
@@ -182,14 +187,14 @@
         ul.submenu {
           position: absolute;
           z-index: 999;
-          top: 100%;
+          top: 80%;
           left: 0;
 
           display: block;
           visibility: hidden;
 
-          width: 210px;
-          padding: 20px 0 22px;
+          width: 250px;
+          padding: 15px 0;
 
           transition: all 0.5s ease 0s;
           transform: rotateX(90deg);
@@ -2270,7 +2275,7 @@
   flex-direction: column;
 
   height: 100%;
-  padding: 90px 35px 0;
+  padding: 20px;
 
   @media #{$sm-layout} {
     padding: 70px 25px 0;

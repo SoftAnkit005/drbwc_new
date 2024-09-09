@@ -1,0 +1,42 @@
+[
+    {
+      "id": "1",
+      "image": "/assets/img/product/drbwc_images/warranty_care.svg",
+      "title": "3 Year Warranty Care"
+    },
+    {
+      "id": "2",
+      "image": "/assets/img/product/drbwc_images/quality_verified.svg",
+      "title": "Quality Verified"
+    },
+    {
+      "id": "3",
+      "image": "/assets/img/product/drbwc_images/assemble_available.svg",
+      "title": "Assemble Available"
+    },
+    {
+      "id": "4",
+      "image": "/assets/img/product/drbwc_images/replce.svg",
+      "title": "No Replacements"
+    },
+    {
+      "id": "5",
+      "image": "/assets/img/product/drbwc_images/top-brand.svg",
+      "title": "Top Brand"
+    },
+    {
+      "id": "6",
+      "image": "/assets/img/product/drbwc_images/drbwc_deliverd.svg",
+      "title": "Dr.BWC Deliverd"
+    },
+    {
+      "id": "7",
+      "image": "/assets/img/product/drbwc_images/free_delivery.svg",
+      "title": "Free Delivery"
+    },
+    {
+      "id": "8",
+      "image": "/assets/img/product/drbwc_images/secure_transaction.svg",
+      "title": "Secure Transaction"
+    }
+  ]

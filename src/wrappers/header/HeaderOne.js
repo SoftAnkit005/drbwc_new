@@ -5,7 +5,6 @@ import Logo from "../../components/header/Logo";
 import NavMenu from "../../components/header/NavMenu";
 import IconGroup from "../../components/header/IconGroup";
 import MobileMenu from "../../components/header/MobileMenu";
-import HeaderTop from "../../components/header/HeaderTop";
 import HeaderDiscount from "../../components/header/HeaderDiscount";
 
 const HeaderOne = ({
@@ -36,7 +35,7 @@ const HeaderOne = ({
     <header className={clsx("header-area clearfix", headerBgClass, headerPositionClass)}>
       <HeaderDiscount />
       <div className={clsx( headerPaddingClass, "sticky-bar header-res-padding clearfix", scroll > headerTop && "stick" )} >
-        <div className={layout === "container-fluid" ? layout : "container"}>
+        <div className={layout === "container-fluid" ? layout : "px-md-5 px-2"}>
           <div className="row">
             <div className="col-md-6 col-4 pb-2">
               {/* header logo */}
@@ -46,7 +45,7 @@ const HeaderOne = ({
               {/* Icon group */}
               <IconGroup />
             </div>
-            <div className="col-lg-12 d-none d-lg-block">
+            <div className="col-lg-12 d-none d-lg-block px-0">
               {/* Nav menu */}
               <NavMenu />
             </div>

@@ -33,6 +33,12 @@ body {
 
 h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0; color: $heading-color; }
 
+.h-fit { height: fit-content; }
+.w-fit { width: fit-content; }
+
+.text-cyan { color: $cyan !important; }
+.text-theme-brown{ color: $theme-color !important; }
+
 .page-heading{
   font-weight: 600;
   font-size: 48px;
@@ -49,6 +55,70 @@ h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0;
   @media #{$xs-layout} {
     font-size: 35px;
   }
+}
+
+.badge-success {
+  font-style: normal;
+  font-weight: 500;
+  font-size: $desc-xxs;
+  line-height: 6px;
+  color: #37a510;
+  background: rgba(55,165,16,.2);
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px 8px;
+  width: fit-content;
+}
+
+.badge-danger {
+  font-style: normal;
+  font-weight: 500;
+  font-size: $desc-xxs;
+  line-height: 6px;
+  color: #a51010;
+  background: rgba(165,16,16,.2);
+  border-radius: 5px;
+  margin: 0;
+  padding: 10px 8px;
+  width: fit-content;
+}
+
+.coupon-badge::before {
+  content: "";
+  position: absolute;
+  right: -5px;
+  bottom: 0;
+  border-style: dashed;
+  border-width: 6px;
+  border-color: rgba(255,255,255,0);
+  border-bottom: 6px solid #b12704;
+  border-top-width: 0;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  border-bottom-width: 10px;
+}
+
+.coupon-badge::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 0;
+  border-style: dashed;
+  border-width: 6px;
+  border-color: rgba(255,255,255,0);
+  border-top: 6px solid #b12704;
+  border-bottom-width: 0;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  border-top-width: 10px;
 }
 
 .clearfix::after {
@@ -80,22 +150,23 @@ h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0;
   }
 }
 
-.heading-3xl{ font-size: $heading-3xl; }
-.heading-xxl{ font-size: $heading-xxl; }
-.heading-xl{ font-size: $heading-xl; }
-.heading-lg{ font-size: $heading-lg; }
-.heading-md{ font-size: $heading-md; }
-.heading-sm{ font-size: $heading-sm; }
-.heading-xs{ font-size: $heading-xs; }
+.heading-3xl{ font-size: $heading-3xl !important; }
+.heading-xxl{ font-size: $heading-xxl !important; }
+.heading-xl{ font-size: $heading-xl !important; }
+.heading-lg{ font-size: $heading-lg !important; }
+.heading-md{ font-size: $heading-md !important; }
+.heading-sm{ font-size: $heading-sm !important; }
+.heading-xs{ font-size: $heading-xs !important; }
 
 
-.desc-3xl{ font-size: $desc-3xl;}
-.desc-xxl{ font-size: $desc-xxl;}
-.desc-xl{ font-size: $desc-xl;}
-.desc-lg{ font-size: $desc-lg;}
-.desc-md{ font-size: $desc-md;}
-.desc-sm{ font-size: $desc-sm;}
-.desc-xs{ font-size: $desc-xs;}
+.desc-3xl{ font-size: $desc-3xl !important;}
+.desc-xxl{ font-size: $desc-xxl !important;}
+.desc-xl{ font-size: $desc-xl !important;}
+.desc-lg{ font-size: $desc-lg !important;}
+.desc-md{ font-size: $desc-md !important;}
+.desc-sm{ font-size: $desc-sm !important;}
+.desc-xs{ font-size: $desc-xs !important;}
+.desc-xxs{ font-size: $desc-xxs !important;}
 
 @media #{$md-layout},#{$xs-layout} {
   .heading-lg{ font-size: $heading-sm; }
@@ -209,6 +280,14 @@ ul {
   text-transform: uppercase;
 }
 
+.bg-theme-red{
+  background-color: $theme-red !important;
+}
+
+.text-theme-red{
+  color: $theme-red !important;
+}
+
 .bg-img {
   background-position: center center;
   background-size: cover;
@@ -221,6 +300,22 @@ ul {
 a:hover {
   color: $theme-color;
 }
+
+.blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+      visibility: hidden;
+  }
+  }
+  @-webkit-keyframes blink-animation {
+  to {
+      visibility: hidden;
+  }
+}
+
 
 /*************************
   Basic margin padding
@@ -1752,6 +1847,36 @@ textarea:focus {
     height: 100%;
 
     content: "";
+  }
+}
+
+.btn-primary{
+  background-color: $theme-color;
+  border-color: $theme-color;
+  color: #fff;
+  &:hover{
+    background-color: $theme-color-dark;
+    border-color: $theme-color-dark;
+  }
+}
+
+.btn-secondary{
+  background-color: $theme-brown;
+  border-color: $theme-brown;
+  color: #fff;
+  &:hover{
+    background-color: $theme-dark-brown;
+    border-color: $theme-dark-brown;
+  }
+}
+
+.btn-dark{
+  background-color: $theme-black;
+  border-color: $theme-black;
+  color: #fff;
+  &:hover{
+    background-color: $theme-dark-black;
+    border-color: $theme-dark-black;
   }
 }
 

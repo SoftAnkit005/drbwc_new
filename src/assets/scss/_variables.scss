@@ -13,6 +13,7 @@ $black: #000000;
 $grey: #909090;
 $red: #f6f7f8;
 $green: #f6f7f8;
+$cyan: #007185;
 
 // bg Colors ---------------
 
@@ -26,6 +27,12 @@ $heading-color: #000000;
 
 // Theme Color
 $theme-color: #cda646;
+$theme-color-dark: #947831;
+$theme-brown: #72442F;
+$theme-dark-brown: #5f3826;
+$theme-black: #231f20;
+$theme-dark-black: #070606;
+$theme-red: #b12704;
 
 // Responsive Variables
 $xx-layout: "only screen and (min-width: 1366px) and (max-width: 1600px)";
@@ -51,7 +58,8 @@ $desc-xl:20px;
 $desc-lg:18px;
 $desc-md:16px;
 $desc-sm:14px;
-$desc-xs:12px;
+$desc-xs:13px;
+$desc-xxs:12px;
 
 $lh-3xl:40px;
 $lh-xxl:35px;
