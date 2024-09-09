@@ -1,27 +1,42 @@
 [
   {
     "id": "1",
-    "src": "assets/img/product/drbwc_images/massage_bed.png",
-    "link":"https://www.youtube.com/watch?v=yGHMgdC4a0M"
+    "src": "assets/img/product/drbwc_images/userslider-thumbnails/space_cpsule_massage_chair.jpg",
+    "link":"https://www.youtube.com/watch?v=-sH21FadQKQ"
   },
   {
     "id": "2",
-    "src": "assets/img/product/drbwc_images/massage_bed.png",
-    "link":"https://www.youtube.com/watch?v=yGHMgdC4a0M"
+    "src": "assets/img/product/drbwc_images/userslider-thumbnails/5d_automatic_massage_chair.jpg",
+    "link":"https://www.youtube.com/watch?v=LqVvZt2b9LI"
   },
   {
     "id": "3",
-    "src": "assets/img/product/drbwc_images/massage_bed.png",
-    "link":"https://www.youtube.com/watch?v=yGHMgdC4a0M"
+    "src": "assets/img/product/drbwc_images/userslider-thumbnails/fully_automatic_robotic_zero_gravity.png",
+    "link":"https://www.youtube.com/watch?v=-fuQvzGJ6ro"
   },
   {
     "id": "4",
-    "src": "assets/img/product/drbwc_images/massage_bed.png",
-    "link":"https://www.youtube.com/watch?v=yGHMgdC4a0M"
+    "src": "assets/img/product/drbwc_images/userslider-thumbnails/foot_massager.png",
+    "link":"https://www.youtube.com/watch?v=a4xxyFhgw6M"
   },
   {
     "id": "5",
-    "src": "assets/img/product/drbwc_images/massage_bed.png",
+    "src": "assets/img/product/drbwc_images/userslider-thumbnails/4d_zero_gravity_massage_chair.jpg",
+    "link":"https://www.youtube.com/watch?v=I_XQpm1dycs"
+  },
+  {
+    "id": "6",
+    "src": "assets/img/product/drbwc_images/userslider-thumbnails/red_foot_massager.jpg",
     "link":"https://www.youtube.com/watch?v=yGHMgdC4a0M"
+  },
+  {
+    "id": "7",
+    "src": "assets/img/product/drbwc_images/userslider-thumbnails/4d_comfy_massage_chair.jpg",
+    "link":"https://www.youtube.com/watch?v=3P0dPjB7YFA"
+  },
+  {
+    "id": "8",
+    "src": "assets/img/product/drbwc_images/userslider-thumbnails/relaxo_advanced_ai_techonology.jpg",
+    "link":"https://www.youtube.com/watch?v=ILHvXl10bRk"
   }
 ]
