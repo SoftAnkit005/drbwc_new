@@ -25,16 +25,16 @@ const HomeFashion = () => {
         <FeaturedProducts spaceTopClass="" spaceBottomClass="pb-50" />
 
         {/* Review Slider */}
-        <ReviewSlider spaceTopClass="pt-90" spaceBottomClass="pb-90"/>
+        <ReviewSlider spaceTopClass="pt-90" spaceBottomClass="pb-90" />
 
         {/* Why Dr.BWC Section */}
-        <WhyDrbwc spaceTopClass="pt-90" spaceBottomClass="pb-90"/>
-        
+        <WhyDrbwc spaceTopClass="pt-90" spaceBottomClass="pb-90" />
+
         {/* Product video Section */}
-        <ProductVideoSlider spaceTopClass="pt-90" spaceBottomClass="pb-90"/>
-        
+        <ProductVideoSlider spaceTopClass="pt-90" spaceBottomClass="pb-90" />
+
         {/* Brand Logo Section */}
-        <BrandLogoSliderOne spaceTopClass="pt-90" spaceBottomClass="pb-90"/>
+        <BrandLogoSliderOne spaceTopClass="pt-90" spaceBottomClass="pb-90" />
       </LayoutOne>
     </Fragment>
   );

@@ -11,6 +11,7 @@ import loginReducer from './slices/login-slice';
 import categoryReducer from './slices/category-slice';
 import subCategoryReducer from './slices/sub-category-slice';
 import reviewReducer from './slices/review-slice';
+import featuredproductReducer from './slices/feature-product-slice';
 
 const persistConfig = {
     key: "flone",
@@ -31,6 +32,7 @@ export const rootReducer = combineReducers({
     cart: cartReducer,
     compare: compareReducer,
     wishlist: wishlistReducer,
+    featuredproduct: featuredproductReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
