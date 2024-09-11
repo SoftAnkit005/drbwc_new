@@ -25,7 +25,7 @@ const settings = {
 
 const ReviewSlider = ({ spaceBottomClass, spaceTopClass }) => {
   const dispatch = useDispatch();
-  const { reviews, loading, error } = useSelector((state) => state.reviews);
+  const { reviews,  error } = useSelector((state) => state.reviews);
   const [allReviews, setallReviews] = useState([])
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const ReviewSlider = ({ spaceBottomClass, spaceTopClass }) => {
     if (reviews.success) {
       setallReviews(reviews.reviews);
     }
-  }, [error]);
+  }, [error, reviews]);
 
   console.log(reviews);
 

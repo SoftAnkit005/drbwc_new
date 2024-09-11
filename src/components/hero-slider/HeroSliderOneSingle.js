@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
 
-import { Link } from "react-router-dom";
-
 const HeroSliderOneSingle = ({ data }) => {
   return (
     <div className="single-slider slider-height-1 bg-purple">

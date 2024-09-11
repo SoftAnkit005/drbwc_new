@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
-import PrivacyPolicyText from "../../wrappers/privacy-policy/PrivacyPolicyText";
 import RefundPolicyText from "../../wrappers/refund-policy/RefundPolicyText";
 
 const RefundPolicies = () => {

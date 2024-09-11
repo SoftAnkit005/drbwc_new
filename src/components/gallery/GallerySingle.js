@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { FaXTwitter } from "react-icons/fa6";
 
 const GallerySingle = ({ data, spaceBottomClass }) => {
   return (

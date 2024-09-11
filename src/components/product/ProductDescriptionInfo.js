@@ -1,27 +1,14 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import React, {  useState } from "react";
 import { getProductCartQuantity } from "../../helpers/product";
-import Rating from "./sub-components/ProductRating";
-import { addToCart } from "../../store/slices/cart-slice";
-import { addToWishlist } from "../../store/slices/wishlist-slice";
-import { addToCompare } from "../../store/slices/compare-slice";
 import { BiSolidOffer } from "react-icons/bi";
 import productFrameData from "../../data/product-frame-icon/product-frame-data.json";
 
 
 const ProductDescriptionInfo = ({
   product,
-  discountedPrice,
-  currency,
-  finalDiscountedPrice,
-  finalProductPrice,
   cartItems,
-  wishlistItem,
-  compareItem,
 }) => {
-  const dispatch = useDispatch();
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
   );

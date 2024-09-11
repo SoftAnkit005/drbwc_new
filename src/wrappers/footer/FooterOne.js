@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import FooterNewsletter from "../../components/footer/FooterNewsletter";
 import FooterSocialMedia from "../../components/footer/sub-components/FooterSocialMedia";
 import FooterCopyright from "../../components/footer/FooterCopyright";
 

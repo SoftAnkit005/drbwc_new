@@ -2,8 +2,6 @@ import { Fragment } from "react";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import HeroSliderOne from "../../wrappers/hero-slider/HeroSliderOne";
-import TabProduct from "../../wrappers/product/TabProduct";
-import BlogFeatured from "../../wrappers/blog-featured/BlogFeatured";
 import FeaturedProducts from "../../wrappers/feature-icon/FeaturedProducts";
 import ReviewSlider from "../../wrappers/review-slider/ReviewSlider";
 import WhyDrbwc from "../../wrappers/why-drbwc/WhyDrbwc";
