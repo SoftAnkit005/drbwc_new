@@ -24,24 +24,6 @@ const settings = {
 };
 
 const ReviewSlider = ({ spaceBottomClass, spaceTopClass }) => {
-  const dispatch = useDispatch();
-  const { reviews,  error } = useSelector((state) => state.reviews);
-  const [allReviews, setallReviews] = useState([])
-
-  useEffect(() => {
-    dispatch(fetchReviews());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (reviews.success) {
-      setallReviews(reviews.reviews);
-    }
-  }, [error, reviews]);
-
-  console.log(reviews);
-
-
-
   return (
     <div className={clsx("testimonial", spaceBottomClass, spaceTopClass)}>
       <div className="container">

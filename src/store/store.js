@@ -35,6 +35,7 @@ export const rootReducer = combineReducers({
     cart: cartReducer,
     compare: compareReducer,
     wishlist: wishlistReducer,
+    featuredproduct: featuredproductReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
