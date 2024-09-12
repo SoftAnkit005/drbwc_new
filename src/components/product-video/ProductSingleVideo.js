@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import { Link } from "react-router-dom";
 
-const ProductSingleVideo = ({ data, spaceBottomClass }) => {
+const ProductSingleVideo = ({ data }) => {
   return (
     <>
       <Link to={data.link} className="product-image" target="_blank">

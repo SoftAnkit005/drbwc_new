@@ -21,17 +21,27 @@ const ShopGridStandard = () => {
     const [currentData, setCurrentData] = useState([]);
     const [sortedProducts, setSortedProducts] = useState([]);
     const { products } = useSelector((state) => state.product);
+    const [categoryId, setcategoryId] = useState();
+    const location = useLocation();
+
+    console.log(categoryId);
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const categoryId = queryParams.get('id');
+        setcategoryId(categoryId);
+    }, [location.search]);
 
     const pageLimit = 15;
-    let { pathname } = useLocation();
 
-    console.log( sortValue);
+    let { pathname } = useLocation();
 
     const getLayout = (layout) => {
         setLayout(layout)
     }
 
     const getSortParams = (sortType, sortValue) => {
+        console.log('sortType, sortValue', sortType, sortValue);
         setSortType(sortType);
         setSortValue(sortValue);
     }
@@ -42,12 +52,16 @@ const ShopGridStandard = () => {
     }
 
     useEffect(() => {
-        let sortedProducts = getSortedProducts(products, sortType, sortValue);
+        // let sortedProducts = getSortedProducts(products.products, sortType, sortValue);
+        let sortedProducts = products.products?.filter(product => product.category_id === Number(categoryId));
         const filterSortedProducts = getSortedProducts(sortedProducts, filterSortType, filterSortValue);
         sortedProducts = filterSortedProducts;
         setSortedProducts(sortedProducts);
         setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
-    }, [offset, products, sortType, sortValue, filterSortType, filterSortValue ]);
+    }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, categoryId ]);
+
+    console.log('products.products', products.products);
+    console.log('sortedProducts', sortedProducts);
 
     return (
         <Fragment>
@@ -67,7 +81,7 @@ const ShopGridStandard = () => {
                         <div className="row">
                             <div className="col-lg-3 order-2 order-lg-1">
                                 {/* shop sidebar */}
-                                <ShopSidebar products={products} getSortParams={getSortParams} sideSpaceClass="mr-30"/>
+                                <ShopSidebar products={[]} getSortParams={getSortParams} sideSpaceClass="mr-30"/>
                             </div>
                             <div className="col-lg-9 order-1 order-lg-2">
                                 {/* shop topbar default */}

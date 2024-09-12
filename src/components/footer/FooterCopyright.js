@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
 
 const FooterCopyright = ({ spaceBottomClass, colorClass }) => {
   return (

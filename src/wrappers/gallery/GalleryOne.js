@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import SectionTitleTwo from "../../components/section-title/SectionTitleTwo";
 import galleryData from "../../data/gallery/galleryData.json";
 import GallerySingle from "../../components/gallery/GallerySingle";
 

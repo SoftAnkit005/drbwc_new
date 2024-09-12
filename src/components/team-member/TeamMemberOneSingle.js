@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
 import { FaXTwitter } from "react-icons/fa6";
 
 const TeamMemberOneSingle = ({ data, spaceBottomClass }) => {

@@ -10,6 +10,9 @@ import signupReducer from './slices/signup-slice';
 import loginReducer from './slices/login-slice';
 import categoryReducer from './slices/category-slice';
 import subCategoryReducer from './slices/sub-category-slice';
+import reviewReducer from './slices/review-slice';
+import featuredproductReducer from './slices/feature-product-slice';
+import bannersReducer from './slices/banner-slice';
 
 const persistConfig = {
     key: "flone",
@@ -23,8 +26,11 @@ export const rootReducer = combineReducers({
     login: loginReducer,
     categories: categoryReducer,
     subcategories: subCategoryReducer,
-
+    reviews: reviewReducer,
+    banners:bannersReducer,
+    featuredproduct: featuredproductReducer,
     product: productReducer,
+
     currency: currencyReducer,
     cart: cartReducer,
     compare: compareReducer,

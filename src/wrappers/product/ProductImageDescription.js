@@ -2,10 +2,8 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
 import { getDiscountPrice } from "../../helpers/product";
-import ProductImageGallery from "../../components/product/ProductImageGallery";
 import ProductDescriptionInfo from "../../components/product/ProductDescriptionInfo";
 import ProductImageGallerySideThumb from "../../components/product/ProductImageGallerySideThumb";
-import ProductImageFixed from "../../components/product/ProductImageFixed";
 import ProductBuyBox from "../../components/product/ProductBuyBox";
 
 const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, product }) => {

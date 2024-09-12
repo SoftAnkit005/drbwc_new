@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"; 
+import React, { Fragment, useEffect, useState } from "react"; 
 import { useSelector } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
 import SEO from "../../components/seo";
@@ -12,8 +12,26 @@ const Product = () => {
   let { pathname } = useLocation();
   let { id } = useParams();
   const { products } = useSelector((state) => state.product);
-  const product = products.find(product => product.id === id);
-  
+  const [productsData, setProductsData] = useState([]);
+
+  useEffect(() => {
+    if (products?.success && Array.isArray(products.products)) {
+      console.log("Products fetched successfully:", products.products);  // Debugging
+      setProductsData(products.products);
+    } else {
+      console.log("No products found or products fetching failed.");  // Debugging
+    }
+  }, [products]);
+
+  // Convert id to string for comparison
+  const product = productsData.find(product => product.id.toString() === id.toString());
+
+  console.log('productsData:', productsData);  // Debugging
+  console.log('Selected Product:', product);   // Debugging
+
+  if (!product) {
+    return <div>Product not found</div>;
+  }
 
   return (
     <Fragment>
@@ -41,13 +59,13 @@ const Product = () => {
         {/* product description tab */}
         <ProductDescriptionTab
           spaceBottomClass="pb-90"
-          productFullDesc={product.fullDescription}
+          productFullDesc={product?.product_description}
         />
 
         {/* related product slider */}
         <RelatedProductSlider
           spaceBottomClass="pb-95"
-          category={product.category[0]}
+          category={product?.category_id.toString()}  // Convert category_id to string
         />
       </LayoutOne>
     </Fragment>

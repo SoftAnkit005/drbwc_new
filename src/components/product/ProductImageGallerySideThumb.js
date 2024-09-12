@@ -12,7 +12,7 @@ import ImageMagnifier from "../image-magnifier/ImageMagnifier";
 const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [index, setIndex] = useState(-1);
-  const slides = product?.image.map((img, i) => ({
+  const slides = product?.image?.map((img, i) => ({
       src: process.env.PUBLIC_URL + img,
       key: i,
   }));
