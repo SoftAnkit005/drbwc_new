@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import clsx from "clsx";
 import { getDiscountPrice } from "../../helpers/product";
 import ProductDescriptionInfo from "../../components/product/ProductDescriptionInfo";
@@ -7,18 +6,6 @@ import ProductImageGallerySideThumb from "../../components/product/ProductImageG
 import ProductBuyBox from "../../components/product/ProductBuyBox";
 
 const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, product }) => {
-  const currency = useSelector((state) => state.currency);
-  const { cartItems } = useSelector((state) => state.cart);
-  const { wishlistItems } = useSelector((state) => state.wishlist);
-  const { compareItems } = useSelector((state) => state.compare);
-  const wishlistItem = wishlistItems.find(item => item.id === product.id);
-  const compareItem = compareItems.find(item => item.id === product.id);
-
-  const discountedPrice = getDiscountPrice(product.price, product.discount);
-  const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
-  const finalDiscountedPrice = +(
-    discountedPrice * currency.currencyRate
-  ).toFixed(2);
 
   return (
     <div className={clsx("shop-area", spaceTopClass, spaceBottomClass)}>
@@ -32,17 +19,10 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, product }) =
             {/* product description info */}
             <ProductDescriptionInfo
               product={product}
-              discountedPrice={discountedPrice}
-              currency={currency}
-              finalDiscountedPrice={finalDiscountedPrice}
-              finalProductPrice={finalProductPrice}
-              cartItems={cartItems}
-              wishlistItem={wishlistItem}
-              compareItem={compareItem}
             />
           </div>
           <div className="col-lg-3 col-xxl-2">
-            <ProductBuyBox />
+            <ProductBuyBox product={product}/>
           </div>
         </div>
       </div>

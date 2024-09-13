@@ -28,8 +28,9 @@ export const rootReducer = combineReducers({
     subcategories: subCategoryReducer,
     reviews: reviewReducer,
     banners:bannersReducer,
-
+    featuredproduct: featuredproductReducer,
     product: productReducer,
+
     currency: currencyReducer,
     cart: cartReducer,
     compare: compareReducer,

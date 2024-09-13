@@ -1,8 +1,13 @@
 // get products
 export const getProducts = (products, category, type, limit) => {
+  if (!Array.isArray(products)) {
+    console.error('Expected products to be an array, but received:', products);
+    return [];
+  }
+
   const finalProducts = category
     ? products.filter(
-        product => product.category.filter(single => single === category)[0]
+        product => product.category && product.category.includes(category)
       )
     : products;
 
@@ -12,15 +17,11 @@ export const getProducts = (products, category, type, limit) => {
   }
   if (type && type === "bestSeller") {
     return finalProducts
-      .sort((a, b) => {
-        return b.saleCount - a.saleCount;
-      })
+      .sort((a, b) => b.saleCount - a.saleCount)
       .slice(0, limit ? limit : finalProducts.length);
   }
   if (type && type === "saleItems") {
-    const saleItems = finalProducts.filter(
-      single => single.discount && single.discount > 0
-    );
+    const saleItems = finalProducts.filter(single => single.discount && single.discount > 0);
     return saleItems.slice(0, limit ? limit : saleItems.length);
   }
   return finalProducts.slice(0, limit ? limit : finalProducts.length);
@@ -69,6 +70,11 @@ export const cartItemStock = (item, color, size) => {
 
 //get products based on category
 export const getSortedProducts = (products, sortType, sortValue) => {
+  if (!Array.isArray(products)) {
+    console.error('Expected products to be an array, but received:', products);
+    return [];
+  }
+  
   if (products && sortType && sortValue) {
     if (sortType === "category") {
       return products.filter(

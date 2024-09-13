@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import React, {  useState } from "react";
 import { getProductCartQuantity } from "../../helpers/product";
@@ -31,13 +32,16 @@ const ProductDescriptionInfo = ({
 
   return (
     <div className="product-details-content ml-70">
-      <h2>{product.name}</h2>
+      <h2>{product.product_name}</h2>
       <p className='desc-xxs mb-1 text-cyan fw-normal'>Brand: DR BWC</p>
       <p className="desc-sm fw-medium d-flex align-items-center blink bg-theme-red px-4 py-1 text-white w-fit rounded mb-2">Special rate <BiSolidOffer className="heading-sm ms-1"/></p>
-      <h2 className="heading-sm fw-normal"><span className='desc-sm fw-semibold'>₹</span> 30500.00 <span className="text-danger desc-xs">20% off</span></h2>
+      <h2 className="heading-sm fw-normal"><span className='desc-sm fw-semibold'>₹</span> {parseFloat(product.price).toLocaleString()} <span className="text-danger desc-xs">20% off</span></h2>
+
+      <p className='desc-xs mb-1 text-muted'><del>₹ {(parseFloat(product.price) + (parseFloat(product.price) * 0.20)).toLocaleString()} </del> </p>
+
       <p className='desc-xs mb-1 text-muted'>Inclusive of all taxes</p>
-      {(price>5000)?
-        <p className='desc-xs mb-0'><span className='desc-md fw-semibold'>EMI</span> starts at ₹ {Math.floor(price/9)} per month</p>
+      {(product.price>5000)?
+        <p className='desc-xs mb-0'><span className='desc-md fw-semibold'>EMI</span> starts at ₹ {Math.floor(product.price/9)} per month</p>
       :<></>}
 
       <div className="d-flex align-items-center">
@@ -72,30 +76,27 @@ const ProductDescriptionInfo = ({
 
       <div className="row mt-2 mx-0">
           <div className="col-3 px-0 desc-xx fw-semibold mb-1">Use for</div>
-          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; Dr.BWC</div>
-          <div className="col-3 px-0 desc-xx fw-semibold mb-1">Use for</div>
-          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; Dr.BWC</div>
-          <div className="col-3 px-0 desc-xx fw-semibold mb-1">Use for</div>
-          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; Dr.BWC</div>
+          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; {product.use_for}</div>
+          <div className="col-3 px-0 desc-xx fw-semibold mb-1">Power Source</div>
+          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; {product.power_source}</div>
+          <div className="col-3 px-0 desc-xx fw-semibold mb-1">Material</div>
+          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; {product.material}</div>
+          <div className="col-3 px-0 desc-xx fw-semibold mb-1">Item Weight</div>
+          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; {product.item_weight}</div>
+          <div className="col-3 px-0 desc-xx fw-semibold mb-1">Brand</div>
+          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; DR BWC</div>
       </div>
 
       <hr/>
 
       <h2 className="heading-xs fw-semibold mb-2">About this Item</h2>
-      <p className="desc-xs lh-base mb-4">Maintaining wellness is linked with not only eating right or exercising on a regular basis but also with using the right wellness maintaining products. Such products help in shaping good posture and bettering the overall physique. For modern people wanting to maintain wellness and lead a healthy life, Dr. Bhanusalis Wellness Care brings forth smart wellness maintaining, acupressure and orthopaedic products as a manufacturer. Our Electric Foot Massager, Electric Pneumatic Compression Device, Squeezing Jade Stone Massage Reflexology Bed, T95 Tourmaline Series Healing Bio Mat, Luxury 4D Full Body Massage Chair, and other products are comfortable and cost-effective. These products make</p>
+      <p className="desc-xs lh-base mb-4">{product.about_item}</p>
     </div>
   );
 };
 
 ProductDescriptionInfo.propTypes = {
-  cartItems: PropTypes.array,
-  compareItem: PropTypes.shape({}),
-  currency: PropTypes.shape({}),
-  discountedPrice: PropTypes.number,
-  finalDiscountedPrice: PropTypes.number,
-  finalProductPrice: PropTypes.number,
   product: PropTypes.shape({}),
-  wishlistItem: PropTypes.shape({})
 };
 
 export default ProductDescriptionInfo;

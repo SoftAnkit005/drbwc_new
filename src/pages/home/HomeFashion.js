@@ -20,7 +20,7 @@ const HomeFashion = () => {
         <HeroSliderOne />
 
         {/* featured products */}
-        <FeaturedProducts spaceTopClass="" spaceBottomClass="pb-50" />
+        <FeaturedProducts spaceTopClass="pt-50" spaceBottomClass="pb-50" />
 
         {/* Review Slider */}
         <ReviewSlider spaceTopClass="pt-90" spaceBottomClass="pb-90" />

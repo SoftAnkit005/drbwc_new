@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories } from "../../store/slices/category-slice";
+// import { fetchCategories } from "../../store/slices/category-slice";
 import { useEffect, useState } from "react";
-import { fetchSubcategories } from "../../store/slices/sub-category-slice";
+// import { fetchSubcategories } from "../../store/slices/sub-category-slice";
 
 const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
   const dispatch = useDispatch();
@@ -14,10 +14,10 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
   const [subcategoriesData, setSubcategoriesData] = useState([]);
   const location = useLocation(); // Get the current location (URL)
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(fetchSubcategories());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchCategories());
+  //   dispatch(fetchSubcategories());
+  // }, [dispatch]);
 
   useEffect(() => {
     if (categories?.success) {
@@ -43,9 +43,10 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
         <ul>
           {categoryData?.map((category) => {
             const categoryPath = process.env.PUBLIC_URL + `/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
+            const categoryPathWithId = `${categoryPath}?id=${category.id}`;
             return (
               <li key={category.id} className={clsx(isActive(categoryPath) ? "active" : "")}>
-                <Link to={categoryPath}>
+                <Link to={categoryPathWithId}>
                   {category.name}
                   {filteredSubcategories(category.id).length > 0 && (
                     <i className="fa fa-angle-down ms-1" />

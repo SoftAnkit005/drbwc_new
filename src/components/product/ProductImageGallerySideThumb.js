@@ -9,13 +9,17 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Swiper, { SwiperSlide } from "../../components/swiper";
 import ImageMagnifier from "../image-magnifier/ImageMagnifier";
 
+
 const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [index, setIndex] = useState(-1);
-  const slides = product?.image.map((img, i) => ({
-      src: process.env.PUBLIC_URL + img,
-      key: i,
+  let imageArray = JSON.parse(product?.image_urls)
+  
+  const slides = imageArray.map((img, i) => ({
+    src: process.env.PUBLIC_URL + img,
+    key: i,
   }));
+
 
   // swiper slider settings
   const gallerySwiperParams = {
@@ -34,7 +38,7 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
     spaceBetween: 10,
     slidesPerView: 4,
     touchRatio: 0.2,
-    loop: true,
+    loop: false,
     slideToClickedSlide: true,
     direction: "vertical",
     breakpoints: {
@@ -78,13 +82,13 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
             ) : (
               ""
             )}
-            {product?.image?.length ? (
+            {imageArray?.length ? (
               <Swiper options={gallerySwiperParams}>
-                {product?.image.map((single, key) => (
+                {imageArray.map((single, key) => (
                   <SwiperSlide key={key}>
-                    <button className="lightgallery-button" onClick={() => setIndex(key)}>
+                    {/* <button className="lightgallery-button" onClick={() => setIndex(key)}>
                       <i className="pe-7s-expand1"></i>
-                    </button>
+                    </button> */}
                     <div className="single-image overflow-visible">
                       {/* <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt="" /> */}
                       <ImageMagnifier imgsrc={process.env.PUBLIC_URL + single}/>
@@ -108,17 +112,20 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
               : "col-xl-2")}
         >
           <div className="product-small-image-wrapper product-small-image-wrapper--side-thumb">
-            {product?.image?.length ? (
+            {imageArray?.length ? (
               <Swiper options={thumbnailSwiperParams}>
-                {product.image.map((single, key) => (
-                  <SwiperSlide key={key}>
-                    <div className="single-image">
-                      <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt="" />
-                    </div>
-                  </SwiperSlide>
-                ))}
+                {imageArray.map((single, key) => {
+                  return (
+                    <SwiperSlide key={key}>
+                      <div className="single-image">
+                        <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt={`Product Image ${key}`} />
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
               </Swiper>
-            ) : null }
+            ) : null}
+
             
           </div>
         </div>

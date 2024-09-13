@@ -26,8 +26,6 @@ function ImageMagnifier(props) {
             const bgSizeX = imgWidth * 2; // Example: 2x zoom
             const bgSizeY = imgHeight * 2; // Example: 2x zoom
     
-            console.log('Background Size:', bgSizeX, bgSizeY);
-    
             zoomPreview.current.style.display = "block";
             zoomPreview.current.style.backgroundImage = `url(${props.imgsrc})`; 
             zoomPreview.current.style.backgroundSize = `${bgSizeX}px ${bgSizeY}px`;
