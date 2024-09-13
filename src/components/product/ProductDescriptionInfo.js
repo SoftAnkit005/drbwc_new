@@ -1,34 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import React, {  useState } from "react";
-import { getProductCartQuantity } from "../../helpers/product";
 import { BiSolidOffer } from "react-icons/bi";
 import productFrameData from "../../data/product-frame-icon/product-frame-data.json";
 
 
-const ProductDescriptionInfo = ({
-  product,
-  cartItems,
-}) => {
-  const [selectedProductColor, setSelectedProductColor] = useState(
-    product.variation ? product.variation[0].color : ""
-  );
-  const [selectedProductSize, setSelectedProductSize] = useState(
-    product.variation ? product.variation[0].size[0].name : ""
-  );
-  const [productStock, setProductStock] = useState(
-    product.variation ? product.variation[0].size[0].stock : product.stock
-  );
-  const [quantityCount, setQuantityCount] = useState(1);
-
-  const productCartQty = getProductCartQuantity(
-    cartItems,
-    product,
-    selectedProductColor,
-    selectedProductSize
-  );
-
-  const price = 30500
+const ProductDescriptionInfo = ({ product, }) => {
 
   return (
     <div className="product-details-content ml-70">
