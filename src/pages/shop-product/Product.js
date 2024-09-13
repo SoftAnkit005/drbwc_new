@@ -13,6 +13,7 @@ const Product = () => {
   let { id } = useParams();
   const { products } = useSelector((state) => state.product);
   const [productsData, setProductsData] = useState([]);
+  const [relatedProducts, setrelatedProducts] = useState([])
 
   useEffect(() => {
     if (products?.success && Array.isArray(products.products)) {
@@ -24,11 +25,24 @@ const Product = () => {
 
   // Convert id to string for comparison
   const product = productsData.find(product => product.id.toString() === id.toString());
+  // Ensure useEffect runs unconditionally, but only filters related products if product is valid
+  useEffect(() => {
+    if (product) {
+      let relProducts = products.products?.filter(item => item.category_id === product.category_id && item.id !== product.id);
+      setrelatedProducts(relProducts);
+    }
+  }, [product, products]);
 
   if (!product) {
     return <div>Product not found</div>;
   }
-
+  
+  // useEffect(() => {
+  //   let relatedProducts = products?.filter(item => item.category_id === product.category_id)
+  //   console.log(relatedProducts);
+  // }, [product])
+  
+  console.log('product: ', product);
   return (
     <Fragment>
       <SEO
@@ -60,7 +74,9 @@ const Product = () => {
 
         {/* related product slider */}
         <RelatedProductSlider
-          spaceBottomClass="pb-95"
+          spaceTopClass="pt-50"
+          spaceBottomClass="pb-50"
+          products={relatedProducts}
           category={product?.category_id.toString()}  // Convert category_id to string
         />
       </LayoutOne>

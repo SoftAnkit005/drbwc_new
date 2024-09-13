@@ -94,6 +94,8 @@ const ProductDescriptionInfo = ({ product, }) => {
           <div className="col-8 desc-xs mb-1 text-muted">&nbsp; {product.material}</div>
           <div className="col-3 px-0 desc-xx fw-semibold mb-1">Item Weight</div>
           <div className="col-8 desc-xs mb-1 text-muted">&nbsp; {product.item_weight}</div>
+          <div className="col-3 px-0 desc-xx fw-semibold mb-1">Size</div>
+          <div className="col-8 desc-xs mb-1 text-muted">&nbsp; {product.size}</div>
           <div className="col-3 px-0 desc-xx fw-semibold mb-1">Brand</div>
           <div className="col-8 desc-xs mb-1 text-muted">&nbsp; DR BWC</div>
       </div>

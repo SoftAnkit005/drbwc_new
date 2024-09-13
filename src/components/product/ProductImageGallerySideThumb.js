@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { EffectFade, Thumbs } from 'swiper';
@@ -19,19 +19,23 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
   const queryParams = new URLSearchParams(location.search);
   const color = queryParams.get("color");
 
-  // Parse color_image_urls and image_urls
-  const colorImageUrls = product?.color_image_urls ? JSON.parse(product.color_image_urls) : {};
-  const defaultImageUrls = product?.image_urls ? JSON.parse(product.image_urls) : [];
+  // Memoize parsing to avoid re-render loops
+  const colorImageUrls = useMemo(
+    () => (product?.color_image_urls ? JSON.parse(product.color_image_urls) : {}),
+    [product?.color_image_urls]
+  );
+  const defaultImageUrls = useMemo(
+    () => (product?.image_urls ? JSON.parse(product.image_urls) : []),
+    [product?.image_urls]
+  );
 
   // Set the image array based on the selected color
   const [imageArray, setImageArray] = useState(defaultImageUrls);
 
   useEffect(() => {
     if (color && colorImageUrls[color]) {
-      // If color exists in color_image_urls, set imageArray to that color's images
       setImageArray(colorImageUrls[color]);
     } else {
-      // Otherwise, set it to default image urls
       setImageArray(defaultImageUrls);
     }
   }, [color, colorImageUrls, defaultImageUrls]);
@@ -40,9 +44,6 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
     src: process.env.PUBLIC_URL + img,
     key: i,
   }));
-
-  console.log("Selected Color:", color);
-  console.log("Image Array:", imageArray);
 
   // Swiper slider settings
   const gallerySwiperParams = {

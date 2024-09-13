@@ -28,8 +28,7 @@ const settings = {
 };
 
 
-const RelatedProductSlider = ({ spaceBottomClass, category }) => {
-  const { products } = useSelector((state) => state.product);
+const RelatedProductSlider = ({ spaceBottomClass, spaceTopClass , category, products }) => {
   const currency = useSelector((state) => state.currency);
   const { cartItems } = useSelector((state) => state.cart);
   const { wishlistItems } = useSelector((state) => state.wishlist);
@@ -37,37 +36,34 @@ const RelatedProductSlider = ({ spaceBottomClass, category }) => {
   const prods = getProducts(products, category, null, 6);
   
   return (
-    <div className={clsx("related-product-area", spaceBottomClass)}>
+    <div className={clsx("related-product-area", spaceBottomClass, spaceTopClass)}>
       <div className="container">
-        <SectionTitle
-          titleText="Related Products"
-          positionClass="text-center"
-          spaceClass="mb-50"
-        />
-        {prods?.length ? (
-          <Swiper options={settings}>
-              {prods.map(product => (
-                <SwiperSlide key={product.id}>
-                  <ProductGridSingle
-                    product={product}
-                    currency={currency}
-                    cartItem={
-                      cartItems.find((cartItem) => cartItem.id === product.id)
-                    }
-                    wishlistItem={
-                      wishlistItems.find(
-                        (wishlistItem) => wishlistItem.id === product.id
-                      )
-                    }
-                    compareItem={
-                      compareItems.find(
-                        (compareItem) => compareItem.id === product.id
-                      )
-                    }
-                  />
-                </SwiperSlide>
-              ))}
-          </Swiper>
+        {products?.length ? (
+          <>
+            <SectionTitle titleText="Related Products" positionClass="text-center" spaceClass="mb-50" />
+            <Swiper options={settings}>
+                {products?.map(product => (
+                  <SwiperSlide key={product.id}>
+                    <ProductGridSingle
+                      product={product}
+                      cartItem={
+                        cartItems.find((cartItem) => cartItem.id === product.id)
+                      }
+                      wishlistItem={
+                        wishlistItems.find(
+                          (wishlistItem) => wishlistItem.id === product.id
+                        )
+                      }
+                      compareItem={
+                        compareItems.find(
+                          (compareItem) => compareItem.id === product.id
+                        )
+                      }
+                    />
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          </>
         ) : null}
       </div>
     </div>

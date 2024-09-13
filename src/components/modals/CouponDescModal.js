@@ -24,7 +24,7 @@ function CouponDescModal({ offer, code, description }) {
 
   return (
     <>
-      <span className="more-modal text-danger desc-sm" onClick={handleShow}>more</span>
+      <span className="more-modal text-danger desc-sm cursor-pointer" onClick={handleShow}>read more</span>
 
       <Modal show={show} size="md" onHide={handleClose}>
         <Modal.Header closeButton>

@@ -332,7 +332,8 @@
       .pro-cart {
         font-size: 14px;
 
-        width: calc(100% - 48px - 48px);
+        width: calc(100% - 48px );
+        // width: calc(100% - 48px - 48px);
 
         transition-delay: 0.1s;
       }
@@ -363,7 +364,7 @@
           background: none;
           &:hover,
           &.active {
-            background-color: #000;
+            background-color: $theme-black;
           }
         }
         &.pro-wishlist,
