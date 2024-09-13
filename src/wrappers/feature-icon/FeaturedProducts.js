@@ -20,13 +20,11 @@ const FeaturedProducts = ({ spaceTopClass, spaceBottomClass }) => {
     }
   }, [sections?.success, sections?.sections, error]);
 
-  console.log("allFeatureProducts: ", sections);
-
   return (
-    <div className={clsx("support-area", spaceTopClass, spaceBottomClass)}>
+    <div className={clsx("support-area")}>
       <div>
         {allFeatureProducts?.map((singleFeature) => (
-          <div className="d-flex justify-content-center products-list" key={singleFeature.id}>
+          <div className={clsx("d-flex justify-content-center products-list",spaceTopClass, spaceBottomClass)} key={singleFeature.id}>
             <FeatureIconSingle singleFeature={singleFeature} />
           </div>
         ))}

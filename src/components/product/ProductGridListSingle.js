@@ -10,14 +10,7 @@ import { addToCart } from "../../store/slices/cart-slice";
 import { addToWishlist } from "../../store/slices/wishlist-slice";
 // import { addToCompare } from "../../store/slices/compare-slice";
 
-const ProductGridListSingle = ({
-  product,
-  currency,
-  cartItem,
-  wishlistItem,
-  compareItem,
-  spaceBottomClass,
-}) => {
+const ProductGridListSingle = ({ product, currency, cartItem, wishlistItem, compareItem, spaceBottomClass, }) => {
   const [modalShow, setModalShow] = useState(false);
   const discountedPrice = getDiscountPrice(product.price, product.discount);
   const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
@@ -98,7 +91,7 @@ const ProductGridListSingle = ({
                 <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`}>
                   Select Option
                 </Link>
-              ) : product.stock && product.stock > 0 ? (
+              ) : product.qty && product.qty > 0 ? (
                 <button onClick={() => dispatch(addToCart(product))} className={ cartItem !== undefined && cartItem.quantity > 0 ? "active" : "" } disabled={cartItem !== undefined && cartItem.quantity > 0} title={ cartItem !== undefined ? "Added to cart" : "Add to cart" } >
                   {" "}
                   <i className="pe-7s-cart"></i>{" "}

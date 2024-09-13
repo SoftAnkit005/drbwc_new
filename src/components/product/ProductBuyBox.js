@@ -1,29 +1,39 @@
 import React, { useState } from 'react'
+import PropTypes from "prop-types";
 import { IoMdLock } from 'react-icons/io'
 import { LuMapPin } from 'react-icons/lu'
+import { Link } from 'react-router-dom';
 
-const product = ["S", "M", "L", "XL"]
+const productSize = ["S", "M", "L", "XL"]
 
-const ProductBuyBox = () => {
+
+const ProductBuyBox = ({product}) => {
+    console.log(product);
     const currentDate = new Date();
     const monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
     const [selectedProductSize, setSelectedProductSize] = useState(
-        product.variation ? product.variation[0].size[0].name : ""
+        productSize.variation ? productSize.variation[0].size[0].name : ""
     );
     const [productStock, setProductStock] = useState(
-        product.variation ? product.variation[0].size[0].stock : product.stock
+        productSize.variation ? productSize.variation[0].size[0].stock : productSize.stock
     );
     const [quantityCount, setQuantityCount] = useState(1);
+
+    const colorImages = JSON.parse(product.color_image_urls); // Parsing JSON string to object
+    const colorNames = Object.keys(colorImages);
 
   return (
     <>
         <div className="border rounded p-3 mb-3">
-            <h2 className="heading-sm fw-normal mb-0"><span className='desc-sm fw-semibold'>₹</span> 30500.00</h2>
+            <h2 className="heading-sm fw-normal mb-0"><span className='desc-sm fw-semibold'>₹ </span>{parseFloat(product.price).toLocaleString()}</h2>
             <p className='desc-xs mb-1'>Delivery: <span className='fw-semibold'>{currentDate.getDate()} - {currentDate.getDate() + 4} {monthNames[currentDate.getMonth()]}</span></p>
             <p className='desc-xs mb-1 text-cyan fw-semibold'><LuMapPin /> Pan India Delivery</p>
             <p className='desc-xs mb-1'>Or Fastest Delivery In <span className='fw-semibold'>72 Hours</span></p>
-            <div className="badge-success">In Stock</div>
+
+            <div className={`badge-${product.qty > 0 ? 'success' : 'danger'}`}>
+                {product.qty > 0 ? 'In Stock' : 'Out of Stock'}
+            </div>
             
             <p className='desc-xs mb-1 text-danger fw-normal'>Only 2 Left In Stock.</p>
             <div className="row mt-2 mx-0">
@@ -39,27 +49,28 @@ const ProductBuyBox = () => {
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
+                    <option value="4">4</option>
                 </select>
             </div>
 
             <div className="pro-details-size mb-3">
-                <span>Size</span>
+                <span>Colors</span>
                 <div className="pro-details-size-content">
                     {/* Static sizes */}
-                    {product.map((size, key) => (
-                    <label className={`pro-details-size-content--single`} key={key}>
+                    {colorNames.map((color, key) => (
+                        <label className="pro-details-size-content--single" key={key}>
                         <input
-                        type="radio"
-                        value={size}
-                        checked={size === selectedProductSize ? "checked" : ""}
-                        onChange={() => {
-                            setSelectedProductSize(size);
-                            setProductStock(10); // Replace with static stock value if needed
+                            type="radio"
+                            value={color}
+                            checked={color === selectedProductSize ? "checked" : ""}
+                            onChange={() => {
+                            setSelectedProductSize(color);
+                            setProductStock(10); // Replace with actual stock value if needed
                             setQuantityCount(1);
-                        }}
+                            }}
                         />
-                        <span className="size-name">{size}</span>
-                    </label>
+                        <span className="size-name">{color}</span>
+                        </label>
                     ))}
                 </div>
             </div>
@@ -67,8 +78,8 @@ const ProductBuyBox = () => {
 
             <button className="btn btn-primary border w-100 mb-2 desc-sm py-2">ADD TO CART</button>
             <button className="btn btn-secondary border w-100 mb-2 desc-sm py-2">BUY NOW</button>
-            <button className="btn btn-dark border w-100 mb-2 desc-sm">Buy now @ <img src="/assets/img/product/drbwc_images/flipkart_logo.png" alt="" height={28}/></button>
-            <button className="btn btn-dark border w-100 mb-2 desc-sm py-2">Buy now @ <img src="/assets/img/product/drbwc_images/amazon_logo.png" alt="" height={18}/></button>
+            <Link to={product.flipkart_link} target="_blank" className="btn btn-dark border w-100 mb-2 desc-sm">Buy now @ <img src="/assets/img/product/drbwc_images/flipkart_logo.png" alt={product.product_name} height={28}/></Link>
+            <Link to={product.amazon_link} target="_blank" className="btn btn-dark border w-100 mb-2 desc-sm py-2">Buy now @ <img src="/assets/img/product/drbwc_images/amazon_logo.png" alt={product.product_name} height={18}/></Link>
             <p className="text-cyan desc-xs d-flex align-items-center"><IoMdLock className='desc-md me-1'/>Secure Transaction</p>
             <button className="btn btn-light border w-100 mb-2 desc-sm py-2">Add to Wish List</button>
         </div>
@@ -82,5 +93,9 @@ const ProductBuyBox = () => {
     </>
   )
 }
+
+ProductBuyBox.propTypes = {
+    product: PropTypes.shape({}),
+};
 
 export default ProductBuyBox

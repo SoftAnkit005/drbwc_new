@@ -19,7 +19,7 @@ const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc }) => {
             </Nav>
             <Tab.Content className="description-review-bottom">
               <Tab.Pane eventKey="productDescription">
-                {productFullDesc}
+                <div dangerouslySetInnerHTML={{ __html: productFullDesc }} />
               </Tab.Pane>
               {/* <Tab.Pane eventKey="productReviews">
                 <div className="row">

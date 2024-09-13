@@ -13,9 +13,13 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import "./assets/scss/style.scss";
 import "./i18n";
 import { setCurrency } from "./store/slices/currency-slice";
+import { fetchCategories } from "./store/slices/category-slice";
+import { fetchSubcategories } from "./store/slices/sub-category-slice";
 
 // Fetch products from API when the app loads
-store.dispatch(fetchProducts()); // Dispatch fetchProducts to call the API and load products
+store.dispatch(fetchProducts());
+store.dispatch(fetchCategories());;
+store.dispatch(fetchSubcategories())
 store.dispatch(setCurrency("INR"));;
 
 const container = document.getElementById('root');

@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories } from "../../store/slices/category-slice";
+// import { fetchCategories } from "../../store/slices/category-slice";
 import { useEffect, useState } from "react";
-import { fetchSubcategories } from "../../store/slices/sub-category-slice";
+// import { fetchSubcategories } from "../../store/slices/sub-category-slice";
 
 const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
   const dispatch = useDispatch();
@@ -14,10 +14,10 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
   const [subcategoriesData, setSubcategoriesData] = useState([]);
   const location = useLocation(); // Get the current location (URL)
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(fetchSubcategories());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchCategories());
+  //   dispatch(fetchSubcategories());
+  // }, [dispatch]);
 
   useEffect(() => {
     if (categories?.success) {

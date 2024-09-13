@@ -16,7 +16,6 @@ const Product = () => {
 
   useEffect(() => {
     if (products?.success && Array.isArray(products.products)) {
-      console.log("Products fetched successfully:", products.products);  // Debugging
       setProductsData(products.products);
     } else {
       console.log("No products found or products fetching failed.");  // Debugging
@@ -25,9 +24,6 @@ const Product = () => {
 
   // Convert id to string for comparison
   const product = productsData.find(product => product.id.toString() === id.toString());
-
-  console.log('productsData:', productsData);  // Debugging
-  console.log('Selected Product:', product);   // Debugging
 
   if (!product) {
     return <div>Product not found</div>;
