@@ -83,6 +83,22 @@ h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0;
   width: fit-content;
 }
 
+.badge-coupon {
+  font-size: $heading-lg;
+  width: fit-content;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #6c757d;
+  border-style: dashed;
+  font-weight: 600;
+  color: #6c757d;
+  background: #6c757d31;
+}
+
+.cursor-copy {
+  cursor: url("../../../public/assets/img/product/drbwc_images/copy-icon.svg"), auto;
+}
+
 .coupon-badge::before {
   content: "";
   position: absolute;
@@ -167,6 +183,24 @@ h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0;
 .desc-sm{ font-size: $desc-sm !important;}
 .desc-xs{ font-size: $desc-xs !important;}
 .desc-xxs{ font-size: $desc-xxs !important;}
+
+.ellipsis-two-lines {
+  position: relative;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .more-modal {
+    position: absolute;
+    bottom: 1px;
+    right: 0;
+    background: white; /* Adjust as needed */
+    text-decoration: none;
+    padding-left: 0.5em;
+  }
+}
 
 @media #{$md-layout},#{$xs-layout} {
   .heading-lg{ font-size: $heading-sm; }

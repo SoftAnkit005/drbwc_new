@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { BiSolidOffer } from "react-icons/bi";
 import productFrameData from "../../data/product-frame-icon/product-frame-data.json";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import CouponDescModal from "../modals/CouponDescModal";
 
 
 const ProductDescriptionInfo = ({ product, }) => {
+  const [allOffers, setallOffers] = useState([])
+  let { id } = useParams();
+  const { offers } = useSelector((state) => state.coupons);
+
+  useEffect(() => {
+    if(offers.success){
+      setallOffers(offers.offers)
+    }
+  }, [offers])
+
+  const filteredOffers = allOffers.filter(offer => 
+    (offer.offer_type === 'code') || 
+    (offer.offer_type === 'product' && JSON.parse(offer.product_id).includes(Number(id)))
+  );
+  
 
   return (
     <div className="product-details-content ml-70">
@@ -20,21 +38,38 @@ const ProductDescriptionInfo = ({ product, }) => {
         <p className='desc-xs mb-0'><span className='desc-md fw-semibold'>EMI</span> starts at ₹ {Math.floor(product.price/9)} per month</p>
       :<></>}
 
-      <div className="d-flex align-items-center">
-        <span className="desc-xs font-semibold text-white bg-theme-red px-2 py-1 position-relative rounded-start coupon-badge lh-base text-nowrap">
-          Coupon : &nbsp;
-        </span>
-        <input type="checkbox" className="ms-4 w-auto h-auto" id="coupon_check" />
-        <label htmlFor="coupon_check" className="mt-0 pb-0 ms-2 desc-xs">
-          Apply 10000 coupon
-        </label>
-      </div>
+      {(product.price>50000)?
+        <div className="d-flex align-items-center">
+          <span className="desc-xs font-semibold text-white bg-theme-red px-2 py-1 position-relative rounded-start coupon-badge lh-base text-nowrap">
+            Coupon : &nbsp;
+          </span>
+          <input type="checkbox" className="ms-4 w-auto h-auto" id="coupon_check" />
+          <label htmlFor="coupon_check" className="mt-0 pb-0 ms-2 desc-xs">
+            Apply 10000 coupon
+          </label>
+        </div>
+      :<></>}
 
       <div className="border rounded-3 mt-3">
         <div className="d-flex align-items-center p-2">
-          <span className="desc-xs fw-normal text-dark"><BiSolidOffer className="heading-sm ms-1 text-theme-red"/>Sale with extra</span>
+          <span className="desc-xs fw-normal text-dark"><BiSolidOffer className="heading-sm ms-1 text-theme-red"/> Save Extra with </span>
           <span className="desc-xs fw-semibold text-theme-red ms-1"> Offers</span>
         </div>
+        {filteredOffers.map((item, index) => (
+          <div key={index} className="d-flex align-items-top p-2 border-top">
+            <span className="desc-xs fw-semibold text-theme-red ms-1 text-nowrap">
+              {item.offer_name} ({item.offer_code}):
+            </span>
+            <div className="ellipsis-container-wrapper">
+              <div className="ellipsis-two-lines ps-2">
+                <span className="desc-xs fw-normal text-dark">
+                  {item.offer_description}
+                </span>
+                <CouponDescModal offer={item.offer_name} code={item.offer_code} description={item.offer_description}/>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       <hr/>

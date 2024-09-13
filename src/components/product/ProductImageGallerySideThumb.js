@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { EffectFade, Thumbs } from 'swiper';
@@ -8,20 +8,43 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Swiper, { SwiperSlide } from "../../components/swiper";
 import ImageMagnifier from "../image-magnifier/ImageMagnifier";
-
+import { useLocation } from "react-router-dom";
 
 const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [index, setIndex] = useState(-1);
-  let imageArray = JSON.parse(product?.image_urls)
-  
+  const location = useLocation();
+
+  // Get the 'color' query parameter
+  const queryParams = new URLSearchParams(location.search);
+  const color = queryParams.get("color");
+
+  // Parse color_image_urls and image_urls
+  const colorImageUrls = product?.color_image_urls ? JSON.parse(product.color_image_urls) : {};
+  const defaultImageUrls = product?.image_urls ? JSON.parse(product.image_urls) : [];
+
+  // Set the image array based on the selected color
+  const [imageArray, setImageArray] = useState(defaultImageUrls);
+
+  useEffect(() => {
+    if (color && colorImageUrls[color]) {
+      // If color exists in color_image_urls, set imageArray to that color's images
+      setImageArray(colorImageUrls[color]);
+    } else {
+      // Otherwise, set it to default image urls
+      setImageArray(defaultImageUrls);
+    }
+  }, [color, colorImageUrls, defaultImageUrls]);
+
   const slides = imageArray.map((img, i) => ({
     src: process.env.PUBLIC_URL + img,
     key: i,
   }));
 
+  console.log("Selected Color:", color);
+  console.log("Image Array:", imageArray);
 
-  // swiper slider settings
+  // Swiper slider settings
   const gallerySwiperParams = {
     spaceBetween: 10,
     loop: true,
@@ -86,12 +109,8 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
               <Swiper options={gallerySwiperParams}>
                 {imageArray.map((single, key) => (
                   <SwiperSlide key={key}>
-                    {/* <button className="lightgallery-button" onClick={() => setIndex(key)}>
-                      <i className="pe-7s-expand1"></i>
-                    </button> */}
                     <div className="single-image overflow-visible">
-                      {/* <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt="" /> */}
-                      <ImageMagnifier imgsrc={process.env.PUBLIC_URL + single}/>
+                      <ImageMagnifier imgsrc={single} />
                     </div>
                   </SwiperSlide>
                 ))}
@@ -118,18 +137,31 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
                   return (
                     <SwiperSlide key={key}>
                       <div className="single-image">
-                        <img src={process.env.PUBLIC_URL + single} className="img-fluid" alt={`Product Image ${key}`} />
+                        <img src={single} className="img-fluid" alt={`Product Image ${key}`} />
                       </div>
                     </SwiperSlide>
                   );
                 })}
               </Swiper>
             ) : null}
-
-            
           </div>
         </div>
       </div>
+      {product.video_link && (
+        <section className="video-section my-2 my-lg-5">
+          <div className="video-wrapper">
+              <iframe
+                width="100%"
+                height="400"
+                src={product.video_link.replace("watch?v=", "embed/")}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+          </div>
+        </section>
+      )}
     </Fragment>
   );
 };

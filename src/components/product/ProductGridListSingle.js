@@ -10,44 +10,24 @@ import { addToCart } from "../../store/slices/cart-slice";
 import { addToWishlist } from "../../store/slices/wishlist-slice";
 // import { addToCompare } from "../../store/slices/compare-slice";
 
-const ProductGridListSingle = ({ product, currency, cartItem, wishlistItem, compareItem, spaceBottomClass, }) => {
+const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, spaceBottomClass, }) => {
   const [modalShow, setModalShow] = useState(false);
   const discountedPrice = getDiscountPrice(product.price, product.discount);
-  const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
-  const finalDiscountedPrice = +(
-    discountedPrice * currency.currencyRate
-  ).toFixed(2);
   const dispatch = useDispatch();
-
-  console.log(product);
 
   return (
     <Fragment>
-      <div className={clsx("product-wrap", spaceBottomClass)}>
-        <div className="product-img">
+      <div className={clsx("product-wrap shadow-lg rounded-2", spaceBottomClass)}>
+        <div className="product-img rounded-2">
           <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
             {product.image_urls && product.image_urls.length > 0 ? (
-              <img
-                className="default-img"
-                src={process.env.PUBLIC_URL + JSON.parse(product.image_urls)[0]}
-                alt=""
-              />
+              <img className="default-img" src={process.env.PUBLIC_URL + JSON.parse(product.image_urls)[0]} alt="" />
             ) : (
-              <img
-                className="default-img"
-                src={process.env.PUBLIC_URL + "/assets/img/placeholder.png"} // Fallback placeholder image
-                alt="No image available"
-              />
+              <img className="default-img" src={process.env.PUBLIC_URL + "/assets/img/placeholder.png"} alt="No image available" />
             )}
             {product.image_urls && product.image_urls.length > 1 && (
-              <img
-                className="hover-img"
-                src={process.env.PUBLIC_URL + JSON.parse(product.image_urls)[1]}
-                alt=""
-              />
-            )}
-            {console.log('image_urls: ',product.image_urls)}
-            
+              <img className="hover-img" src={process.env.PUBLIC_URL + JSON.parse(product.image_urls)[1]} alt="" />
+            )}            
           </Link>
           {product.discount || product.new ? (
             <div className="product-img-badges">
@@ -79,11 +59,7 @@ const ProductGridListSingle = ({ product, currency, cartItem, wishlistItem, comp
             </div>
             <div className="pro-same-action pro-cart">
               {product.affiliateLink ? (
-                <a
-                  href={product.affiliateLink}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
+                <a href={product.affiliateLink} rel="noopener noreferrer" target="_blank" >
                   {" "}
                   Buy now{" "}
                 </a>
@@ -112,31 +88,14 @@ const ProductGridListSingle = ({ product, currency, cartItem, wishlistItem, comp
             </div>
           </div>
         </div>
-        <div className="product-content text-center">
+        <div className="product-content text-center mt-2">
           <h3>
             <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
               {product.name}
             </Link>
           </h3>
-          {product.rating && product.rating > 0 ? (
-            <div className="product-rating">
-              <Rating ratingValue={product.rating} />
-            </div>
-          ) : (
-            ""
-          )}
-          <div className="product-price">
-            {discountedPrice !== null ? (
-              <Fragment>
-                <span>{currency.currencySymbol + finalDiscountedPrice}</span>{" "}
-                <span className="old">
-                  {currency.currencySymbol + finalProductPrice}
-                </span>
-              </Fragment>
-            ) : (
-              <span>{currency.currencySymbol + finalProductPrice} </span>
-            )}
-          </div>
+          <h3 className="product-price fw-semibold pb-1">{product.product_name} </h3>
+          <h3 className="product-price fw-semibold pb-2"> ₹ {product.price} </h3>
         </div>
       </div>
       {/* Shop list content (omitted for brevity) */}
@@ -144,10 +103,7 @@ const ProductGridListSingle = ({ product, currency, cartItem, wishlistItem, comp
         show={modalShow}
         onHide={() => setModalShow(false)}
         product={product}
-        currency={currency}
         discountedPrice={discountedPrice}
-        finalProductPrice={finalProductPrice}
-        finalDiscountedPrice={finalDiscountedPrice}
         wishlistItem={wishlistItem}
         compareItem={compareItem}
       />
@@ -158,7 +114,6 @@ const ProductGridListSingle = ({ product, currency, cartItem, wishlistItem, comp
 ProductGridListSingle.propTypes = {
   cartItem: PropTypes.shape({}),
   compareItem: PropTypes.shape({}),
-  currency: PropTypes.shape({}),
   product: PropTypes.shape({
     id: PropTypes.number,
     price: PropTypes.string,

@@ -12,15 +12,15 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import "./assets/scss/style.scss";
 import "./i18n";
-import { setCurrency } from "./store/slices/currency-slice";
 import { fetchCategories } from "./store/slices/category-slice";
 import { fetchSubcategories } from "./store/slices/sub-category-slice";
+import { fetchOffers } from "./store/slices/coupons-slice";
 
 // Fetch products from API when the app loads
 store.dispatch(fetchProducts());
-store.dispatch(fetchCategories());;
-store.dispatch(fetchSubcategories())
-store.dispatch(setCurrency("INR"));;
+store.dispatch(fetchCategories());
+store.dispatch(fetchSubcategories());
+store.dispatch(fetchOffers());
 
 const container = document.getElementById('root');
 const root = createRoot(container);

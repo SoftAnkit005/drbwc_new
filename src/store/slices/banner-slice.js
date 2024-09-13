@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const apiUrl = process.env.REACT_APP_API_URL;
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyNjA0NjA4OSwiZXhwIjoxNzI2MTMyNDg5fQ.6OW-KYmAIGNqgDu_ObFnK_7kXJNBbAfv0LBcdZOoNWk"
 
 
 // Define your async thunk
@@ -13,7 +12,6 @@ export const getBanners = createAsyncThunk(
             const response = await fetch(`${apiUrl}/api/banners/get-banner`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });

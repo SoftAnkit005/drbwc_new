@@ -1,5 +1,8 @@
 // get products
-export const getProducts = (products, category, type, limit) => {
+export const getProducts = (data, category, type, limit) => {
+  // Check if data is an object with a products property
+  const products = Array.isArray(data) ? data : (data && Array.isArray(data.products) ? data.products : []);
+
   if (!Array.isArray(products)) {
     console.error('Expected products to be an array, but received:', products);
     return [];
@@ -26,6 +29,7 @@ export const getProducts = (products, category, type, limit) => {
   }
   return finalProducts.slice(0, limit ? limit : finalProducts.length);
 };
+
 
 // get product discount price
 export const getDiscountPrice = (price, discount) => {

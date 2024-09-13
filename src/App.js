@@ -71,6 +71,8 @@ const App = () => {
 
               {/* Shop product pages */}
               <Route path={process.env.PUBLIC_URL + "/product/:id"} element={<Product />} />
+              <Route path={`${process.env.PUBLIC_URL}/product/:id/:color?`} element={<Product />} />
+              
               <Route path={process.env.PUBLIC_URL + "/product-tab-left/:id"} element={<ProductTabLeft/>} />
               <Route path={process.env.PUBLIC_URL + "/product-tab-right/:id"} element={<ProductTabRight/>} />
               <Route path={process.env.PUBLIC_URL + "/product-sticky/:id"} element={<ProductSticky/>} />

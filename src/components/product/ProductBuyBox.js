@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import PropTypes from "prop-types";
 import { IoMdLock } from 'react-icons/io'
 import { LuMapPin } from 'react-icons/lu'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const productSize = ["S", "M", "L", "XL"]
 
 
 const ProductBuyBox = ({product}) => {
-    console.log(product);
+    const navigate = useNavigate();
     const currentDate = new Date();
     const monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
@@ -22,6 +22,10 @@ const ProductBuyBox = ({product}) => {
 
     const colorImages = JSON.parse(product.color_image_urls); // Parsing JSON string to object
     const colorNames = Object.keys(colorImages);
+
+    const handleColorChange = (color) => {
+        navigate(`?color=${color}`);
+    };
 
   return (
     <>
@@ -64,9 +68,8 @@ const ProductBuyBox = ({product}) => {
                             value={color}
                             checked={color === selectedProductSize ? "checked" : ""}
                             onChange={() => {
-                            setSelectedProductSize(color);
-                            setProductStock(10); // Replace with actual stock value if needed
-                            setQuantityCount(1);
+                                setSelectedProductSize(color);
+                                handleColorChange(color)
                             }}
                         />
                         <span className="size-name">{color}</span>

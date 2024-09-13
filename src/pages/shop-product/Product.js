@@ -47,8 +47,8 @@ const Product = () => {
 
         {/* product description with image */}
         <ProductImageDescription
-          spaceTopClass="pt-100"
-          spaceBottomClass="pb-100"
+          spaceTopClass="pt-50"
+          spaceBottomClass="pb-50"
           product={product}
         />
 
