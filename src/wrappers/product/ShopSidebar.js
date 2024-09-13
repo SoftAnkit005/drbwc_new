@@ -1,33 +1,42 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import ShopCategories from "../../components/product/ShopCategories";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories } from "../../store/slices/category-slice";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 const ShopSidebar = ({ products, getSortParams, sideSpaceClass }) => {
-  const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.categories);
-  const [categoryData, setCategoryData] = useState([]);
+  const { subcategories } = useSelector((state) => state.subcategories);
+  const [categoryId, setCategoryId] = useState(null);
+  const [subcategoryData, setsubcategoryData] = useState([])
+  const params = new URLSearchParams(window.location.search);
+  const [filterSub, setfilterSub] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (categories?.success) {
-      const sortedCategories = [...categories.categories].sort((a, b) => a.position - b.position);
-      setCategoryData(sortedCategories);
+    if (categoryId) {
+      const filteredSubcategories = subcategoryData.filter(subcategory => subcategory.category_id === Number(categoryId));
+      setfilterSub(filteredSubcategories);
+    } else {
+      setfilterSub([]);
     }
-  }, [categories]);
+  }, [categoryId, subcategoryData]);
 
-  const uniqueCategories = categoryData.map(item => ({ id: item.id, name: item.name.toLowerCase() }));
+
+  useEffect(() => {
+    const id = params.get('id');
+    setCategoryId(id);
+  }, [params]);
+
+  useEffect(() => {
+    if (subcategories?.success) {
+      setsubcategoryData(subcategories.subcategories);
+    }
+  }, [subcategories]);
+
+
 
   return (
     <div className={clsx("sidebar-style", sideSpaceClass)}>
-      
-      {/* filter by categories */}
-      <ShopCategories categories={uniqueCategories} getSortParams={getSortParams} />
+      <ShopCategories subcategories={filterSub} getSortParams={getSortParams} />
     </div>
   );
 };
