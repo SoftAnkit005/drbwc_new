@@ -24,7 +24,7 @@ const ShopGridStandard = () => {
     const [categoryId, setcategoryId] = useState();
     const location = useLocation();
 
-    console.log(categoryId);
+
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -58,7 +58,7 @@ const ShopGridStandard = () => {
         sortedProducts = filterSortedProducts;
         setSortedProducts(sortedProducts);
         setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
-    }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, categoryId ]);
+    }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, categoryId]);
 
     console.log('products.products', products.products);
     console.log('sortedProducts', sortedProducts);
@@ -69,11 +69,11 @@ const ShopGridStandard = () => {
 
             <LayoutOne headerTop="visible">
                 {/* breadcrumb */}
-                <Breadcrumb 
+                <Breadcrumb
                     pages={[
-                        {label: "Home", path: process.env.PUBLIC_URL + "/" },
-                        {label: "Shop", path: process.env.PUBLIC_URL + pathname }
-                    ]} 
+                        { label: "Home", path: process.env.PUBLIC_URL + "/" },
+                        { label: "Shop", path: process.env.PUBLIC_URL + pathname }
+                    ]}
                 />
 
                 <div className="shop-area pt-95 pb-100">
@@ -81,7 +81,7 @@ const ShopGridStandard = () => {
                         <div className="row">
                             <div className="col-lg-3 order-2 order-lg-1">
                                 {/* shop sidebar */}
-                                <ShopSidebar products={[]} getSortParams={getSortParams} sideSpaceClass="mr-30"/>
+                                <ShopSidebar products={[]} getSortParams={getSortParams} sideSpaceClass="mr-30" />
                             </div>
                             <div className="col-lg-9 order-1 order-lg-2">
                                 {/* shop topbar default */}

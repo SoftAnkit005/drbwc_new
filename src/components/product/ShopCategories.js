@@ -2,27 +2,27 @@ import PropTypes from "prop-types";
 
 import { setActiveSort } from "../../helpers/product";
 
-const ShopCategories = ({ categories, getSortParams }) => {
+const ShopCategories = ({ subcategories, getSortParams }) => {
   return (
     <div className="sidebar-widget">
       <h4 className="pro-sidebar-title">Categories </h4>
       <div className="sidebar-widget-list mt-30">
-        {categories ? (
+        {subcategories ? (
           <ul>
             <li>
               <div className="sidebar-widget-list-left">
-                <button onClick={e => { getSortParams("category", ""); setActiveSort(e); }} >
-                  <span className="checkmark" /> All Categories
+                <button onClick={e => { getSortParams("subcategory", ""); setActiveSort(e); }} >
+                  <span className="checkmark" /> All Subcategories
                 </button>
               </div>
             </li>
-            {categories.map((category, key) => {
+            {subcategories.map((item, key) => {
               return (
                 <li key={key}>
                   <div className="sidebar-widget-list-left">
-                    <button onClick={e => { getSortParams(category.name, category.id); setActiveSort(e); }} >
+                    <button onClick={e => { getSortParams(item.name, item.id); setActiveSort(e); }} >
                       {" "}
-                      <span className="checkmark" /> {category.name}{" "}
+                      <span className="checkmark" /> {item.name}{" "}
                     </button>
                   </div>
                 </li>
@@ -38,7 +38,7 @@ const ShopCategories = ({ categories, getSortParams }) => {
 };
 
 ShopCategories.propTypes = {
-  categories: PropTypes.array,
+  subcategories: PropTypes.array,
   getSortParams: PropTypes.func
 };
 
