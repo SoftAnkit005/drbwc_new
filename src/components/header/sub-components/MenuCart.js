@@ -41,7 +41,7 @@ const MenuCart = () => {
 
         const initialQuantities = {};
         uniqueCartItems.forEach((item) => {
-          initialQuantities[item.id] = item.quantity;
+          initialQuantities[item.product_id] = item.quantity;  // Ensure key is product_id
         });
         setItemQuantities(initialQuantities);
       }
@@ -52,7 +52,7 @@ const MenuCart = () => {
 
       const initialQuantities = {};
       sessionCartItems.forEach((item) => {
-        initialQuantities[item.id] = item.quantity;
+        initialQuantities[item.product_id] = item.quantity;  // Ensure key is product_id
       });
       setItemQuantities(initialQuantities);
     }
@@ -65,7 +65,7 @@ const MenuCart = () => {
 
   // Handle quantity change
   const handleQty = (type, item) => {
-    const currentQuantity = itemQuantities[item.id] || 0;
+    const currentQuantity = itemQuantities[item.product_id] || 0;
     let updatedQuantity = currentQuantity;
 
     if (type === "plus") {
@@ -73,6 +73,11 @@ const MenuCart = () => {
     } else if (type === "minus") {
       updatedQuantity = Math.max(currentQuantity - 1, 0);
     }
+
+    // Debugging logs
+    console.log(`Handling quantity change for item ID: ${item.product_id}`);
+    console.log(`Current quantity: ${currentQuantity}`);
+    console.log(`Updated quantity: ${updatedQuantity}`);
 
     if (updatedQuantity < 1) {
       if (token) {
@@ -112,10 +117,9 @@ const MenuCart = () => {
     // Update the quantity state for this specific item
     setItemQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [item.id]: updatedQuantity,
+      [item.product_id]: updatedQuantity,
     }));
   };
-
 
   // Find product details by product_id
   const getProductDetails = (productId) => {
@@ -154,8 +158,8 @@ const MenuCart = () => {
 
               discountedPrice != null
                 ? (cartTotalPrice +=
-                    finalDiscountedPrice * itemQuantities[item.id])
-                : (cartTotalPrice += finalProductPrice * itemQuantities[item.id]);
+                  finalDiscountedPrice * itemQuantities[item.product_id])
+                : (cartTotalPrice += finalProductPrice * itemQuantities[item.product_id]);
 
               const itemImageUrls =
                 item.color && colorImageUrls[item.color]
@@ -165,26 +169,26 @@ const MenuCart = () => {
               return (
                 <li className="single-shopping-cart" key={index}>
                   <div className="shopping-cart-img">
-                    <Link to={process.env.PUBLIC_URL + "/product/" + product.id} >
+                    <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
                       <img alt={product.product_name} src={itemImageUrls[0] || "/default-image.jpg"} className="img-fluid" style={{ height: "65px" }} />
                     </Link>
                   </div>
                   <div className="shopping-cart-title">
                     <h4 className="desc-xs fw-semibold">
-                      <Link to={process.env.PUBLIC_URL + "/product/" + product.id} >
+                      <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
                         {product.product_name}
                       </Link>
                     </h4>
 
                     <div className="d-flex align-items-center">
-                      <button onClick={() => handleQty("minus", item)} className="btn btn-sm btn-primary text-dark desc-lg me-2" > {" "} -{" "} </button>
+                      <button onClick={() => handleQty("minus", item)} className="btn btn-sm btn-primary text-dark desc-lg me-2"> - </button>
                       <h6 className="desc-xxs text-theme-red fw-semibold m-0">
-                        {itemQuantities[item.id]}
+                        {itemQuantities[item.product_id]}
                       </h6>
-                      <button onClick={() => handleQty("plus", item)} className="btn btn-sm btn-primary text-dark desc-lg ms-2" disabled={itemQuantities[item.id] >= 4} > {" "} +{" "} </button>
+                      <button onClick={() => handleQty("plus", item)} className="btn btn-sm btn-primary text-dark desc-lg ms-2" disabled={itemQuantities[item.product_id] >= 4}> + </button>
                     </div>
 
-                    <h6 className="desc-xxs"> ₹{" "} {discountedPrice != null ? finalDiscountedPrice : finalProductPrice} </h6>
+                    <h6 className="desc-xxs"> ₹ {discountedPrice != null ? finalDiscountedPrice : finalProductPrice} </h6>
                     {item.color ? (
                       <div className="cart-item-variation lh-sm">
                         <span className="desc-xxs lh-sm">
