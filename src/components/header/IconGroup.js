@@ -7,14 +7,13 @@ import { FaHeart, FaUser } from "react-icons/fa";
 import { IoBagHandle } from "react-icons/io5";
 import { useEffect, useState } from "react";
 
-
 const IconGroup = ({ iconWhiteClass }) => {
   const [allCart, setallCart] = useState([]);
-  const handleClick = e => {
+  const handleClick = (e) => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
 
-  const userToken = localStorage.getItem('authToken');
+  const token = localStorage.getItem('authToken');
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
@@ -22,26 +21,35 @@ const IconGroup = ({ iconWhiteClass }) => {
   };
 
   const triggerMobileMenu = () => {
-    const offcanvasMobileMenu = document.querySelector(
-      "#offcanvas-mobile-menu"
-    );
+    const offcanvasMobileMenu = document.querySelector("#offcanvas-mobile-menu");
     offcanvasMobileMenu.classList.add("active");
   };
+
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
 
   useEffect(() => {
-    if (cartItems.success) {
-      const uniqueCartItems = cartItems?.cartItems?.filter(
-        (item, index, self) =>
-          index === self.findIndex((t) => t.product_id === item.product_id)
-      );
-      setallCart(uniqueCartItems);
+    let cartData = [];
+
+    if (token) {
+      // Token is available, use cartItems from Redux store
+      if (cartItems.success) {
+        cartData = cartItems?.cartItems?.filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t.product_id === item.product_id)
+        );
+      }
+    } else {
+      // Token is not available, use cartItems from sessionStorage
+      const storedCartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+      cartData = storedCartItems;
     }
-  }, [cartItems]);
+
+    setallCart(cartData);
+  }, [cartItems, token]); // Update cart data when cartItems or token changes
 
   return (
-    <div className={clsx("header-right-wrap", iconWhiteClass)} >
+    <div className={clsx("header-right-wrap", iconWhiteClass)}>
       <div className="same-style header-search d-none d-lg-block">
         <button className="search-active header-icon" onClick={e => handleClick(e)}>
           <i className="pe-7s-search" />
@@ -74,7 +82,7 @@ const IconGroup = ({ iconWhiteClass }) => {
                 my account
               </Link>
             </li>
-            {userToken ? (
+            {token ? (
               <li>
                 <Link onClick={handleLogout}>Logout</Link>
               </li>
@@ -123,7 +131,5 @@ const IconGroup = ({ iconWhiteClass }) => {
 IconGroup.propTypes = {
   iconWhiteClass: PropTypes.string,
 };
-
-
 
 export default IconGroup;

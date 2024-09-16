@@ -65,52 +65,57 @@ const MenuCart = () => {
 
   // Handle quantity change
   const handleQty = (type, item) => {
-    setItemQuantities((prevQuantities) => {
-      const newQuantities = { ...prevQuantities };
+    const currentQuantity = itemQuantities[item.id] || 0;
+    let updatedQuantity = currentQuantity;
 
-      if (type === "plus") {
-        newQuantities[item.id] = Math.min(newQuantities[item.id] + 1, 4);
-      } else if (type === "minus") {
-        newQuantities[item.id] = Math.max(newQuantities[item.id] - 1, 0);
-      }
+    if (type === "plus") {
+      updatedQuantity = Math.min(currentQuantity + 1, 4);
+    } else if (type === "minus") {
+      updatedQuantity = Math.max(currentQuantity - 1, 0);
+    }
 
-      if (newQuantities[item.id] < 1) {
-        if (token) {
-          dispatch(removeFromCart({ product_id: item.product_id }));
-        } else {
-          const updatedCart = allCart.filter(
-            (cartItem) => cartItem.product_id !== item.product_id
-          );
-          setAllCart(updatedCart);
-          saveCartToSession(updatedCart);
-        }
-        console.log("Delete");
+    if (updatedQuantity < 1) {
+      if (token) {
+        // Dispatch removeFromCart action if token exists
+        dispatch(removeFromCart({ product_id: item.product_id }));
       } else {
-        console.log("Add");
-        const payload = {
-          product_id: item.product_id,
-          quantity: newQuantities[item.id],
-          color: item.color || "", // Add color if available
-        };
-
-        if (token) {
-          // Update the cart via API if authenticated
-          dispatch(addToCart(payload));
-        } else {
-          // Update the cart in session storage
-          const updatedCart = allCart.map((cartItem) =>
-            cartItem.product_id === item.product_id
-              ? { ...cartItem, quantity: newQuantities[item.id] }
-              : cartItem
-          );
-          setAllCart(updatedCart);
-          saveCartToSession(updatedCart);
-        }
+        // Remove item from session cart if no token
+        const updatedCart = allCart.filter(
+          (cartItem) => cartItem.product_id !== item.product_id
+        );
+        setAllCart(updatedCart);
+        saveCartToSession(updatedCart);
       }
+    } else {
+      // Update quantity in cart
+      const payload = {
+        product_id: item.product_id,
+        quantity: updatedQuantity,
+        color: item.color || "", // Add color if available
+      };
 
-      return newQuantities;
-    });
+      if (token) {
+        // Update the cart via API if authenticated
+        dispatch(addToCart(payload));
+      } else {
+        // Update the cart in session storage
+        const updatedCart = allCart.map((cartItem) =>
+          cartItem.product_id === item.product_id
+            ? { ...cartItem, quantity: updatedQuantity }
+            : cartItem
+        );
+        setAllCart(updatedCart);
+        saveCartToSession(updatedCart);
+      }
+    }
+
+    // Update the quantity state for this specific item
+    setItemQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [item.id]: updatedQuantity,
+    }));
   };
+
 
   // Find product details by product_id
   const getProductDetails = (productId) => {
@@ -160,53 +165,26 @@ const MenuCart = () => {
               return (
                 <li className="single-shopping-cart" key={index}>
                   <div className="shopping-cart-img">
-                    <Link
-                      to={process.env.PUBLIC_URL + "/product/" + product.id}
-                    >
-                      <img
-                        alt={product.product_name}
-                        src={itemImageUrls[0] || "/default-image.jpg"}
-                        className="img-fluid"
-                        style={{ height: "65px" }}
-                      />
+                    <Link to={process.env.PUBLIC_URL + "/product/" + product.id} >
+                      <img alt={product.product_name} src={itemImageUrls[0] || "/default-image.jpg"} className="img-fluid" style={{ height: "65px" }} />
                     </Link>
                   </div>
                   <div className="shopping-cart-title">
                     <h4 className="desc-xs fw-semibold">
-                      <Link
-                        to={process.env.PUBLIC_URL + "/product/" + product.id}
-                      >
+                      <Link to={process.env.PUBLIC_URL + "/product/" + product.id} >
                         {product.product_name}
                       </Link>
                     </h4>
 
                     <div className="d-flex align-items-center">
-                      <button
-                        onClick={() => handleQty("minus", item)}
-                        className="btn btn-sm btn-primary text-dark desc-lg me-2"
-                      >
-                        {" "}
-                        -{" "}
-                      </button>
+                      <button onClick={() => handleQty("minus", item)} className="btn btn-sm btn-primary text-dark desc-lg me-2" > {" "} -{" "} </button>
                       <h6 className="desc-xxs text-theme-red fw-semibold m-0">
                         {itemQuantities[item.id]}
                       </h6>
-                      <button
-                        onClick={() => handleQty("plus", item)}
-                        className="btn btn-sm btn-primary text-dark desc-lg ms-2"
-                        disabled={itemQuantities[item.id] >= 4}
-                      >
-                        {" "}
-                        +{" "}
-                      </button>
+                      <button onClick={() => handleQty("plus", item)} className="btn btn-sm btn-primary text-dark desc-lg ms-2" disabled={itemQuantities[item.id] >= 4} > {" "} +{" "} </button>
                     </div>
 
-                    <h6 className="desc-xxs">
-                      ₹{" "}
-                      {discountedPrice != null
-                        ? finalDiscountedPrice
-                        : finalProductPrice}
-                    </h6>
+                    <h6 className="desc-xxs"> ₹{" "} {discountedPrice != null ? finalDiscountedPrice : finalProductPrice} </h6>
                     {item.color ? (
                       <div className="cart-item-variation lh-sm">
                         <span className="desc-xxs lh-sm">

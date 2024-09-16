@@ -16,12 +16,14 @@ import { fetchCategories } from "./store/slices/category-slice";
 import { fetchSubcategories } from "./store/slices/sub-category-slice";
 import { fetchOffers } from "./store/slices/coupons-slice";
 import { getCart } from "./store/slices/cart-slice";
+import { fetchTaxData } from "./store/slices/tax-slice";
 
 // Fetch products from API when the app loads
 store.dispatch(fetchProducts());
 store.dispatch(fetchCategories());
 store.dispatch(fetchSubcategories());
 store.dispatch(fetchOffers());
+store.dispatch(fetchTaxData());
 store.dispatch(getCart());
 
 
