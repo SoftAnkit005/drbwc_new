@@ -4,10 +4,11 @@ import { useSelector } from "react-redux";
 import ProductGridListSingle from "../../components/product/ProductGridListSingle";
 
 const ProductGridList = ({ products, spaceBottomClass }) => {
-  const { cartItems } = useSelector((state) => state.cart);
-  const { wishlistItems } = useSelector((state) => state.wishlist);
-  const { compareItems } = useSelector((state) => state.compare);
-  
+  // Access cartItems inside the cartItems object
+  const cartItems = useSelector((state) => state.cart.cartItems?.cartItems || []);
+  const wishlistItems = useSelector((state) => state.wishlist.wishlistItems || []);
+  const compareItems = useSelector((state) => state.compare.compareItems || []);
+
   return (
     <Fragment>
       {products?.map(product => {
@@ -16,19 +17,9 @@ const ProductGridList = ({ products, spaceBottomClass }) => {
             <ProductGridListSingle
               spaceBottomClass={spaceBottomClass}
               product={product}
-              cartItem={
-                cartItems.find(cartItem => cartItem.id === product.id)
-              }
-              wishlistItem={
-                wishlistItems.find(
-                  wishlistItem => wishlistItem.id === product.id
-                )
-              }
-              compareItem={
-                compareItems.find(
-                  compareItem => compareItem.id === product.id
-                )
-              }
+              cartItem={cartItems.find(cartItem => cartItem.product_id === product.id)}
+              wishlistItem={wishlistItems.find(wishlistItem => wishlistItem.product_id === product.id)}
+              compareItem={compareItems.find(compareItem => compareItem.product_id === product.id)}
             />
           </div>
         );
@@ -38,7 +29,7 @@ const ProductGridList = ({ products, spaceBottomClass }) => {
 };
 
 ProductGridList.propTypes = {
-  products: PropTypes.array,
+  products: PropTypes.array.isRequired,
   spaceBottomClass: PropTypes.string,
 };
 

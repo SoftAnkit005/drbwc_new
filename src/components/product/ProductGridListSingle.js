@@ -1,19 +1,90 @@
 import PropTypes from "prop-types";
-import { Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
+import { Fragment, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { getDiscountPrice } from "../../helpers/product";
-import Rating from "./sub-components/ProductRating";
 import ProductModal from "./ProductModal";
-import { addToCart } from "../../store/slices/cart-slice";
 import { addToWishlist } from "../../store/slices/wishlist-slice";
-// import { addToCompare } from "../../store/slices/compare-slice";
+import { addToCart } from "../../store/slices/cart-slice";
+import cogoToast from "cogo-toast";
 
-const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, spaceBottomClass, }) => {
-  const [modalShow, setModalShow] = useState(false);
-  const discountedPrice = getDiscountPrice(product.price, product.discount);
+const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, spaceBottomClass }) => {
   const dispatch = useDispatch();
+  const [modalShow, setModalShow] = useState(false);
+  const [cartState, setCartState] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
+  
+  const discountedPrice = getDiscountPrice(product.price, product.discount);
+  const cartStatus = useSelector((state) => state.cart.status);
+  
+  const token = localStorage.getItem('authToken');
+
+  // Initialize cartState based on sessionStorage
+  useEffect(() => {
+    if (!token) {
+      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      const isProductInCart = cart.some(item => item.product_id === product.id);
+      setIsInCart(isProductInCart);
+    }
+  }, [product.id, token]);
+
+  const handleAddToCart = () => {
+    setCartState(true);
+
+    const payload = {
+      product_id: product.id,
+      quantity: 1,
+      color: 'Default',
+    };
+
+    if (token) {
+      // Use the API if the user is authenticated
+      dispatch(addToCart(payload));
+
+      if (cartStatus === 'succeeded') {
+        cogoToast.success(
+          <div>
+            <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
+          </div>,
+          {
+            position: 'top-right',
+            hideAfter: 5,
+          }
+        );
+      }
+    } else {
+      // Use sessionStorage if the user is not authenticated
+      let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+      const existingItemIndex = cart.findIndex(
+        (item) => item.product_id === payload.product_id && item.color === payload.color
+      );
+
+      if (existingItemIndex > -1) {
+        // Update quantity if the item already exists in the cart
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        // Add new item to the cart
+        cart.push(payload);
+      }
+
+      sessionStorage.setItem('cart', JSON.stringify(cart));
+
+      cogoToast.success(
+        <div>
+          <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart (Session).</span></div>
+        </div>,
+        {
+          position: 'top-right',
+          hideAfter: 5,
+        }
+      );
+
+      // Update local state
+      setIsInCart(true);
+    }
+  };
 
   return (
     <Fragment>
@@ -27,7 +98,7 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
             )}
             {product.image_urls && product.image_urls.length > 1 && (
               <img className="hover-img" src={process.env.PUBLIC_URL + JSON.parse(product.image_urls)[1]} alt="" />
-            )}            
+            )}
           </Link>
           {product.discount || product.new ? (
             <div className="product-img-badges">
@@ -44,22 +115,16 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
 
           <div className="product-action">
             <div className="pro-same-action pro-cart">
-              {product.affiliateLink ? (
-                <a href={product.affiliateLink} rel="noopener noreferrer" target="_blank" >
-                  {" "}
-                  Buy now{" "}
-                </a>
-              ) : product.variation && product.variation.length >= 1 ? (
-                <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`}>
-                  Select Option
-                </Link>
-              ) : product.qty && product.qty > 0 ? (
-                <button onClick={() => dispatch(addToCart(product))} className={ cartItem !== undefined && cartItem.quantity > 0 ? "active" : "" } disabled={cartItem !== undefined && cartItem.quantity > 0} title={ cartItem !== undefined ? "Added to cart" : "Add to cart" } >
+              {product.qty && product.qty > 0 ? (
+                <button
+                  onClick={handleAddToCart}
+                  className={isInCart ? "active" : ""}
+                  disabled={cartState || isInCart}
+                  title={isInCart ? "Added to cart" : "Add to cart"}
+                >
                   {" "}
                   <i className="pe-7s-cart"></i>{" "}
-                  {cartItem !== undefined && cartItem.quantity > 0
-                    ? "Added"
-                    : "Add to cart"}
+                  {cartState || isInCart ? "Added" : "Add to cart"}
                 </button>
               ) : (
                 <button disabled className="active">
@@ -68,7 +133,12 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
               )}
             </div>
             <div className="pro-same-action pro-wishlist">
-              <button className={wishlistItem !== undefined ? "active" : ""} disabled={wishlistItem !== undefined} title={ wishlistItem !== undefined ? "Added to wishlist" : "Add to wishlist" } onClick={() => dispatch(addToWishlist(product))} >
+              <button
+                className={wishlistItem !== undefined ? "active" : ""}
+                disabled={wishlistItem !== undefined}
+                title={wishlistItem !== undefined ? "Added to wishlist" : "Add to wishlist"}
+                onClick={() => dispatch(addToWishlist(product))}
+              >
                 <i className="pe-7s-like" />
               </button>
             </div>
@@ -89,7 +159,9 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
           <h3 className="product-price fw-semibold pb-2"> ₹ {product.price} </h3>
         </div>
       </div>
+
       {/* Shop list content (omitted for brevity) */}
+
       <ProductModal
         show={modalShow}
         onHide={() => setModalShow(false)}

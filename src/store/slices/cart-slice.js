@@ -1,103 +1,128 @@
-import { v4 as uuidv4 } from 'uuid';
-import cogoToast from 'cogo-toast';
-const { createSlice } = require('@reduxjs/toolkit');
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const cartSlice = createSlice({
-    name: "cart",
-    initialState: {
-        cartItems: []
-    },
-    // reducers: {
-    //     addToCart(state, action) {
-    //         const product = action.payload;
-    //         if(!product.variation){
-    //             const cartItem = state.cartItems.find(item => item.id === product.id);
-    //             if(!cartItem){
-    //                 state.cartItems.push({
-    //                     ...product,
-    //                     quantity: product.quantity ? product.quantity : 1,
-    //                     cartItemId: uuidv4()
-    //                 });
-    //             } else {
-    //                 state.cartItems = state.cartItems.map(item => {
-    //                     if(item.cartItemId === cartItem.cartItemId){
-    //                         return {
-    //                             ...item,
-    //                             quantity: product.quantity ? item.quantity + product.quantity : item.quantity + 1
-    //                         }
-    //                     }
-    //                     return item;
-    //                 })
-    //             }
+// Get token and API URL
+// const token = localStorage.getItem("authToken");
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyNjQ2MzcwNSwiZXhwIjoxNzI2NTUwMTA1fQ.kYLE00qhisWXyuCRUzk0KsOU_FpTgKZPFbrNi7RnEfw'
+const apiUrl = process.env.REACT_APP_API_URL;
 
-    //         } else {
-    //             const cartItem = state.cartItems.find(
-    //                 item =>
-    //                     item.id === product.id &&
-    //                     product.selectedProductColor &&
-    //                     product.selectedProductColor === item.selectedProductColor &&
-    //                     product.selectedProductSize &&
-    //                     product.selectedProductSize === item.selectedProductSize &&
-    //                     (product.cartItemId ? product.cartItemId === item.cartItemId : true)
-    //             );
-    //             if(!cartItem){
-    //                 state.cartItems.push({
-    //                     ...product,
-    //                     quantity: product.quantity ? product.quantity : 1,
-    //                     cartItemId: uuidv4()
-    //                 });
-    //             } else if (cartItem !== undefined && (cartItem.selectedProductColor !== product.selectedProductColor || cartItem.selectedProductSize !== product.selectedProductSize)) {
-    //                 state.cartItems = [
-    //                     ...state.cartItems,
-    //                     {
-    //                         ...product,
-    //                         quantity: product.quantity ? product.quantity : 1,
-    //                         cartItemId: uuidv4()
-    //                     }
-    //                 ]
-    //             } else {
-    //                 state.cartItems = state.cartItems.map(item => {
-    //                     if(item.cartItemId === cartItem.cartItemId){
-    //                         return {
-    //                             ...item,
-    //                             quantity: product.quantity ? item.quantity + product.quantity : item.quantity + 1,
-    //                             selectedProductColor: product.selectedProductColor,
-    //                             selectedProductSize: product.selectedProductSize
-    //                         }
-    //                     }
-    //                     return item;
-    //                 });
-    //             }
-    //         }
-
-    //         cogoToast.success("Added To Cart", {position: "bottom-left"});
-    //     },
-
-    //     deleteFromCart(state, action) {
-    //         state.cartItems = state.cartItems.filter(item => item.cartItemId !== action.payload);
-    //         cogoToast.error("Removed From Cart", {position: "bottom-left"});
-    //     },
-
-    //     decreaseQuantity(state, action){
-    //         const product = action.payload;
-    //         if (product.quantity === 1) {
-    //             state.cartItems = state.cartItems.filter(item => item.cartItemId !== product.cartItemId);
-    //             cogoToast.error("Removed From Cart", {position: "bottom-left"});
-    //         } else {
-    //             state.cartItems = state.cartItems.map(item =>
-    //                 item.cartItemId === product.cartItemId
-    //                     ? { ...item, quantity: item.quantity - 1 }
-    //                     : item
-    //             );
-    //             cogoToast.warn("Item Decremented From Cart", {position: "bottom-left"});
-    //         }
-    //     },
-        
-    //     deleteAllFromCart(state){
-    //         state.cartItems = []
-    //     }
-    // },
+// Get cart items
+export const getCart = createAsyncThunk('cart/getCart', async () => {
+  const response = await fetch(`${apiUrl}/api/cart/get`, {
+    headers: { "Authorization": `Bearer ${token}`, },
+  });
+  const result = await response.json();
+  return result;
 });
 
-export const { addToCart, deleteFromCart, decreaseQuantity, deleteAllFromCart } = cartSlice.actions;
-export default cartSlice.reducer;
+
+// createAsyncThunk for adding a product to the cart
+export const addToCart = createAsyncThunk(
+  'cart/addToCart',
+  async ({ product_id, quantity, color }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${apiUrl}/api/cart/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`, },
+        body: JSON.stringify({ product_id, quantity, color }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add product to cart');
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// createAsyncThunk for removing a product from the cart
+export const removeFromCart = createAsyncThunk(
+  'cart/removeFromCart',
+  async ({ product_id }, { rejectWithValue }) => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", token);
+
+      const requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      const response = await fetch(`${apiUrl}/api/cart/remove/${product_id}`, requestOptions);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to remove product from cart: ${errorText}`);
+      }
+
+      const result = await response.json();
+      return { product_id };
+
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+
+// Cart slice with extraReducers handling addToCart
+const cartSlice = createSlice({
+  name: 'cart',
+  initialState: {
+    cartItems: [],
+    status: 'idle',
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // getCart
+      .addCase(getCart.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getCart.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.cartItems = action.payload;
+      })
+      .addCase(getCart.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+
+      // addToCart
+      .addCase(addToCart.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.cartItems.push(action.payload);
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+
+      // removeFromCart
+      .addCase(removeFromCart.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.cartItems = state.cartItems.filter(
+          (item) => item.id !== action.payload.id
+        );
+      })
+      .addCase(removeFromCart.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      });
+
+    },
+  });
+  
+  export default cartSlice.reducer;

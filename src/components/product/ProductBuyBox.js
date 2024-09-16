@@ -1,35 +1,90 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import PropTypes from "prop-types";
-import { IoMdLock } from 'react-icons/io'
-import { LuMapPin } from 'react-icons/lu'
+import { IoMdLock } from 'react-icons/io';
+import { LuMapPin } from 'react-icons/lu';
 import { Link, useNavigate } from 'react-router-dom';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../store/slices/cart-slice';
+import cogoToast from 'cogo-toast';
 
-const ProductBuyBox = ({product}) => {
-    const navigate = useNavigate();
-    const currentDate = new Date();
-    const monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+const ProductBuyBox = ({ product }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const currentDate = new Date();
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const cartStatus = useSelector((state) => state.cart.status);
+  const [showTooltip, setShowTooltip] = useState(false);
 
-    const [showTooltip, setShowTooltip] = useState(false);
+  const colorImages = JSON.parse(product.color_image_urls);
+  const colorNames = Object.keys(colorImages);
 
-    const colorImages = JSON.parse(product.color_image_urls);
-    const colorNames = Object.keys(colorImages);
-    
-    const [selectedColor, setSelectedColor] = useState("");
+  const [selectedColor, setSelectedColor] = useState('Default');
+  const [selectedQty, setselectedQty] = useState('1');
 
-    const handleColorChange = (color) => {
-        navigate(`?color=${color}`);
+  const token = localStorage.getItem('authToken');
+
+  const handleColorChange = (color) => {
+    navigate(`?color=${color}`);
+  };
+
+  const renderTooltip = (props) => (
+    <Tooltip id="secure-transaction-tooltip" {...props}>
+      <p className='text-white mb-2'>Your transaction is secure</p>
+      <p className='text-white desc-xxs lh-base mb-2'>We work hard to protect your security and privacy. Our payment security system encrypts your information during transmission. We don’t share your credit card details with third-party sellers, and we don’t sell your information to others.</p>
+    </Tooltip>
+  );
+  
+  const handleSTClick = () => {
+    setShowTooltip(!showTooltip);
+  };
+
+  const handleAddToCart = () => {
+    const payload = {
+      product_id: product.id,
+      quantity: selectedQty,
+      color: selectedColor,
     };
 
-    const renderTooltip = (props) => (
-        <Tooltip id="secure-transaction-tooltip" {...props}>
-            <p className='text-white mb-2'>Your transaction is secure</p>
-            <p className='text-white desc-xxs lh-base mb-2'>We work hard to protect your security and privacy. Our payment security system encrypts your information during transmission. We don’t share your credit card details with third-party sellers, and we don’t sell your information to others.</p>
-        </Tooltip>
-    );
-    const handleSTClick = () => {
-        setShowTooltip(!showTooltip);
-    };
+    if (token) {
+      // Use the API if the user is authenticated
+      dispatch(addToCart(payload));
+      
+      if (cartStatus === 'succeeded') {
+        cogoToast.success(
+          <div>
+            <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
+          </div>,
+          { position: 'top-right', hideAfter: 5 }
+        );
+      }
+    } else {
+      // Use sessionStorage if the user is not authenticated
+      let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      
+      const existingItemIndex = cart.findIndex(
+        (item) => item.product_id === payload.product_id && item.color === payload.color
+      );
+
+      if (existingItemIndex > -1) {
+        // Update quantity if item already exists in the cart
+        cart[existingItemIndex].quantity = parseInt(cart[existingItemIndex].quantity) + parseInt(payload.quantity);
+      } else {
+        // Add new item to the cart
+        cart.push(payload);
+      }
+      
+      sessionStorage.setItem('cart', JSON.stringify(cart));
+
+      cogoToast.success(
+        <div>
+          <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart (Session).</span></div>
+        </div>,
+        { position: 'top-right', hideAfter: 5 }
+      );
+    }
+  };
+
 
   return (
     <>
@@ -54,7 +109,7 @@ const ProductBuyBox = ({product}) => {
 
             <div className="d-flex align-items-center mb-2">
                 <label htmlFor="quantity" className="desc-xxs mb-1">Quantity:</label>
-                <select name="quantity" id="quantity" className="form-select form-select-sm  w-25 ms-2 border-muted shadow-none">
+                <select name="quantity" id="quantity" className="form-select form-select-sm  w-25 ms-2 border-muted shadow-none" onChange={(e) => setselectedQty(e.target.value)}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -65,16 +120,25 @@ const ProductBuyBox = ({product}) => {
             <div className="pro-details-size mb-3">
                 <span>Colors</span>
                 <div className="pro-details-size-content">
-                    {colorNames.map((color, key) => (
-                        <label className="pro-details-size-content--single" key={key}>
-                            <input type="radio" value={color} checked={color === selectedColor ? "checked" : ""} onChange={() => { setSelectedColor(color); handleColorChange(color) }} />
-                            <span className="size-name">{color}</span>
-                        </label>
-                    ))}
+                <div className="pro-details-size-content">
+                {/* Default option */}
+                <label className="pro-details-size-content--single">
+                    <input type="radio" value="Default" checked={selectedColor === 'Default'} onChange={() => { setSelectedColor('Default'); handleColorChange('Default'); }} />
+                    <span className="size-name">Default</span>
+                </label>
+
+                {/* Dynamically generated color options */}
+                {colorNames.map((color, key) => (
+                    <label className="pro-details-size-content--single" key={key}>
+                    <input type="radio" value={color} checked={selectedColor === color} onChange={() => { setSelectedColor(color); handleColorChange(color); }} />
+                    <span className="size-name">{color}</span>
+                    </label>
+                ))}
+                </div>
                 </div>
             </div>
 
-            <button className={`btn ${product.qty <= 0 ? 'btn-secondary cursor-disabled': 'btn-primary'} border w-100 mb-2 desc-sm py-2`} disabled={product.qty <= 0} > ADD TO CART </button>
+            <button onClick={handleAddToCart} className={`btn ${product.qty <= 0 ? 'btn-secondary cursor-disabled': 'btn-primary'} border w-100 mb-2 desc-sm py-2`} disabled={product.qty <= 0 || cartStatus === 'loading'} > ADD TO CART </button>
             <button className={`btn btn-secondary ${product.qty <= 0 ? 'cursor-disabled': ''} border w-100 mb-2 desc-sm py-2`} disabled={product.qty <= 0}>BUY NOW</button>
             <Link to={product.flipkart_link} target="_blank" className="btn btn-dark border w-100 mb-2 desc-sm">Buy now @ <img src="/assets/img/product/drbwc_images/flipkart_logo.png" alt={product.product_name} height={28}/></Link>
             <Link to={product.amazon_link} target="_blank" className="btn btn-dark border w-100 mb-2 desc-sm py-2">Buy now @ <img src="/assets/img/product/drbwc_images/amazon_logo.png" alt={product.product_name} height={18}/></Link>

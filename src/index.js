@@ -15,12 +15,15 @@ import "./i18n";
 import { fetchCategories } from "./store/slices/category-slice";
 import { fetchSubcategories } from "./store/slices/sub-category-slice";
 import { fetchOffers } from "./store/slices/coupons-slice";
+import { getCart } from "./store/slices/cart-slice";
 
 // Fetch products from API when the app loads
 store.dispatch(fetchProducts());
 store.dispatch(fetchCategories());
 store.dispatch(fetchSubcategories());
 store.dispatch(fetchOffers());
+store.dispatch(getCart());
+
 
 const container = document.getElementById('root');
 const root = createRoot(container);

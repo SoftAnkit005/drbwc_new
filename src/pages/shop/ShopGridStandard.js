@@ -12,7 +12,7 @@ import ShopProducts from '../../wrappers/product/ShopProducts';
 
 const ShopGridStandard = () => {
     const [layout, setLayout] = useState('grid three-column');
-    const [sortType, setSortType] = useState('');
+    const [sortType, setSortType] = useState('all');
     const [sortValue, setSortValue] = useState('');
     const [filterSortType, setFilterSortType] = useState('');
     const [filterSortValue, setFilterSortValue] = useState('');
@@ -41,10 +41,9 @@ const ShopGridStandard = () => {
     }
 
     const getSortParams = (sortType, sortValue) => {
-        console.log('sortType, sortValue', sortType, sortValue);
         setSortType(sortType);
         setSortValue(sortValue);
-    }
+    };
 
     const getFilterSortParams = (sortType, sortValue) => {
         setFilterSortType(sortType);
@@ -52,16 +51,18 @@ const ShopGridStandard = () => {
     }
 
     useEffect(() => {
-        // let sortedProducts = getSortedProducts(products.products, sortType, sortValue);
-        let sortedProducts = products.products?.filter(product => product.category_id === Number(categoryId));
-        const filterSortedProducts = getSortedProducts(sortedProducts, filterSortType, filterSortValue);
-        sortedProducts = filterSortedProducts;
-        setSortedProducts(sortedProducts);
-        setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
-    }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, categoryId]);
-
-    console.log('products.products', products.products);
-    console.log('sortedProducts', sortedProducts);
+        if(sortType !== 'all') {
+            let categorizedData = sortedProducts.filter(product => product.subcategory_id === sortValue);
+            setCurrentData(categorizedData.slice(offset, offset + pageLimit));
+        } else {
+            // let sortedProducts = getSortedProducts(products.products, sortType, sortValue);
+            let sortedProducts = products.products?.filter(product => product.category_id === Number(categoryId));
+            const filterSortedProducts = getSortedProducts(sortedProducts, filterSortType, filterSortValue);
+            sortedProducts = filterSortedProducts;
+            setSortedProducts(sortedProducts);
+            setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
+        }
+    }, [offset, products, filterSortType, filterSortValue, categoryId, sortType]);
 
     return (
         <Fragment>

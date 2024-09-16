@@ -5,9 +5,11 @@ import clsx from "clsx";
 import MenuCart from "./sub-components/MenuCart";
 import { FaHeart, FaUser } from "react-icons/fa";
 import { IoBagHandle } from "react-icons/io5";
+import { useEffect, useState } from "react";
 
 
 const IconGroup = ({ iconWhiteClass }) => {
+  const [allCart, setallCart] = useState([]);
   const handleClick = e => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
@@ -27,6 +29,16 @@ const IconGroup = ({ iconWhiteClass }) => {
   };
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    if (cartItems.success) {
+      const uniqueCartItems = cartItems?.cartItems?.filter(
+        (item, index, self) =>
+          index === self.findIndex((t) => t.product_id === item.product_id)
+      );
+      setallCart(uniqueCartItems);
+    }
+  }, [cartItems]);
 
   return (
     <div className={clsx("header-right-wrap", iconWhiteClass)} >
@@ -82,7 +94,7 @@ const IconGroup = ({ iconWhiteClass }) => {
         <button className="icon-cart header-icon" onClick={e => handleClick(e)}>
           <IoBagHandle />
           <span className="count-style">
-            {cartItems && cartItems.length ? cartItems.length : 0}
+            {allCart && allCart.length ? allCart.length : 0}
           </span>
         </button>
         {/* menu cart */}
@@ -92,7 +104,7 @@ const IconGroup = ({ iconWhiteClass }) => {
         <Link className="icon-cart" to={process.env.PUBLIC_URL + "/cart"}>
           <i className="pe-7s-shopbag" />
           <span className="count-style">
-            {cartItems && cartItems.length ? cartItems.length : 0}
+            {allCart && allCart.length ? allCart.length : 0}
           </span>
         </Link>
       </div>

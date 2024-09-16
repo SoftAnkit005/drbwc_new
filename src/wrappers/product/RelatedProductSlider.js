@@ -47,7 +47,8 @@ const RelatedProductSlider = ({ spaceBottomClass, spaceTopClass , category, prod
                     <ProductGridSingle
                       product={product}
                       cartItem={
-                        cartItems.find((cartItem) => cartItem.id === product.id)
+                        Array.isArray(cartItems?.cartItems) &&
+                        cartItems.cartItems.find((cartItem) => cartItem.id === product.id)
                       }
                       wishlistItem={
                         wishlistItems.find(
@@ -60,6 +61,7 @@ const RelatedProductSlider = ({ spaceBottomClass, spaceTopClass , category, prod
                         )
                       }
                     />
+
                   </SwiperSlide>
                 ))}
             </Swiper>

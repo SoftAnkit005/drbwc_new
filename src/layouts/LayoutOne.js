@@ -21,7 +21,7 @@ const LayoutOne = ({
       />
       {children}
       <FooterOne
-        spaceTopClass="pt-100"
+        spaceTopClass="pt-70"
         spaceBottomClass="pb-70"
       />
       <ScrollToTop/>

@@ -37,7 +37,14 @@ export const getDiscountPrice = (price, discount) => {
 };
 
 // get product cart quantity
-export const getProductCartQuantity = (cartItems, product, color, size) => {
+export const getProductCartQuantity = (cartItemsObject, product, color, size) => {
+  if (!cartItemsObject || !Array.isArray(cartItemsObject.cartItems)) {
+    console.error('Expected cartItemsObject to have a cartItems property that is an array, but got:', cartItemsObject);
+    return 0;
+  }
+
+  const cartItems = cartItemsObject.cartItems;
+
   let productInCart = cartItems.find(
     single =>
       single.id === product.id &&
@@ -46,6 +53,7 @@ export const getProductCartQuantity = (cartItems, product, color, size) => {
         : true) &&
       (single.selectedProductSize ? single.selectedProductSize === size : true)
   );
+
   if (cartItems.length >= 1 && productInCart) {
     if (product.variation) {
       return cartItems.find(
@@ -62,14 +70,19 @@ export const getProductCartQuantity = (cartItems, product, color, size) => {
   }
 };
 
-export const cartItemStock = (item, color, size) => {
-  if (item.stock) {
-    return item.stock;
-  } else {
-    return item.variation
-      .filter(single => single.color === color)[0]
-      .size.filter(single => single.name === size)[0].stock;
+
+export const cartItemStock = (cartItem, color) => {
+  if (!cartItem || !cartItem.Product || !cartItem.Product.variants) {
+    return 0;
   }
+
+  // Filter the variants array to find the stock for the given color
+  const variant = cartItem.Product.variants.find(
+    (v) => v.color === color
+  );
+
+  // If the variant exists, return its stock, otherwise return 0
+  return variant ? variant.stock : 0;
 };
 
 //get products based on category
