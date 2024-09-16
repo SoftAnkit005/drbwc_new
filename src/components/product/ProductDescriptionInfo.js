@@ -22,7 +22,6 @@ const ProductDescriptionInfo = ({ product, }) => {
     (offer.offer_type === 'code') || 
     (offer.offer_type === 'product' && JSON.parse(offer.product_id).includes(Number(id)))
   );
-  
 
   return (
     <div className="product-details-content ml-70">

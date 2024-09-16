@@ -1,14 +1,52 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setActiveSort } from "../../helpers/product";
 
 const ShopCategories = ({ subcategories, getSortParams }) => {
-  const [activeSubcategory, setActiveSubcategory] = useState(""); // Default to "all"
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [activeSubcategory, setActiveSubcategory] = useState(""); // Default to "All Subcategories"
+
+  // Extract subcat from the URL query params
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const subcat = searchParams.get("subcat");
+
+    if (subcat) {
+      setActiveSubcategory(subcat);
+    } else {
+      setActiveSubcategory(""); // Default to "All Subcategories"
+    }
+  }, [location.search]);
+
+  // Set active sort and call getSortParams based on active subcategory
+  useEffect(() => {
+    if (activeSubcategory !== "") {
+      const selectedSubcategory = subcategories.find(
+        (item) => item.id.toString() === activeSubcategory
+      );
+
+      if (selectedSubcategory) {
+        getSortParams(selectedSubcategory.name, selectedSubcategory.id);
+      } else {
+        getSortParams("all", ""); // For "All Subcategories"
+      }
+    } else {
+      getSortParams("all", ""); // Handle the case for "All Subcategories"
+    }
+
+    setActiveSort(activeSubcategory);
+  }, [activeSubcategory, subcategories, getSortParams]);
 
   const handleCategoryClick = (name, id, e) => {
-    setActiveSubcategory(id);
-    getSortParams(name, id);
-    setActiveSort(e);
+    // Update the URL with the selected subcategory
+    navigate({
+      search: new URLSearchParams({
+        ...Object.fromEntries(new URLSearchParams(location.search)),
+        subcat: id
+      }).toString()
+    });
   };
 
   return (
@@ -17,7 +55,6 @@ const ShopCategories = ({ subcategories, getSortParams }) => {
       <div className="sidebar-widget-list mt-30">
         {subcategories ? (
           <ul>
-            {/* "All Subcategories" button */}
             <li>
               <div className="sidebar-widget-list-left">
                 <button
@@ -30,20 +67,18 @@ const ShopCategories = ({ subcategories, getSortParams }) => {
             </li>
 
             {/* Subcategories list */}
-            {subcategories.map((item, key) => {
-              return (
-                <li key={key}>
-                  <div className="sidebar-widget-list-left">
-                    <button
-                      className={activeSubcategory === item.id ? "active" : ""}
-                      onClick={(e) => handleCategoryClick(item.name, item.id, e)}
-                    >
-                      <span className="checkmark" /> {item.name}
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
+            {subcategories.map((item, key) => (
+              <li key={key}>
+                <div className="sidebar-widget-list-left">
+                  <button
+                    className={activeSubcategory === item.id.toString() ? "active" : ""}
+                    onClick={(e) => handleCategoryClick(item.name, item.id, e)}
+                  >
+                    <span className="checkmark" /> {item.name}
+                  </button>
+                </div>
+              </li>
+            ))}
           </ul>
         ) : (
           "No categories found"
@@ -55,7 +90,7 @@ const ShopCategories = ({ subcategories, getSortParams }) => {
 
 ShopCategories.propTypes = {
   subcategories: PropTypes.array,
-  getSortParams: PropTypes.func
+  getSortParams: PropTypes.func,
 };
 
 export default ShopCategories;

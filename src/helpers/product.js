@@ -229,15 +229,23 @@ export const getIndividualSizes = product => {
   return individualSizes;
 };
 
-export const setActiveSort = e => {
-  const filterButtons = document.querySelectorAll(
-    ".sidebar-widget-list-left button, .sidebar-widget-tag button, .product-filter button"
-  );
-  filterButtons.forEach(item => {
-    item.classList.remove("active");
+export const setActiveSort = (e) => {
+  if (!e || !e.target) return;  // Ensure e and e.target are defined
+
+  const buttons = document.querySelectorAll(".sidebar-widget button");
+
+  buttons.forEach((button) => {
+    if (button.classList.contains("active")) {
+      button.classList.remove("active");
+    }
   });
-  e.currentTarget.classList.add("active");
+
+  // Ensure e.target is valid before using classList
+  if (e.target && e.target.classList) {
+    e.target.classList.add("active");
+  }
 };
+
 
 export const setActiveLayout = e => {
   const gridSwitchBtn = document.querySelectorAll(".shop-tab button");

@@ -55,7 +55,7 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
                 {filteredSubcategories(category.id).length > 0 && (
                   <ul className="submenu">
                     {filteredSubcategories(category.id).map((subcategory) => {
-                      const subcategoryPath = categoryPath + `/${subcategory.id}`;
+                      const subcategoryPath = `${categoryPath}?id=${category.id}&subcat=${subcategory.id}`;
                       return (
                         <li key={subcategory.id} className={clsx(isActive(subcategoryPath) ? "active" : "")}>
                           <Link to={subcategoryPath}>

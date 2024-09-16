@@ -68,6 +68,7 @@ const App = () => {
               {/* Shop page */}
               <Route path={process.env.PUBLIC_URL + "/:category"} element={<ShopGridStandard/>} />
               <Route path={process.env.PUBLIC_URL + "/:category/:id"} element={<ShopGridStandard/>} />
+              <Route path={process.env.PUBLIC_URL + "/:category/:id/:subcat"} element={<ShopGridStandard/>} />
 
               {/* Shop product pages */}
               <Route path={process.env.PUBLIC_URL + "/product/:id"} element={<Product />} />
