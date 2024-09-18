@@ -7,7 +7,7 @@ import ShippingPolicies from "./pages/other/ShippingPolicies";
 import PrivacyPolicies from "./pages/other/PrivacyPolicies";
 import RefundPolicies from "./pages/other/RefundPolicies";
 import MasterV4ThermalBed from "./pages/other/MasterV4ThermalBed";
-import { useInitialDispatches } from "./useInitialDispatches";
+import { useInitialDispatches } from './hooks/useInitialDispatches';
 
 // home page
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
