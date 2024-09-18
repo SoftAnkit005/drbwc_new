@@ -20,6 +20,8 @@ const Cart = () => {
   const [discountDetails, setDiscountDetails] = useState(null);
   const [taxes, setTaxes] = useState([]);
 
+  const token = localStorage.getItem("authToken");
+
   useEffect(() => {
     if (taxdata?.success) {
       setTaxes(taxdata.taxes);
@@ -37,15 +39,12 @@ const Cart = () => {
   }, [products]);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-
     if (token) {
-      setLocalCartItems(cartItems);
+      setLocalCartItems(cartItems.cartItems);
     } else {
       const storedCartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
       setLocalCartItems(storedCartItems);
     }
-
     const initialQuantities = localCartItems.reduce((acc, item) => {
       acc[item.product_id] = item.quantity;
       return acc;
@@ -213,7 +212,7 @@ const Cart = () => {
                         );
                       })}
                       <h4 className="grand-totall-title">Grand Total <span>₹ {(discountedPrice + totalTaxesAmount).toFixed(2)}</span></h4>
-                      <Link to="/checkout">Proceed to Checkout</Link>
+                      <Link to={token ? "/checkout" : "/login-register"}>Proceed to Checkout</Link>
                     </div>
                   </div>
                 </div>

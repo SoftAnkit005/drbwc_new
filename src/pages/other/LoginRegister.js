@@ -9,13 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, resetLoginState } from "../../store/slices/login-slice";
 import { resetUser, signUpUser } from "../../store/slices/signup-slice";
 import cogoToast from "cogo-toast";
+import { addToCart } from "../../store/slices/cart-slice";
 
 const LoginRegister = () => {
   let { pathname } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  
   // Sign Up Start
   const signedUser = useSelector((state) => state.signup);
   const [signupData, setSignupData] = useState({ full_name: '', email: '', password: '' });
@@ -49,14 +49,13 @@ const LoginRegister = () => {
     }
   }, [signedUser.user, isSignUpAttempted]);
   // Sign Up End
-  
+
   // Login Start
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPass, setLoginPass] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const { user, error } = useSelector((state) => state.login);
 
-  
   // Prefill the login form if credentials are stored in localStorage
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberedEmail");
@@ -68,7 +67,7 @@ const LoginRegister = () => {
       setRememberMe(true);
     }
   }, []);
-  
+
   const handleLogin = (e) => {
     e.preventDefault();
     if (rememberMe) {
@@ -91,12 +90,28 @@ const LoginRegister = () => {
       localStorage.setItem("loggedUser", JSON.stringify(user.user));
       localStorage.setItem("authToken", user.token);
       dispatch(resetLoginState());
-      navigate("/");
+
+      // Check if there is a cart in session storage
+      const sessionCart = sessionStorage.getItem("cart");
+      if (sessionCart) {
+        const cartItems = JSON.parse(sessionCart);
+        cartItems.forEach(item => {
+          const payload = {
+            product_id: item.product_id,
+            quantity: item.quantity,
+            color: item.color
+          };
+          dispatch(addToCart(payload)); // Dispatch addToCart for each item
+        });
+        navigate("/cart");
+      } else {
+        navigate("/");
+      }
     } else if (user && !user.success) {
       cogoToast.error(user.message || "Login failed");
       dispatch(resetLoginState());
     }
-  }, [user, dispatch]);
+  }, [user, dispatch, navigate]);
 
   useEffect(() => {
     if (error) {

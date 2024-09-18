@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getDiscountPrice } from "../../helpers/product";
@@ -12,6 +12,16 @@ const Checkout = () => {
   let { pathname } = useLocation();
   const currency = useSelector((state) => state.currency);
   const { cartItems } = useSelector((state) => state.cart);
+  const [cartData, setcartData] = useState([]);
+
+  console.log(cartItems);
+  useEffect(() => {
+    if(cartItems.success){
+      setcartData(cartItems.cartItems);
+    }
+    
+  }, [cartItems])
+  
 
   return (
     <Fragment>
@@ -29,7 +39,7 @@ const Checkout = () => {
         />
         <div className="checkout-area pt-95 pb-100">
           <div className="container">
-            {cartItems && cartItems.length >= 1 ? (
+            {cartData && cartData.length >= 1 ? (
               <div className="row">
                 <div className="col-lg-7">
                   <div className="billing-info-wrap">
@@ -139,7 +149,7 @@ const Checkout = () => {
                         </div>
                         <div className="your-order-middle">
                           <ul>
-                            {cartItems.map((cartItem, key) => {
+                            {cartData.map((cartItem, key) => {
                               const discountedPrice = getDiscountPrice(
                                 cartItem.price,
                                 cartItem.discount

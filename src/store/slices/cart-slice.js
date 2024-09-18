@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Get token and API URL
-// const token = localStorage.getItem("authToken");
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyNjQ2MzcwNSwiZXhwIjoxNzI2NTUwMTA1fQ.kYLE00qhisWXyuCRUzk0KsOU_FpTgKZPFbrNi7RnEfw'
+const token = localStorage.getItem("authToken");
 const apiUrl = process.env.REACT_APP_API_URL;
 
 // Get cart items
