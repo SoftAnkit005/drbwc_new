@@ -7,6 +7,7 @@ import ShippingPolicies from "./pages/other/ShippingPolicies";
 import PrivacyPolicies from "./pages/other/PrivacyPolicies";
 import RefundPolicies from "./pages/other/RefundPolicies";
 import MasterV4ThermalBed from "./pages/other/MasterV4ThermalBed";
+import { useInitialDispatches } from "./useInitialDispatches";
 
 // home page
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -49,6 +50,8 @@ const Checkout = lazy(() => import("./pages/other/Checkout"));
 const NotFound = lazy(() => import("./pages/other/NotFound"));
 
 const App = () => {
+  useInitialDispatches();
+
   return (
       <Router>
         <ScrollToTop>

@@ -20,15 +20,14 @@ const Cart = () => {
   const [discountDetails, setDiscountDetails] = useState(null);
   const [taxes, setTaxes] = useState([]);
 
-  const token = localStorage.getItem("authToken");
+  const token = useSelector((state) => state.auth.token);
+
 
   useEffect(() => {
     if (taxdata?.success) {
       setTaxes(taxdata.taxes);
     }
   }, [taxdata]);
-
-  console.log('taxes', taxes);
 
   useEffect(() => {
     if (products?.success && Array.isArray(products.products)) {
@@ -38,9 +37,12 @@ const Cart = () => {
     }
   }, [products]);
 
+  // console.log('localCartItems', localCartItems);
+  // console.log('cartItems', cartItems);
+
   useEffect(() => {
-    if (token) {
-      setLocalCartItems(cartItems.cartItems);
+    if (token !== null) {
+      setLocalCartItems(cartItems);
     } else {
       const storedCartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
       setLocalCartItems(storedCartItems);
@@ -53,7 +55,7 @@ const Cart = () => {
   }, [cartItems]);
 
   useEffect(() => {
-    if (taxes.length > 0 && localCartItems.length > 0) {
+    if (taxes.length > 0 && localCartItems?.length > 0) {
       const totalTaxes = taxes.reduce((acc, tax) => {
         const taxRate = tax.tax_rate || 0;
         const taxAmount = (taxRate / 100) * cartTotalPrice;
@@ -64,33 +66,36 @@ const Cart = () => {
     }
   }, [taxes, localCartItems]);
 
-  const handleQuantityChange = (type, product_id) => {
+  // console.log('itemQuantities', itemQuantities);
+
+  const handleQuantityChange = async (type, product_id) => {
     setItemQuantities((prevQuantities) => {
       const currentQuantity = prevQuantities[product_id] || 1;
       let newQuantity = currentQuantity;
-
+  
       if (type === "plus") {
         newQuantity = Math.min(currentQuantity + 1, 4);
       } else if (type === "minus") {
         newQuantity = Math.max(currentQuantity - 1, 1);
       }
-
-      dispatch(addToCart({ product_id, quantity: newQuantity }));
-
-      const updatedCartItems = localCartItems.map((item) =>
-        item.product_id === product_id ? { ...item, quantity: newQuantity } : item
-      );
-
-      if (!localStorage.getItem("authToken")) {
+      
+      // Update session storage or local storage based on authentication state
+      if (token !== null) {
+        dispatch(addToCart({ product_id, quantity: newQuantity, color:'default' }));
+      } else {
+        const updatedCartItems = localCartItems.map((item) =>
+          item.product_id === product_id ? { ...item, quantity: newQuantity } : item
+        );
         sessionStorage.setItem('cart', JSON.stringify(updatedCartItems));
       }
-
+  
       return {
         ...prevQuantities,
         [product_id]: newQuantity,
       };
     });
   };
+  
 
   const getProductDetails = (product_id) => {
     return productsData.find(product => product.id === product_id) || {};
@@ -98,7 +103,7 @@ const Cart = () => {
 
   let cartTotalPrice = 0;
 
-  console.log(totalTaxesAmount);
+  // console.log(totalTaxesAmount);
 
   const calculateDiscountedTotal = (totalPrice, discount) => {
     if (!discount || discount.amount === "0") return { discountedPrice: totalPrice, discountAmount: 0 };
@@ -117,7 +122,7 @@ const Cart = () => {
     return { discountedPrice, discountAmount };
   };
 
-  cartTotalPrice = localCartItems.reduce((acc, item) => {
+  cartTotalPrice = localCartItems?.reduce((acc, item) => {
     const product = getProductDetails(item.product_id);
     const productPrice = product.price ? parseFloat(product.price) : 0;
     const quantity = itemQuantities[item.product_id] || item.quantity;
@@ -159,7 +164,7 @@ const Cart = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {localCartItems.map((cartItem) => {
+                          {localCartItems.map((cartItem, index) => {
                             const product = getProductDetails(cartItem.product_id);
                             const imageUrls = JSON.parse(product.image_urls || "[]");
                             const productPrice = product.price ? parseFloat(product.price) : 0;
@@ -167,7 +172,7 @@ const Cart = () => {
                             const quantity = itemQuantities[cartItem.product_id] || cartItem.quantity;
 
                             return (
-                              <tr key={cartItem.product_id}>
+                              <tr key={index}>
                                 <td className="product-thumbnail">
                                   <Link to={`/product/${product.id}`}>
                                     <img className="img-fluid" src={imageUrls[0] || "path/to/default-image.jpg"} alt={product.product_name} />

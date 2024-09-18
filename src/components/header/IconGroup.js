@@ -1,23 +1,25 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import MenuCart from "./sub-components/MenuCart";
 import { FaHeart, FaUser } from "react-icons/fa";
 import { IoBagHandle } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import { clearToken } from "../../store/slices/auth-slice";
 
 const IconGroup = ({ iconWhiteClass }) => {
+  const dispatch = useDispatch();
   const [allCart, setallCart] = useState([]);
   const handleClick = (e) => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
 
-  const token = localStorage.getItem('authToken');
+  const token = useSelector((state) => state.auth.token);
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    window.location.reload();
+    dispatch(clearToken());
+    // window.location.reload();
   };
 
   const triggerMobileMenu = () => {
@@ -31,10 +33,10 @@ const IconGroup = ({ iconWhiteClass }) => {
   useEffect(() => {
     let cartData = [];
 
-    if (token) {
+    if (token !== null) {
       // Token is available, use cartItems from Redux store
-      if (cartItems.success) {
-        cartData = cartItems?.cartItems?.filter(
+      if (cartItems) {
+        cartData = cartItems?.filter(
           (item, index, self) =>
             index === self.findIndex((t) => t.product_id === item.product_id)
         );

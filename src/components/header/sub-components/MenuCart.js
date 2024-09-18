@@ -32,8 +32,8 @@ const MenuCart = () => {
   useEffect(() => {
     if (token) {
       // Load cart items from API when authenticated
-      if (cartItems.success) {
-        const uniqueCartItems = cartItems.cartItems?.filter(
+      if (cartItems) {
+        const uniqueCartItems = cartItems?.filter(
           (item, index, self) =>
             index === self.findIndex((t) => t.product_id === item.product_id)
         );

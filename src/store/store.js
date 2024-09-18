@@ -3,11 +3,11 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import storage from "redux-persist/lib/storage";
 import productReducer from './slices/product-slice';
 import currencyReducer from "./slices/currency-slice";
-import cartReducer from "./slices/cart-slice";
 import compareReducer from "./slices/compare-slice";
 import wishlistReducer from "./slices/wishlist-slice";
 import signupReducer from './slices/signup-slice';
 import loginReducer from './slices/login-slice';
+import authReducer from './slices/auth-slice';
 import categoryReducer from './slices/category-slice';
 import subCategoryReducer from './slices/sub-category-slice';
 import reviewReducer from './slices/review-slice';
@@ -15,6 +15,7 @@ import featuredproductReducer from './slices/feature-product-slice';
 import bannersReducer from './slices/banner-slice';
 import couponsReducer from './slices/coupons-slice';
 import taxReducer from './slices/tax-slice';
+import cartReducer from './slices/cart-slice';
 
 const persistConfig = {
     key: "flone",
@@ -26,6 +27,7 @@ const persistConfig = {
 export const rootReducer = combineReducers({
     signup: signupReducer,
     login: loginReducer,
+    auth: authReducer,
     categories: categoryReducer,
     subcategories: subCategoryReducer,
     reviews: reviewReducer,
@@ -34,9 +36,9 @@ export const rootReducer = combineReducers({
     product: productReducer,
     coupons: couponsReducer,
     taxes:taxReducer,
+    cart: cartReducer,
 
     currency: currencyReducer,
-    cart: cartReducer,
     compare: compareReducer,
     wishlist: wishlistReducer,
     featuredproduct: featuredproductReducer

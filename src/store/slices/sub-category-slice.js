@@ -1,13 +1,18 @@
-// src/store/subcategorySlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;
-const token = localStorage.getItem('authToken');
-// Define the async thunk for fetching subcategories
+
+// Fetch subcategories thunk
 export const fetchSubcategories = createAsyncThunk(
   'subcategories/fetchSubcategories',
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+
+    if (!token) {
+      return rejectWithValue('Authentication token is missing');
+    }
+
     try {
       const response = await axios.get(`${apiUrl}/api/subcategories/get-subcategories`, {
         headers: {
@@ -15,37 +20,38 @@ export const fetchSubcategories = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       });
-      return response.data; // Return the data from the API
+      return response.data; // Return the subcategories data from the API
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'An error occurred'); // Handle errors
+      const errorMessage = error.response?.data?.message || 'Failed to fetch subcategories';
+      return rejectWithValue(errorMessage); // Handle API errors
     }
   }
 );
 
-// src/store/subcategorySlice.js
+// Subcategory slice
 const subcategorySlice = createSlice({
-    name: 'subcategories',
-    initialState: {
-      subcategories: [],
-      loading: false,
-      error: null,
-    },
-    reducers: {},
-    extraReducers: (builder) => {
-      builder
-        .addCase(fetchSubcategories.pending, (state) => {
-          state.loading = true;
-          state.error = null;
-        })
-        .addCase(fetchSubcategories.fulfilled, (state, action) => {
-          state.loading = false;
-          state.subcategories = action.payload;
-        })
-        .addCase(fetchSubcategories.rejected, (state, action) => {
-          state.loading = false;
-          state.error = action.payload;
-        });
-    },
+  name: 'subcategories',
+  initialState: {
+    subcategories: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSubcategories.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchSubcategories.fulfilled, (state, action) => {
+        state.loading = false;
+        state.subcategories = action.payload;
+      })
+      .addCase(fetchSubcategories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'An error occurred while fetching subcategories';
+      });
+  },
 });
-  
-export default subcategorySlice.reducer;  
+
+export default subcategorySlice.reducer;

@@ -10,6 +10,7 @@ import { loginUser, resetLoginState } from "../../store/slices/login-slice";
 import { resetUser, signUpUser } from "../../store/slices/signup-slice";
 import cogoToast from "cogo-toast";
 import { addToCart } from "../../store/slices/cart-slice";
+import { setToken } from "../../store/slices/auth-slice";
 
 const LoginRegister = () => {
   let { pathname } = useLocation();
@@ -88,19 +89,22 @@ const LoginRegister = () => {
     if (user && user.success) {
       cogoToast.success("Logged in successfully!");
       localStorage.setItem("loggedUser", JSON.stringify(user.user));
-      localStorage.setItem("authToken", user.token);
+      // localStorage.setItem("authToken", user.token);
+      dispatch(setToken(user.token));
       dispatch(resetLoginState());
 
       // Check if there is a cart in session storage
       const sessionCart = sessionStorage.getItem("cart");
       if (sessionCart) {
         const cartItems = JSON.parse(sessionCart);
+        console.log(cartItems);
         cartItems.forEach(item => {
           const payload = {
             product_id: item.product_id,
             quantity: item.quantity,
             color: item.color
           };
+          console.log('payload.cartItem', payload);
           dispatch(addToCart(payload)); // Dispatch addToCart for each item
         });
         navigate("/cart");

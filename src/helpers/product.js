@@ -38,19 +38,13 @@ export const getDiscountPrice = (price, discount) => {
 
 // get product cart quantity
 export const getProductCartQuantity = (cartItemsObject, product, color, size) => {
-  if (!cartItemsObject || !Array.isArray(cartItemsObject.cartItems)) {
-    console.error('Expected cartItemsObject to have a cartItems property that is an array, but got:', cartItemsObject);
-    return 0;
-  }
-
-  const cartItems = cartItemsObject.cartItems;
+  // Fallback to an empty array if cartItemsObject is not an array or not initialized
+  const cartItems = Array.isArray(cartItemsObject?.cartItems) ? cartItemsObject.cartItems : [];
 
   let productInCart = cartItems.find(
     single =>
       single.id === product.id &&
-      (single.selectedProductColor
-        ? single.selectedProductColor === color
-        : true) &&
+      (single.selectedProductColor ? single.selectedProductColor === color : true) &&
       (single.selectedProductSize ? single.selectedProductSize === size : true)
   );
 
@@ -61,14 +55,15 @@ export const getProductCartQuantity = (cartItemsObject, product, color, size) =>
           single.id === product.id &&
           single.selectedProductColor === color &&
           single.selectedProductSize === size
-      ).quantity;
+      )?.quantity || 0; // Add safe navigation and fallback
     } else {
-      return cartItems.find(single => product.id === single.id).quantity;
+      return cartItems.find(single => product.id === single.id)?.quantity || 0; // Add safe navigation and fallback
     }
   } else {
     return 0;
   }
 };
+
 
 
 export const cartItemStock = (cartItem, color) => {
