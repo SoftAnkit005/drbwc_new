@@ -13,7 +13,7 @@ const HomeFashion = () => {
     <Fragment>
       <SEO
         titleTemplate="Auto Wellness Home"
-        description="Fashion home of flone react minimalist eCommerce template."
+        description="Fashion home of Dr BWC."
       />
       <LayoutOne headerContainerClass="container-fluid" headerPaddingClass="header-padding-1" >
         {/* hero slider */}

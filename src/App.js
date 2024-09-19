@@ -8,6 +8,8 @@ import PrivacyPolicies from "./pages/other/PrivacyPolicies";
 import RefundPolicies from "./pages/other/RefundPolicies";
 import MasterV4ThermalBed from "./pages/other/MasterV4ThermalBed";
 import { useInitialDispatches } from './hooks/useInitialDispatches';
+import PaymentPage from "./pages/other/PaymentPage";
+import OrderConfirmation from "./pages/other/OrderConfirmation";
 
 // home page
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -104,6 +106,8 @@ const App = () => {
               <Route path={process.env.PUBLIC_URL + "/cart"} element={<Cart/>} />
               <Route path={process.env.PUBLIC_URL + "/wishlist"} element={<Wishlist/>} />
               <Route path={process.env.PUBLIC_URL + "/checkout"} element={<Checkout/>} /> 
+              <Route path={process.env.PUBLIC_URL + "/payment"} element={<PaymentPage/>} /> 
+              <Route path={process.env.PUBLIC_URL + "/order-confirmation"} element={<OrderConfirmation />} />
 
               <Route path="*" element={<NotFound/>} />
             </Routes>

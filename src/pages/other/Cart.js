@@ -17,7 +17,7 @@ const Cart = () => {
   const { taxdata } = useSelector((state) => state.taxes);
   const [productsData, setProductsData] = useState([]);
   const [localCartItems, setLocalCartItems] = useState([]);
-  const [discountDetails, setDiscountDetails] = useState(null);
+  // const [discountDetails, setDiscountDetails] = useState(null);
   const [taxes, setTaxes] = useState([]);
 
   const token = useSelector((state) => state.auth.token);
@@ -129,11 +129,11 @@ const Cart = () => {
     return acc + (productPrice * quantity);
   }, 0);
 
-  const { discountedPrice = 0, discountAmount = 0 } = calculateDiscountedTotal(cartTotalPrice, discountDetails);
+  const { discountedPrice = 0, discountAmount = 0 } = calculateDiscountedTotal(cartTotalPrice);
 
-  const handleDiscountApplied = (details) => {
-    setDiscountDetails(details);
-  };
+  // const handleDiscountApplied = (details) => {
+  //   setDiscountDetails(details);
+  // };
 
   return (
     <Fragment>
@@ -200,7 +200,7 @@ const Cart = () => {
                     </div>
                   </div>
                   <div className="col-lg-4 col-md-12">
-                    <CouponSection products={productsData} cartItems={localCartItems} onDiscountApplied={handleDiscountApplied} />
+                    {/* <CouponSection products={productsData} cartItems={localCartItems} onDiscountApplied={handleDiscountApplied} /> */}
                     <div className="grand-totall">
                       <h4 className="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
                       <h5>Total products <span>{"₹ " + cartTotalPrice.toFixed(2)}</span></h5>

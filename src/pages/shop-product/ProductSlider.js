@@ -18,7 +18,7 @@ const ProductSlider = () => {
     <Fragment>
       <SEO
         titleTemplate="Product Page"
-        description="Product page of flone react minimalist eCommerce template."
+        description="Product page of Dr BWC."
       />
 
       <LayoutOne headerTop="visible">

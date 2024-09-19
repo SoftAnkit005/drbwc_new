@@ -262,6 +262,9 @@
       }
     }
   }
+}
+
+.checkout-area {
   .place-order > a,
   .place-order > button {
     font-weight: 500;
@@ -271,8 +274,8 @@
 
     display: block;
 
-    width: 100%;
-    padding: 18px 20px;
+    width: fit-content;
+    padding: 18px 40px;
 
     text-align: center;
     letter-spacing: 1px;
@@ -280,16 +283,14 @@
 
     color: #fff;
     border: none;
-    border-radius: 50px;
+    border-radius: 5px;
     background: none;
     background-color: $theme-color;
     &:hover {
       background-color: #333;
     }
   }
-}
 
-.checkout-area {
   @media #{$xs-layout} {
     &.pb-100 {
       padding-bottom: 60px;

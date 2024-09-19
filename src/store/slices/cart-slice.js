@@ -6,7 +6,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const getCart = createAsyncThunk('cart/getCart', 
   async (_, { getState }) => {
     const token = getState().auth.token;
-    const response = await fetch('http://localhost:5000/api/cart/get', {
+    const response = await fetch(`${apiUrl}/api/cart/get`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const addToCart = createAsyncThunk(
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/cart/create", requestOptions);
+      const response = await fetch(`${apiUrl}/api/cart/create`, requestOptions);
 
       if (!response.ok) {
         throw new Error("Failed to add item to cart");

@@ -42,7 +42,7 @@ const Contact = () => {
 
   return (
     <Fragment>
-      <SEO titleTemplate="Contact" description="Contact page of flone react minimalist eCommerce template." />
+      <SEO titleTemplate="Contact" description="Contact page of Dr BWC." />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb pages={[ {label: "Home", path: process.env.PUBLIC_URL + "/" }, {label: "Contact", path: process.env.PUBLIC_URL + pathname } ]} />

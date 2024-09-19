@@ -76,16 +76,16 @@ const CouponSection = ({ products, cartItems, onDiscountApplied }) => {
         setDiscountType(type);
         setMessage(`Coupon applied successfully! You saved INR ${amount}`);
         // Pass discount details to the parent component
-        onDiscountApplied({ amount, type, value });
+        onDiscountApplied({ amount, type, value, couponId: coupon.id });
       } else {
         setMessage('Coupon is not valid or does not apply to your cart.');
         setDiscount(0);
-        onDiscountApplied({ amount: 0, type: '', value: '' }); // Reset discount details
+        onDiscountApplied({ amount: 0, type: '', value: '', couponId: null }); // Reset discount details
       }
     } else {
       setMessage('Invalid coupon code. Please try again.');
       setDiscount(0);
-      onDiscountApplied({ amount: 0, type: '', value: '' }); // Reset discount details
+      onDiscountApplied({ amount: 0, type: '', value: '', couponId: null }); // Reset discount details
     }
   };
 

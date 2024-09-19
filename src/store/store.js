@@ -16,6 +16,9 @@ import bannersReducer from './slices/banner-slice';
 import couponsReducer from './slices/coupons-slice';
 import taxReducer from './slices/tax-slice';
 import cartReducer from './slices/cart-slice';
+import pincodeReducer from './slices/pincode-slice';
+import orderReducer from './slices/order-slice';
+import paymentReducer from './slices/payment-slice';
 
 const persistConfig = {
     key: "flone",
@@ -37,11 +40,14 @@ export const rootReducer = combineReducers({
     coupons: couponsReducer,
     taxes:taxReducer,
     cart: cartReducer,
+    pincode: pincodeReducer,
+    orders: orderReducer,
+    payments: paymentReducer,
+    
 
     currency: currencyReducer,
     compare: compareReducer,
     wishlist: wishlistReducer,
-    featuredproduct: featuredproductReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

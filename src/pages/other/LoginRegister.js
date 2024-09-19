@@ -128,7 +128,7 @@ const LoginRegister = () => {
 
   return (
     <Fragment>
-      <SEO titleTemplate="Login" description="Login page of flone react minimalist eCommerce template." />
+      <SEO titleTemplate="Login" description="Login page of Dr BWC." />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb pages={[ {label: "Home", path: process.env.PUBLIC_URL + "/" }, {label: "Login Register", path: process.env.PUBLIC_URL + pathname } ]} />

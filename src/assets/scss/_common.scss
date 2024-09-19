@@ -295,6 +295,11 @@ ul {
     - Common Classes
 -----------------------------------------*/
 
+.required:after {
+  content: " *";
+  color: red;
+}
+
 .fix {
   overflow: hidden;
 }
