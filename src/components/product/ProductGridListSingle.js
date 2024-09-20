@@ -11,12 +11,24 @@ import { FaHeart } from "react-icons/fa";
 const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
   const token = localStorage.getItem('authToken');
   const dispatch = useDispatch();
-  const [cartState, setCartState] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const user = JSON.parse(localStorage.getItem('loggedUser'));
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const cartStatus = useSelector((state) => state.cart.status);
+  const { cartItems } = useSelector((state) => state.cart);
   const [wishlistIcon, setwishlistIcon] = useState('');
+
+  console.log('cartItems', cartItems);
+  
+  useEffect(() => {
+    // Check if the product exists in cartItems
+    const productInCart = cartItems.some(
+      (cartItem) => cartItem.product_id === product.id
+    );
+    console.log('isInCart', isInCart, product.id, productInCart);
+    setIsInCart(productInCart);
+  }, [cartItems, product.id]);
+  
 
   // Initialize cartState based on sessionStorage
   useEffect(() => {
@@ -33,7 +45,6 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
   }, [wishlistItems, product.id]);
 
   const handleAddToCart = () => {
-    setCartState(true);
     const payload = { product_id: product.id, quantity: 1, color: 'Default', };
 
     if (token) {
@@ -77,7 +88,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
       );
 
       // Update local state
-      setIsInCart(true);
+      // setIsInCart(true);
     }
   };
 
@@ -134,7 +145,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
           <div className="product-action">
             <div className="pro-same-action pro-cart">
               {product.qty && product.qty > 0 ? (
-                <button onClick={handleAddToCart} className={isInCart ? "active" : ""} disabled={cartState || isInCart} title={isInCart ? "Added to cart" : "Add to cart"} > {" "} <i className="pe-7s-cart"></i>{" "} {cartState || isInCart ? "Added" : "Add to cart"} </button>
+                <button onClick={handleAddToCart} className={isInCart ? "active" : ""} disabled={isInCart} title={isInCart ? "Added to cart" : "Add to cart"} > {" "} <i className="pe-7s-cart"></i>{" "} {isInCart ? "Added" : "Add to cart"} </button>
               ) : (
                 <button disabled className="active"> Out of Stock </button>
               )}

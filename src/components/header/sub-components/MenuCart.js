@@ -21,6 +21,8 @@ const MenuCart = () => {
     return sessionCart ? JSON.parse(sessionCart) : [];
   };
 
+  console.log('cartItems', cartItems);
+
   useEffect(() => {
     if (products?.success && Array.isArray(products.products)) {
       setProductsData(products.products);
@@ -73,11 +75,6 @@ const MenuCart = () => {
     } else if (type === "minus") {
       updatedQuantity = Math.max(currentQuantity - 1, 0);
     }
-
-    // Debugging logs
-    console.log(`Handling quantity change for item ID: ${item.product_id}`);
-    console.log(`Current quantity: ${currentQuantity}`);
-    console.log(`Updated quantity: ${updatedQuantity}`);
 
     if (updatedQuantity < 1) {
       if (token) {

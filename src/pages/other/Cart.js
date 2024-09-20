@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
-import { addToCart } from "../../store/slices/cart-slice";
+import { addToCart, removeFromCart } from "../../store/slices/cart-slice";
 import CouponSection from "../../wrappers/coupon-apply/CouponSection";
 
 const Cart = () => {
@@ -39,17 +39,20 @@ const Cart = () => {
 
   useEffect(() => {
     if (token !== null) {
-      setLocalCartItems(cartItems);
+      setLocalCartItems(cartItems); // Sync with Redux store
     } else {
-      const storedCartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
-      setLocalCartItems(storedCartItems);
+      const storedCartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
+      setLocalCartItems(storedCartItems); // Sync with sessionStorage for guests
     }
-    const initialQuantities = localCartItems.reduce((acc, item) => {
+  
+    // Update item quantities after cartItems are set
+    const initialQuantities = (cartItems || []).reduce((acc, item) => {
       acc[item.product_id] = item.quantity;
       return acc;
     }, {});
     setItemQuantities(initialQuantities);
-  }, [cartItems]);
+  }, [cartItems, token]);
+  
 
   useEffect(() => {
     if (taxes.length > 0 && localCartItems?.length > 0) {
@@ -65,25 +68,41 @@ const Cart = () => {
 
   // console.log('itemQuantities', itemQuantities);
 
-  const handleQuantityChange = async (type, product_id) => {
+  const handleQuantityChange = (type, product_id) => {
     setItemQuantities((prevQuantities) => {
       const currentQuantity = prevQuantities[product_id] || 1;
       let newQuantity = currentQuantity;
   
       if (type === "plus") {
-        newQuantity = Math.min(currentQuantity + 1, 4);
+        newQuantity = Math.min(currentQuantity + 1, 4); // Max quantity is 4
       } else if (type === "minus") {
-        newQuantity = Math.max(currentQuantity - 1, 1);
+        newQuantity = Math.max(currentQuantity - 1, 0); // Minimum quantity is 0
       }
-      
-      // Update session storage or local storage based on authentication state
+  
+      // If quantity is less than 1, remove the item from the cart
+      if (newQuantity < 1) {
+        if (token !== null) {
+          // For authenticated users
+          dispatch(removeFromCart({ product_id }));
+        } else {
+          // For guest users (remove from sessionStorage)
+          const updatedCartItems = localCartItems.filter(item => item.product_id !== product_id);
+          sessionStorage.setItem("cart", JSON.stringify(updatedCartItems));
+          setLocalCartItems(updatedCartItems);
+        }
+        return prevQuantities;
+      }
+  
+      // For authenticated users, update the quantity
       if (token !== null) {
-        dispatch(addToCart({ product_id, quantity: newQuantity, color:'default' }));
+        dispatch(addToCart({ product_id, quantity: newQuantity, color: "default" }));
       } else {
+        // For guest users (store updated cart items in sessionStorage)
         const updatedCartItems = localCartItems.map((item) =>
           item.product_id === product_id ? { ...item, quantity: newQuantity } : item
         );
-        sessionStorage.setItem('cart', JSON.stringify(updatedCartItems));
+        sessionStorage.setItem("cart", JSON.stringify(updatedCartItems));
+        setLocalCartItems(updatedCartItems); // Update local state for immediate UI change
       }
   
       return {
@@ -92,6 +111,7 @@ const Cart = () => {
       };
     });
   };
+  
   
 
   const getProductDetails = (product_id) => {

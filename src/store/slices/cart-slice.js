@@ -104,7 +104,11 @@ const cartSlice = createSlice({
     status: 'idle',
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setCartItems: (state, action) => {
+      state.cartItems = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
        // getCart
@@ -128,15 +132,16 @@ const cartSlice = createSlice({
         state.status = "succeeded";
         
         const cartItem = action.payload.cartItem;
-        const existingItemIndex = state.items.findIndex(
+        const existingItemIndex = state.cartItems.findIndex(
           (item) => item.product_id === cartItem.product_id
         );
         if (existingItemIndex !== -1) {
-          state.items[existingItemIndex] = cartItem;
+          state.cartItems[existingItemIndex] = cartItem;
         } else {
-          state.items.push(cartItem);
+          state.cartItems.push(cartItem);
         }
       })
+      
       .addCase(addToCart.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
@@ -149,9 +154,9 @@ const cartSlice = createSlice({
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.cartItems = state.cartItems.filter(
-          (item) => item.id !== action.payload.id
+          (item) => item.product_id !== action.payload.product_id
         );
-      })
+      })      
       .addCase(removeFromCart.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
@@ -159,4 +164,5 @@ const cartSlice = createSlice({
   },
 });
 
+export const { setCartItems } = cartSlice.actions;
 export default cartSlice.reducer;

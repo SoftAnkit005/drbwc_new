@@ -107,11 +107,7 @@ const Wishlist = () => {
 
                                 {console.log('wishlistItem', wishlistItem)}
                                 <td className="product-wishlist-cart">
-                                  {wishlistItem.affiliateLink ? (
-                                    <a href={wishlistItem.affiliateLink} rel="noopener noreferrer" target="_blank"> Buy now </a>
-                                  ) : wishlistItem.variation && wishlistItem.variation.length >= 1 ? (
-                                    <Link to={`${process.env.PUBLIC_URL}/product/${wishlistItem.id}`}> Select option </Link>
-                                  ) : wishlistItem.qty && wishlistItem.qty > 0 ? (
+                                  {wishlistItem.qty && wishlistItem.qty > 0 ? (
                                     <button onClick={() => dispatch(addToCart({ product_id: wishlistItem.id, quantity: 1, color: 'Default', }))} className={cartItem !== undefined && cartItem.quantity > 0 ? "active" : ""} disabled={cartItem !== undefined && cartItem.quantity > 0} title={wishlistItem !== undefined ? "Added to cart" : "Add to cart"}>
                                       {cartItem !== undefined && cartItem.quantity > 0 ? "Added" : "Add to cart"}
                                     </button>

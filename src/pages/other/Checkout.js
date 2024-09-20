@@ -189,16 +189,20 @@ const Checkout = () => {
                         </div>
                         <div className="your-order-middle">
                           <ul>
-                            {cartData?.map((cartItem, key) => (
-                              <li key={key}>
-                                <span className="order-middle-left">
-                                  {cartItem.Product.product_name} X {cartItem.quantity}
-                                </span>{" "}
-                                <span className="order-price">
-                                  {getProducts(cartItem.product_id)?.price * cartItem.quantity}
-                                </span>
-                              </li>
-                            ))}
+                            {cartData?.map((cartItem, key) => {
+                              const product = getProducts(cartItem.product_id);
+                              return (
+                                <li key={key}>
+                                  <span className="order-middle-left">
+                                    {product ? product.product_name : "Product Not Found"} X {cartItem.quantity}
+                                  </span>{" "}
+                                  <span className="order-price">
+                                    {product ? (product.price * cartItem.quantity).toFixed(2) : "N/A"}
+                                  </span>
+                                </li>
+                              );
+                            })}
+
                             {taxes?.map((tax, key) => (
                               <li key={key}>
                                 <span className="order-middle-left text-muted">

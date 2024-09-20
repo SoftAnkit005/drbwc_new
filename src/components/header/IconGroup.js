@@ -16,11 +16,11 @@ const IconGroup = ({ iconWhiteClass }) => {
 
   const [searchText, setSearchText] = useState("");
   const { products } = useSelector((state) => state.product.products);
-  console.log("products", products);
+  // console.log("products", products);
 
 
   const [filteredProducts, setFilteredProducts] = useState(products);
-  console.log("filteredProducts", filteredProducts);
+  // console.log("filteredProducts", filteredProducts);
 
 
   const handleSearchChange = (e) => {
