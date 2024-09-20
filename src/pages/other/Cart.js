@@ -37,9 +37,6 @@ const Cart = () => {
     }
   }, [products]);
 
-  // console.log('localCartItems', localCartItems);
-  // console.log('cartItems', cartItems);
-
   useEffect(() => {
     if (token !== null) {
       setLocalCartItems(cartItems);

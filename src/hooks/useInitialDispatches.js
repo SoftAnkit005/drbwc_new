@@ -6,6 +6,7 @@ import { fetchSubcategories } from "../store/slices/sub-category-slice";
 import { fetchOffers } from "../store/slices/coupons-slice";
 import { getCart } from "../store/slices/cart-slice";
 import { fetchTaxData } from "../store/slices/tax-slice";
+import { fetchWishlist } from "../store/slices/wishlist-slice";
 
 export const useInitialDispatches = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export const useInitialDispatches = () => {
     // Conditionally dispatch getCart if token is available
     if (token) {
       dispatch(getCart());
+      dispatch(fetchWishlist());
     }
   }, [token, dispatch]);
 };

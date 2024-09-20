@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { getProductCartQuantity } from "../../helpers/product";
 import Rating from "./sub-components/ProductRating";
 import { addToCart } from "../../store/slices/cart-slice";
-import { addToWishlist } from "../../store/slices/wishlist-slice";
+import { updateWishlist } from "../../store/slices/wishlist-slice";
 import { addToCompare } from "../../store/slices/compare-slice";
 
 const ProductDescriptionInfoSlider = ({
@@ -205,7 +205,7 @@ const ProductDescriptionInfoSlider = ({
                   ? "Added to wishlist"
                   : "Add to wishlist"
               }
-              onClick={() => dispatch(addToWishlist(product))}
+              onClick={() => dispatch(updateWishlist(product))}
             >
               <i className="pe-7s-like" />
             </button>

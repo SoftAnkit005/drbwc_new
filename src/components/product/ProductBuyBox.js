@@ -7,6 +7,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/slices/cart-slice';
 import cogoToast from 'cogo-toast';
+import { updateWishlist } from '../../store/slices/wishlist-slice';
 
 const ProductBuyBox = ({ product }) => {
   const navigate = useNavigate();
@@ -15,14 +16,15 @@ const ProductBuyBox = ({ product }) => {
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const cartStatus = useSelector((state) => state.cart.status);
   const [showTooltip, setShowTooltip] = useState(false);
-
   const colorImages = JSON.parse(product.color_image_urls);
   const colorNames = Object.keys(colorImages);
-
+  const { wishlistItems } = useSelector((state) => state.wishlist);
   const [selectedColor, setSelectedColor] = useState('Default');
   const [selectedQty, setselectedQty] = useState('1');
-
+  const user = JSON.parse(localStorage.getItem('loggedUser'));
   const token = localStorage.getItem('authToken');
+
+  const isInWishlist = wishlistItems?.some(item => item.product_id === product.id);
 
   const handleColorChange = (color) => {
     navigate(`?color=${color}`);
@@ -82,6 +84,19 @@ const ProductBuyBox = ({ product }) => {
         </div>,
         { position: 'top-right', hideAfter: 5 }
       );
+    }
+  };
+
+  const handleWishList = async (id) => {
+    if (!token) {
+      cogoToast.error("Please log in to manage your wishlist.");
+      return;
+    }
+
+    try {
+      await dispatch(updateWishlist({ product_id: id, user_id: user.id })).unwrap();
+    } catch (error) {
+      cogoToast.error("Failed to update wishlist. Please try again.");
     }
   };
 
@@ -147,7 +162,7 @@ const ProductBuyBox = ({ product }) => {
                 <p className="cursor-pointer text-cyan desc-xs d-flex align-items-center" onClick={handleSTClick}> <IoMdLock className="desc-md me-1" />Secure Transaction </p>
             </OverlayTrigger>
 
-            <button className={`btn border w-100 mb-2 desc-sm py-2 ${product.qty <= 0 ? 'cursor-disabled btn-secondary': 'btn-light'}`} disabled={product.qty <= 0}>Add to Wish List</button>
+            <button className={`btn border w-100 mb-2 desc-sm py-2 ${product.qty <= 0 || isInWishlist ? 'cursor-disabled btn-secondary': 'btn-light'}`} onClick={() => handleWishList(product.id, product.product_name)} disabled={product.qty <= 0 || isInWishlist}> {isInWishlist ? 'Added to wishlist' : 'Add to Wishlist'}</button>
         </div>
         <div className="border rounded p-3">
             <p className='desc-xs mb-1'><span className='fw-semibold'>Save upto 12%</span>with business pricing and GST input tax credit.</p>

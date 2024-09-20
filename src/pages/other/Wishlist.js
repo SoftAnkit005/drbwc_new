@@ -1,39 +1,74 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { getDiscountPrice } from "../../helpers/product";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { addToCart } from "../../store/slices/cart-slice";
-import { deleteFromWishlist, deleteAllFromWishlist } from "../../store/slices/wishlist-slice"
+import { updateWishlist } from "../../store/slices/wishlist-slice";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
   let { pathname } = useLocation();
-  
-  const currency = useSelector((state) => state.currency);
+  const [allWishlist, setAllWishlist] = useState([]);
+  const [productsData, setProductsData] = useState([]);
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
-  
+  const { products } = useSelector((state) => state.product);
+  const user = JSON.parse(localStorage.getItem('loggedUser'));
+
+  useEffect(() => {
+    if (wishlistItems) {
+      setAllWishlist(wishlistItems);
+    }
+  }, [wishlistItems]);
+
+  useEffect(() => {
+    if (products?.success && Array.isArray(products.products)) {
+      setProductsData(products.products);
+    } else {
+      console.log("No products found or products fetching failed.", products);
+    }
+  }, [products]);
+
+  const [sortedWishlists, setSortedWishlists] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      const filteredProducts = productsData.filter(product => 
+        allWishlist.some(wishlistItem => wishlistItem.product_id === product.id)
+      );
+      setSortedWishlists(filteredProducts);
+    }
+  }, [productsData, allWishlist]);
+
+  const handleRemoveWishlist = (product_id, user_id) => {
+    // Dispatch the action to update the wishlist
+    dispatch(updateWishlist({ product_id, user_id }))
+    .then(() => {
+      // Remove the product from allWishlist state
+      const updatedWishlist = allWishlist.filter(wishlistItem => wishlistItem.product_id !== product_id);
+      setAllWishlist(updatedWishlist);
+
+      // Update sortedWishlists
+      const updatedSortedWishlists = sortedWishlists.filter(wishlistItem => wishlistItem.id !== product_id);
+      setSortedWishlists(updatedSortedWishlists);
+    });
+  };
 
   return (
     <Fragment>
-      <SEO
-        titleTemplate="Wishlist"
-        description="Wishlist page of Dr BWC."
-      />
+      <SEO titleTemplate="Wishlist" description="Wishlist page of Dr BWC." />
       <LayoutOne headerTop="visible">
-        {/* breadcrumb */}
         <Breadcrumb 
           pages={[
-            {label: "Home", path: process.env.PUBLIC_URL + "/" },
-            {label: "Wishlist", path: process.env.PUBLIC_URL + pathname }
+            { label: "Home", path: process.env.PUBLIC_URL + "/" },
+            { label: "Wishlist", path: process.env.PUBLIC_URL + pathname }
           ]} 
         />
-        <div className="cart-main-area pt-90 pb-100">
+        <div className="cart-main-area pt-50 pb-50">
           <div className="container">
-            {wishlistItems && wishlistItems.length >= 1 ? (
+            {allWishlist && allWishlist.length >= 1 ? (
               <Fragment>
                 <h3 className="cart-page-title">Your wishlist items</h3>
                 <div className="row">
@@ -46,120 +81,39 @@ const Wishlist = () => {
                             <th>Product Name</th>
                             <th>Unit Price</th>
                             <th>Add To Cart</th>
-                            <th>action</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {wishlistItems.map((wishlistItem, key) => {
-                            const discountedPrice = getDiscountPrice(
-                              wishlistItem.price,
-                              wishlistItem.discount
-                            );
-                            const finalProductPrice = (
-                              wishlistItem.price * currency.currencyRate
-                            ).toFixed(2);
-                            const finalDiscountedPrice = (
-                              discountedPrice * currency.currencyRate
-                            ).toFixed(2);
-                            const cartItem = cartItems.find(
-                              item => item.id === wishlistItem.id
-                            );
+                          {sortedWishlists.map((wishlistItem, key) => {
+                            const cartItem = cartItems.find(item => item.id === wishlistItem.id);
+                            const productImages = JSON.parse(wishlistItem.image_urls);
+
                             return (
                               <tr key={key}>
                                 <td className="product-thumbnail">
-                                  <Link
-                                    to={
-                                      process.env.PUBLIC_URL +
-                                      "/product/" +
-                                      wishlistItem.id
-                                    }
-                                  >
-                                    <img
-                                      className="img-fluid"
-                                      src={
-                                        process.env.PUBLIC_URL +
-                                        wishlistItem.image[0]
-                                      }
-                                      alt=""
-                                    />
+                                  <Link to={process.env.PUBLIC_URL + "/product/" + wishlistItem.id}>
+                                    <img className="img-fluid" src={productImages[0]} alt={wishlistItem.name} />
                                   </Link>
                                 </td>
 
                                 <td className="product-name text-center">
-                                  <Link
-                                    to={
-                                      process.env.PUBLIC_URL +
-                                      "/product/" +
-                                      wishlistItem.id
-                                    }
-                                  >
-                                    {wishlistItem.name}
-                                  </Link>
+                                  <Link to={process.env.PUBLIC_URL + "/product/" + wishlistItem.id}> {wishlistItem.product_name} </Link>
                                 </td>
 
                                 <td className="product-price-cart">
-                                  {discountedPrice !== null ? (
-                                    <Fragment>
-                                      <span className="amount old">
-                                        {currency.currencySymbol +
-                                          finalProductPrice}
-                                      </span>
-                                      <span className="amount">
-                                        {currency.currencySymbol +
-                                          finalDiscountedPrice}
-                                      </span>
-                                    </Fragment>
-                                  ) : (
-                                    <span className="amount">
-                                      {currency.currencySymbol +
-                                        finalProductPrice}
-                                    </span>
-                                  )}
+                                  <span className="amount">₹{wishlistItem.price}</span>
                                 </td>
 
+                                {console.log('wishlistItem', wishlistItem)}
                                 <td className="product-wishlist-cart">
                                   {wishlistItem.affiliateLink ? (
-                                    <a
-                                      href={wishlistItem.affiliateLink}
-                                      rel="noopener noreferrer"
-                                      target="_blank"
-                                    >
-                                      {" "}
-                                      Buy now{" "}
-                                    </a>
-                                  ) : wishlistItem.variation &&
-                                    wishlistItem.variation.length >= 1 ? (
-                                    <Link
-                                      to={`${process.env.PUBLIC_URL}/product/${wishlistItem.id}`}
-                                    >
-                                      Select option
-                                    </Link>
-                                  ) : wishlistItem.stock &&
-                                    wishlistItem.stock > 0 ? (
-                                    <button
-                                      onClick={() =>
-                                        dispatch(addToCart(wishlistItem))
-                                      }
-                                      className={
-                                        cartItem !== undefined &&
-                                        cartItem.quantity > 0
-                                          ? "active"
-                                          : ""
-                                      }
-                                      disabled={
-                                        cartItem !== undefined &&
-                                        cartItem.quantity > 0
-                                      }
-                                      title={
-                                        wishlistItem !== undefined
-                                          ? "Added to cart"
-                                          : "Add to cart"
-                                      }
-                                    >
-                                      {cartItem !== undefined &&
-                                      cartItem.quantity > 0
-                                        ? "Added"
-                                        : "Add to cart"}
+                                    <a href={wishlistItem.affiliateLink} rel="noopener noreferrer" target="_blank"> Buy now </a>
+                                  ) : wishlistItem.variation && wishlistItem.variation.length >= 1 ? (
+                                    <Link to={`${process.env.PUBLIC_URL}/product/${wishlistItem.id}`}> Select option </Link>
+                                  ) : wishlistItem.qty && wishlistItem.qty > 0 ? (
+                                    <button onClick={() => dispatch(addToCart({ product_id: wishlistItem.id, quantity: 1, color: 'Default', }))} className={cartItem !== undefined && cartItem.quantity > 0 ? "active" : ""} disabled={cartItem !== undefined && cartItem.quantity > 0} title={wishlistItem !== undefined ? "Added to cart" : "Add to cart"}>
+                                      {cartItem !== undefined && cartItem.quantity > 0 ? "Added" : "Add to cart"}
                                     </button>
                                   ) : (
                                     <button disabled className="active">
@@ -169,11 +123,7 @@ const Wishlist = () => {
                                 </td>
 
                                 <td className="product-remove">
-                                  <button
-                                    onClick={() =>
-                                      dispatch(deleteFromWishlist(wishlistItem.id))
-                                    }
-                                  >
+                                  <button onClick={() => handleRemoveWishlist(wishlistItem.id, user.id)}>
                                     <i className="fa fa-times"></i>
                                   </button>
                                 </td>
@@ -190,17 +140,11 @@ const Wishlist = () => {
                   <div className="col-lg-12">
                     <div className="cart-shiping-update-wrapper">
                       <div className="cart-shiping-update">
-                        <Link
-                          to={process.env.PUBLIC_URL + "/shop-grid-standard"}
-                        >
-                          Continue Shopping
-                        </Link>
+                        <Link to={process.env.PUBLIC_URL + "/"}> Continue Shopping </Link>
                       </div>
-                      <div className="cart-clear">
-                        <button onClick={() => dispatch(deleteAllFromWishlist())}>
-                          Clear Wishlist
-                        </button>
-                      </div>
+                      {/* <div className="cart-clear">
+                        <button> Clear Wishlist </button>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -213,8 +157,8 @@ const Wishlist = () => {
                       <i className="pe-7s-like"></i>
                     </div>
                     <div className="item-empty-area__text">
-                      No items found in wishlist <br />{" "}
-                      <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
+                      No items found in wishlist <br />
+                      <Link to={process.env.PUBLIC_URL + "/"}>
                         Add Items
                       </Link>
                     </div>

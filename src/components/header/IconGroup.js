@@ -11,6 +11,9 @@ import { clearToken } from "../../store/slices/auth-slice";
 const IconGroup = ({ iconWhiteClass }) => {
   const dispatch = useDispatch();
   const [allCart, setallCart] = useState([]);
+  const { wishlistItems } = useSelector((state) => state.wishlist);
+  const { cartItems } = useSelector((state) => state.cart);
+  
   const handleClick = (e) => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
@@ -26,9 +29,6 @@ const IconGroup = ({ iconWhiteClass }) => {
     const offcanvasMobileMenu = document.querySelector("#offcanvas-mobile-menu");
     offcanvasMobileMenu.classList.add("active");
   };
-
-  const { wishlistItems } = useSelector((state) => state.wishlist);
-  const { cartItems } = useSelector((state) => state.cart);
 
   useEffect(() => {
     let cartData = [];

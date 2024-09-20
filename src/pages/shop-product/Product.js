@@ -42,7 +42,6 @@ const Product = () => {
   //   console.log(relatedProducts);
   // }, [product])
   
-  console.log('product: ', product);
   return (
     <Fragment>
       <SEO

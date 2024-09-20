@@ -4,7 +4,6 @@ import storage from "redux-persist/lib/storage";
 import productReducer from './slices/product-slice';
 import currencyReducer from "./slices/currency-slice";
 import compareReducer from "./slices/compare-slice";
-import wishlistReducer from "./slices/wishlist-slice";
 import signupReducer from './slices/signup-slice';
 import loginReducer from './slices/login-slice';
 import authReducer from './slices/auth-slice';
@@ -19,6 +18,7 @@ import cartReducer from './slices/cart-slice';
 import pincodeReducer from './slices/pincode-slice';
 import orderReducer from './slices/order-slice';
 import paymentReducer from './slices/payment-slice';
+import wishlistReducer from './slices/wishlist-slice';
 
 const persistConfig = {
     key: "flone",
@@ -43,11 +43,11 @@ export const rootReducer = combineReducers({
     pincode: pincodeReducer,
     orders: orderReducer,
     payments: paymentReducer,
+    wishlist: wishlistReducer,
     
 
     currency: currencyReducer,
     compare: compareReducer,
-    wishlist: wishlistReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

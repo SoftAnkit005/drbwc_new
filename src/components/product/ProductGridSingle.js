@@ -7,14 +7,10 @@ import { getDiscountPrice } from "../../helpers/product";
 import Rating from "./sub-components/ProductRating";
 import ProductModal from "./ProductModal";
 import { addToCart } from "../../store/slices/cart-slice";
-import { addToWishlist } from "../../store/slices/wishlist-slice";
+import { updateWishlist } from "../../store/slices/wishlist-slice";
 // import { addToCompare } from "../../store/slices/compare-slice";
 
-const ProductGridSingle = ({ product, cartItem, wishlistItem, compareItem, spaceBottomClass, }) => {
-  const [modalShow, setModalShow] = useState(false);
-  const discountedPrice = getDiscountPrice(product.price, product.discount);
-  const dispatch = useDispatch();
-
+const ProductGridSingle = ({ product,spaceBottomClass }) => {
   return (
     <Fragment>
       <div className={clsx("product-wrap shadow rounded-2 m-3", spaceBottomClass)}>
@@ -42,7 +38,7 @@ const ProductGridSingle = ({ product, cartItem, wishlistItem, compareItem, space
             ""
           )}
 
-          <div className="product-action">
+          {/* <div className="product-action">
             <div className="pro-same-action pro-cart">
               {product.affiliateLink ? (
                 <a href={product.affiliateLink} rel="noopener noreferrer" target="_blank" >
@@ -68,16 +64,11 @@ const ProductGridSingle = ({ product, cartItem, wishlistItem, compareItem, space
               )}
             </div>
             <div className="pro-same-action pro-wishlist">
-              <button className={wishlistItem !== undefined ? "active" : ""} disabled={wishlistItem !== undefined} title={ wishlistItem !== undefined ? "Added to wishlist" : "Add to wishlist" } onClick={() => dispatch(addToWishlist(product))} >
+              <button className={wishlistItem !== undefined ? "active" : ""} disabled={wishlistItem !== undefined} title={ wishlistItem !== undefined ? "Added to wishlist" : "Add to wishlist" } onClick={() => dispatch(updateWishlist(product))} >
                 <i className="pe-7s-like" />
               </button>
             </div>
-            {/* <div className="pro-same-action pro-quickview">
-              <button onClick={() => setModalShow(true)} title="Quick View">
-                <i className="pe-7s-look" />
-              </button>
-            </div> */}
-          </div>
+          </div> */}
         </div>
         <div className="product-content text-center mt-2">
           <h3>
@@ -90,21 +81,11 @@ const ProductGridSingle = ({ product, cartItem, wishlistItem, compareItem, space
         </div>
       </div>
       {/* Shop list content (omitted for brevity) */}
-      <ProductModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        product={product}
-        discountedPrice={discountedPrice}
-        wishlistItem={wishlistItem}
-        compareItem={compareItem}
-      />
     </Fragment>
   );
 };
 
 ProductGridSingle.propTypes = {
-  cartItem: PropTypes.shape({}),
-  compareItem: PropTypes.shape({}),
   product: PropTypes.shape({
     id: PropTypes.number,
     price: PropTypes.string,
@@ -119,7 +100,6 @@ ProductGridSingle.propTypes = {
     new: PropTypes.bool,
   }),
   spaceBottomClass: PropTypes.string,
-  wishlistItem: PropTypes.shape({}),
 };
 
 export default ProductGridSingle;

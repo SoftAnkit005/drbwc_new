@@ -3,22 +3,20 @@ import { Fragment, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import { getDiscountPrice } from "../../helpers/product";
-import ProductModal from "./ProductModal";
-import { addToWishlist } from "../../store/slices/wishlist-slice";
+import { updateWishlist } from "../../store/slices/wishlist-slice";
 import { addToCart } from "../../store/slices/cart-slice";
 import cogoToast from "cogo-toast";
+import { FaHeart } from "react-icons/fa";
 
-const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, spaceBottomClass }) => {
+const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
+  const token = localStorage.getItem('authToken');
   const dispatch = useDispatch();
-  const [modalShow, setModalShow] = useState(false);
   const [cartState, setCartState] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
-  
-  const discountedPrice = getDiscountPrice(product.price, product.discount);
+  const user = JSON.parse(localStorage.getItem('loggedUser'));
+  const { wishlistItems } = useSelector((state) => state.wishlist);
   const cartStatus = useSelector((state) => state.cart.status);
-  
-  const token = localStorage.getItem('authToken');
+  const [wishlistIcon, setwishlistIcon] = useState('');
 
   // Initialize cartState based on sessionStorage
   useEffect(() => {
@@ -29,17 +27,16 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
     }
   }, [product.id, token]);
 
+  // Set wishlist icon state based on product presence in wishlistItems
+  useEffect(() => {
+    setwishlistIcon(wishlistItems?.some(item => item.product_id === product.id) ? 'active' : '');
+  }, [wishlistItems, product.id]);
+
   const handleAddToCart = () => {
     setCartState(true);
-
-    const payload = {
-      product_id: product.id,
-      quantity: 1,
-      color: 'Default',
-    };
+    const payload = { product_id: product.id, quantity: 1, color: 'Default', };
 
     if (token) {
-      // Use the API if the user is authenticated
       dispatch(addToCart(payload));
 
       if (cartStatus === 'succeeded') {
@@ -54,7 +51,7 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
         );
       }
     } else {
-      // Use sessionStorage if the user is not authenticated
+      // Add product to session storage
       let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
       const existingItemIndex = cart.findIndex(
@@ -62,10 +59,8 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
       );
 
       if (existingItemIndex > -1) {
-        // Update quantity if the item already exists in the cart
         cart[existingItemIndex].quantity += 1;
       } else {
-        // Add new item to the cart
         cart.push(payload);
       }
 
@@ -83,6 +78,29 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
 
       // Update local state
       setIsInCart(true);
+    }
+  };
+
+  const handleWishList = async (id, prod_name) => {
+    if (!token) {
+      cogoToast.error("Please log in to manage your wishlist.");
+      return;
+    }
+
+    try {
+      await dispatch(updateWishlist({ product_id: id, user_id: user.id })).unwrap();
+
+      if (wishlistIcon === 'active') {
+        cogoToast.error(`${prod_name} removed from wishlist.`, { position: 'top-right', });
+        setwishlistIcon(''); // Reset icon
+      } else {
+        cogoToast.success(`${prod_name} added to wishlist.`, { position: 'top-right', });
+        setwishlistIcon('active'); // Set icon to active
+      }
+    } catch (error) {
+      // Handle any errors from the updateWishlist thunk
+      console.log(error);
+      cogoToast.error("Failed to update wishlist. Please try again.");
     }
   };
 
@@ -116,37 +134,16 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
           <div className="product-action">
             <div className="pro-same-action pro-cart">
               {product.qty && product.qty > 0 ? (
-                <button
-                  onClick={handleAddToCart}
-                  className={isInCart ? "active" : ""}
-                  disabled={cartState || isInCart}
-                  title={isInCart ? "Added to cart" : "Add to cart"}
-                >
-                  {" "}
-                  <i className="pe-7s-cart"></i>{" "}
-                  {cartState || isInCart ? "Added" : "Add to cart"}
-                </button>
+                <button onClick={handleAddToCart} className={isInCart ? "active" : ""} disabled={cartState || isInCart} title={isInCart ? "Added to cart" : "Add to cart"} > {" "} <i className="pe-7s-cart"></i>{" "} {cartState || isInCart ? "Added" : "Add to cart"} </button>
               ) : (
-                <button disabled className="active">
-                  Out of Stock
-                </button>
+                <button disabled className="active"> Out of Stock </button>
               )}
             </div>
             <div className="pro-same-action pro-wishlist">
-              <button
-                className={wishlistItem !== undefined ? "active" : ""}
-                disabled={wishlistItem !== undefined}
-                title={wishlistItem !== undefined ? "Added to wishlist" : "Add to wishlist"}
-                onClick={() => dispatch(addToWishlist(product))}
-              >
-                <i className="pe-7s-like" />
+              <button className={wishlistIcon} disabled={wishlistItem !== undefined} title={wishlistItem !== undefined ? "Added to wishlist" : "Add to wishlist"} onClick={() => handleWishList(product.id, product.product_name)} >
+                <FaHeart className={`text-${wishlistIcon === 'active' ? 'danger' : ''}`} />
               </button>
             </div>
-            {/* <div className="pro-same-action pro-quickview">
-              <button onClick={() => setModalShow(true)} title="Quick View">
-                <i className="pe-7s-look" />
-              </button>
-            </div> */}
           </div>
         </div>
         <div className="product-content text-center mt-2">
@@ -159,17 +156,6 @@ const ProductGridListSingle = ({ product, cartItem, wishlistItem, compareItem, s
           <h3 className="product-price fw-semibold pb-2"> ₹ {product.price} </h3>
         </div>
       </div>
-
-      {/* Shop list content (omitted for brevity) */}
-
-      <ProductModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        product={product}
-        discountedPrice={discountedPrice}
-        wishlistItem={wishlistItem}
-        compareItem={compareItem}
-      />
     </Fragment>
   );
 };

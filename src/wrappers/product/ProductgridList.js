@@ -6,7 +6,7 @@ import ProductGridListSingle from "../../components/product/ProductGridListSingl
 const ProductGridList = ({ products, spaceBottomClass }) => {
   // Access cartItems inside the cartItems object
   const cartItems = useSelector((state) => state.cart.cartItems?.cartItems || []);
-  const wishlistItems = useSelector((state) => state.wishlist.wishlistItems || []);
+  // const wishlistItems = useSelector((state) => state.wishlist.wishlistItems || []);
   const compareItems = useSelector((state) => state.compare.compareItems || []);
 
   return (
@@ -18,7 +18,7 @@ const ProductGridList = ({ products, spaceBottomClass }) => {
               spaceBottomClass={spaceBottomClass}
               product={product}
               cartItem={cartItems.find(cartItem => cartItem.product_id === product.id)}
-              wishlistItem={wishlistItems.find(wishlistItem => wishlistItem.product_id === product.id)}
+              // wishlistItem={wishlistItems.find(wishlistItem => wishlistItem.product_id === product.id)}
               compareItem={compareItems.find(compareItem => compareItem.product_id === product.id)}
             />
           </div>
