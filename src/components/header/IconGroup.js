@@ -13,10 +13,10 @@ const IconGroup = ({ iconWhiteClass }) => {
   const [allCart, setallCart] = useState([]);
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 993);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1000);
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 993);
+      setIsMobile(window.innerWidth < 1000);
     };
 
     window.addEventListener('resize', handleResize);
@@ -25,11 +25,11 @@ const IconGroup = ({ iconWhiteClass }) => {
 
   const [searchText, setSearchText] = useState("");
   const { products } = useSelector((state) => state.product.products);
-  // console.log("products", products);
+  console.log("products", products);
 
 
   const [filteredProducts, setFilteredProducts] = useState(products);
-  // console.log("filteredProducts", filteredProducts);
+  console.log("filteredProducts", filteredProducts);
 
 
   const handleSearchChange = (e) => {
@@ -80,27 +80,42 @@ const IconGroup = ({ iconWhiteClass }) => {
   return (
     <div className={clsx("header-right-wrap", iconWhiteClass)}>
       <div className="same-style header-search d-none d-lg-block">
-        {!isMobile ? (
-          <div className="search-input-container">
-            <form action="#">
-              <input className="form-control" type="text" value={searchText} placeholder="Search" onChange={handleSearchChange} />
-              <ul className={searchText !== "" ? "ul-search" : "d-none"}>
-                {filteredProducts.map(product => (
-                  <li className="desc-xs btn btn-dark border-top w-100 text-start p-2 text-decoration-none" key={product.id}>
-                    <Link className="text-white" to={`/product/${product.id}`}>
-                      {product.product_name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </form>
-          </div>) : (
-          <div className="same-style header-search d-none d-lg-block">
-            <button className="search-active header-icon" onClick={e => handleClick(e)}>
-              <i className="pe-7s-search" />
-            </button>
-          </div>
-        )}
+        <div className="search-input-container">
+          <form action="#">
+            <input className="form-control" type="text" value={searchText} placeholder="Search" onChange={handleSearchChange} />
+            <ul className={searchText !== "" ? "ul-search" : "d-none"}>
+              {filteredProducts.map(product => (
+                <li className="desc-xs btn btn-dark border-top w-100 text-start p-2 text-decoration-none" key={product.id}>
+                  <Link className="text-white" to={`/product/${product.id}`}>
+                    {product.product_name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </form>
+        </div>
+
+        {/* {!isMobile ? (
+        )} */}
+      </div>
+      <div className="same-style header-search d-lg-none">
+        <button className="search-active header-icon" onClick={e => handleClick(e)}>
+          <i className="pe-7s-search" />
+        </button>
+        <div className="search-content">
+          <form action="#">
+            <input type="text" value={searchText} placeholder="Search" onChange={handleSearchChange} />
+            <ul className={searchText !== "" ? "ul-search" : "d-none"}>
+              {filteredProducts.map(product => (
+                <li className="desc-xs btn btn-dark border-top w-100 text-start p-2 text-decoration-none" key={product.id}>
+                  <Link className="text-white" to={`/product/${product.id}`}>
+                    {product.product_name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </form>
+        </div>
       </div>
 
       <div className="same-style account-setting d-none d-lg-block">

@@ -572,13 +572,16 @@ img {
   padding: 1rem 1.2rem !important;
   font-size: 12px !important;
   border: none;
+  width: 80%;
+  margin-left: auto;
 }
 
 .ul-search {
   position: absolute;
   margin-top: 8px;
   z-index: 2;
-  left: 0;
+  right: 0;
+  width: 80%;
 }
 
 
