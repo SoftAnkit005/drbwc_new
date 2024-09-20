@@ -14,8 +14,13 @@ const params = {
   modules: [EffectFade],
   loop: true,
   speed: 1000,
-  navigation: true
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+  navigation: false // Remove navigation
 };
+
 
 
 const HeroSliderOne = () => {

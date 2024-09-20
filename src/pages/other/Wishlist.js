@@ -6,6 +6,7 @@ import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { addToCart } from "../../store/slices/cart-slice";
 import { updateWishlist } from "../../store/slices/wishlist-slice";
+import cogoToast from "cogo-toast";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,19 @@ const Wishlist = () => {
       setSortedWishlists(updatedSortedWishlists);
     });
   };
+
+  const handleCart = (product_id, product_name) => {
+    dispatch(addToCart({ product_id, quantity: 1, color: 'Default', }))
+    cogoToast.success(
+      <div>
+        <div><span className='fw-semibold'>{product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
+      </div>,
+      {
+        position: 'top-right',
+        hideAfter: 5,
+      }
+    );
+  }
 
   return (
     <Fragment>
@@ -108,7 +122,7 @@ const Wishlist = () => {
                                 {console.log('wishlistItem', wishlistItem)}
                                 <td className="product-wishlist-cart">
                                   {wishlistItem.qty && wishlistItem.qty > 0 ? (
-                                    <button onClick={() => dispatch(addToCart({ product_id: wishlistItem.id, quantity: 1, color: 'Default', }))} className={cartItem !== undefined && cartItem.quantity > 0 ? "active" : ""} disabled={cartItem !== undefined && cartItem.quantity > 0} title={wishlistItem !== undefined ? "Added to cart" : "Add to cart"}>
+                                    <button onClick={() => handleCart(wishlistItem.id, wishlistItem.product_name)} className={cartItem !== undefined && cartItem.quantity > 0 ? "active" : ""} disabled={cartItem !== undefined && cartItem.quantity > 0} title={wishlistItem !== undefined ? "Added to cart" : "Add to cart"}>
                                       {cartItem !== undefined && cartItem.quantity > 0 ? "Added" : "Add to cart"}
                                     </button>
                                   ) : (

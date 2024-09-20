@@ -80,7 +80,7 @@ const ProductBuyBox = ({ product }) => {
 
       cogoToast.success(
         <div>
-          <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart (Session).</span></div>
+          <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
         </div>,
         { position: 'top-right', hideAfter: 5 }
       );

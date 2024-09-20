@@ -35,24 +35,31 @@ const MobileNavMenu = () => {
   return (
     <nav className="offcanvas-navigation" id="offcanvas-navigation">
       <ul>
-        {categoryData?.map((category) => (
-          <li key={category.id} className="menu-item-has-children">
-            <Link to={process.env.PUBLIC_URL + `/${category.name.toLowerCase().replace(/\s+/g, '-')}`}>
-              {t(category.name)}
-            </Link>
-            {filteredSubcategories(category.id).length > 0 && (
-              <ul className="sub-menu">
-                {filteredSubcategories(category.id).map((subcategory) => (
-                  <li key={subcategory.id}>
-                    <Link to={process.env.PUBLIC_URL + `/${category.name.toLowerCase().replace(/\s+/g, '-')}/${subcategory.id}`}>
-                      {t(subcategory.name)}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
+        {categoryData?.map((category) => {
+          const categoryPath = `${process.env.PUBLIC_URL}/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
+          const categoryPathWithId = `${categoryPath}?id=${category.id}`;
+          return (
+            <li key={category.id} className="menu-item-has-children">
+              <Link to={categoryPathWithId}>
+                {t(category.name)}
+              </Link>
+              {filteredSubcategories(category.id).length > 0 && (
+                <ul className="sub-menu">
+                  {filteredSubcategories(category.id).map((subcategory) => {
+                    const subcategoryPath = `${categoryPath}?id=${category.id}&subcat=${subcategory.id}`;
+                    return (
+                      <li key={subcategory.id}>
+                        <Link to={subcategoryPath}>
+                          {t(subcategory.name)}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
