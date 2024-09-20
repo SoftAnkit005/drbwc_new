@@ -13,7 +13,25 @@ const IconGroup = ({ iconWhiteClass }) => {
   const [allCart, setallCart] = useState([]);
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
-  
+
+  const [searchText, setSearchText] = useState("");
+  const { products } = useSelector((state) => state.product.products);
+  console.log("products", products);
+
+
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  console.log("filteredProducts", filteredProducts);
+
+
+  const handleSearchChange = (e) => {
+    const searchQuery = e.target.value.toLowerCase();
+    setSearchText(searchQuery)
+    const filtered = products.filter(product =>
+      product.product_name.toLowerCase().includes(searchQuery)
+    );
+    setFilteredProducts(filtered);
+  };
+
   const handleClick = (e) => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
@@ -55,12 +73,20 @@ const IconGroup = ({ iconWhiteClass }) => {
       <div className="same-style header-search d-none d-lg-block">
         <div className="search-input-container">
           <form action="#">
-            <input className="form-control" type="text" placeholder="Search"/>
+            <input className="form-control" type="text" value={searchText} placeholder="Search" onChange={handleSearchChange} />
+            <ul className={searchText !== "" ? "mt-2" : "d-none"}>
+              {filteredProducts.map(product => (
+                <li className="desc-xs btn btn-dark border-top w-100 text-start p-2 text-decoration-none" key={product.id}>
+                  <Link className="text-white" to={`/product/${product.id}`}>
+                    {product.product_name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </form>
         </div>
-
-
       </div>
+
       <div className="same-style account-setting d-none d-lg-block">
         <button className="account-setting-active header-icon" onClick={e => handleClick(e)} >
           <FaUser className="fs-5" />
