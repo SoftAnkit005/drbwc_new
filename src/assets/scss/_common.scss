@@ -300,6 +300,10 @@ ul {
   color: red;
 }
 
+.form-control:focus{
+  box-shadow: 0 0px 19px 0.02rem rgba(205, 166, 70, 0.5294117647);
+}
+
 .fix {
   overflow: hidden;
 }
