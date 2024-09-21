@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 // import { fetchSubcategories } from "../../store/slices/sub-category-slice";
 
 const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
-  const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
   const { subcategories } = useSelector((state) => state.subcategories);
   const [categoryData, setCategoryData] = useState([]);
@@ -69,6 +68,11 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
               </li>
             );
           })}
+          <li>
+          <Link to={process.env.PUBLIC_URL + "/corporate-gifts"}>
+            Corporate Gifts
+          </Link>
+          </li>
         </ul>
       </nav>
     </div>

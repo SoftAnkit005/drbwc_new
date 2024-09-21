@@ -17,9 +17,6 @@
       padding: 0 0 0;
     }
   }
-  @media #{$sm-layout} {
-    padding: 38px 0 0;
-  }
   &.slider-height-res {
     @media #{$xs-layout} {
       position: relative;

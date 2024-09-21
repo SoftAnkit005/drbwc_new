@@ -21,13 +21,9 @@ const MenuCart = () => {
     return sessionCart ? JSON.parse(sessionCart) : [];
   };
 
-  console.log('cartItems', cartItems);
-
   useEffect(() => {
     if (products?.success && Array.isArray(products.products)) {
       setProductsData(products.products);
-    } else {
-      console.log("No products found or products fetching failed.");  // Debugging
     }
   }, [products]);
 

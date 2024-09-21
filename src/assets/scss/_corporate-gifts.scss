@@ -1,0 +1,40 @@
+.corporate-slider {
+  background: radial-gradient(50% 70% at 36% 58%, #8a715f 15%, #160e09 100%);
+  position: relative;
+
+  .corporate-gift-img{
+    max-height: 450px;
+    max-width: 100%;
+  }
+}
+
+.corporate-ad-section{
+  .fancy-text{
+    color: $theme-red;
+  }
+}
+
+.corporate-gifts-img-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* Ensures a square aspect ratio */
+  overflow: hidden;
+
+  .corporate-gifts-img {
+    position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the image covers the square area */
+  }
+}
+
+.about-corporate {
+  position: relative;
+
+  .corporate-gift-img{
+    max-height: 450px;
+    max-width: 100%;
+  }
+}

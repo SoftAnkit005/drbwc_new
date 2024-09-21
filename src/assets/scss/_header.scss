@@ -574,6 +574,7 @@ img {
   border: none;
   width: 80%;
   margin-left: auto;
+  height: 40px;
 }
 
 .ul-search {
@@ -582,6 +583,11 @@ img {
   z-index: 2;
   right: 0;
   width: 80%;
+  max-height: 50vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  background-color: #fff;
+  box-shadow: 0 0px 19px 0.02rem rgb(199, 199, 199);
 }
 
 
@@ -1035,19 +1041,15 @@ img {
       z-index: 99;
       top: 193%;
       right: 0;
-
       visibility: hidden;
-
       min-width: 300px;
-      padding: 15px;
-
       transition: all 0.5s ease 0s;
       transform: rotateX(90deg);
       transform-origin: center top 0;
 
       opacity: 0;
-      background: #ffffff none repeat scroll 0 0;
-      box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
+      background: #000 none repeat scroll 0 0;
+      box-shadow: 0 0px 19px 0.02rem rgb(199 199 199);
 
       &.active {
         visibility: visible;
@@ -1077,7 +1079,7 @@ img {
 
           transition: all 0.4s ease 0s;
 
-          color: #000;
+          color: #fff;
           border: 1px solid #d3d3d3;
           outline: medium none;
           background: transparent;

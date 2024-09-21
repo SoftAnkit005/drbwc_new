@@ -10,6 +10,7 @@ import MasterV4ThermalBed from "./pages/other/MasterV4ThermalBed";
 import { useInitialDispatches } from './hooks/useInitialDispatches';
 import PaymentPage from "./pages/other/PaymentPage";
 import OrderConfirmation from "./pages/other/OrderConfirmation";
+import CorporateGifts from "./pages/other/CorporateGifts";
 
 // home page
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -29,14 +30,6 @@ const ProductSticky = lazy(() => import("./pages/shop-product/ProductSticky"));
 const ProductSlider = lazy(() => import("./pages/shop-product/ProductSlider"));
 const ProductFixedImage = lazy(() =>
   import("./pages/shop-product/ProductFixedImage")
-);
-
-// blog pages
-const BlogStandard = lazy(() => import("./pages/blog/BlogStandard"));
-const BlogNoSidebar = lazy(() => import("./pages/blog/BlogNoSidebar"));
-const BlogRightSidebar = lazy(() => import("./pages/blog/BlogRightSidebar"));
-const BlogDetailsStandard = lazy(() =>
-  import("./pages/blog/BlogDetailsStandard")
 );
 
 // other pages
@@ -85,13 +78,8 @@ const App = () => {
               <Route path={process.env.PUBLIC_URL + "/product-slider/:id"} element={<ProductSlider/>} />
               <Route path={process.env.PUBLIC_URL + "/product-fixed-image/:id"} element={<ProductFixedImage/>} /> 
 
-              {/* Blog pages */}
-              <Route path={process.env.PUBLIC_URL + "/blog-standard"} element={<BlogStandard/>} />
-              <Route path={process.env.PUBLIC_URL + "/blog-no-sidebar"} element={<BlogNoSidebar/>} />
-              <Route path={process.env.PUBLIC_URL + "/blog-right-sidebar"} element={<BlogRightSidebar/>} />
-              <Route path={process.env.PUBLIC_URL + "/blog-details-standard"} element={<BlogDetailsStandard/>} /> 
-
               {/* Other pages */}
+              <Route path={process.env.PUBLIC_URL + "/corporate-gifts"} element={<CorporateGifts/>} />
               <Route path={process.env.PUBLIC_URL + "/about"} element={<About/>} />
               <Route path={process.env.PUBLIC_URL + "/gallery"} element={<Gallery/>} />
               <Route path={process.env.PUBLIC_URL + "/contact"} element={<Contact/>} />

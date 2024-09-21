@@ -191,6 +191,15 @@ h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0;
 .desc-xs{ font-size: $desc-xs !important;}
 .desc-xxs{ font-size: $desc-xxs !important;}
 
+.ellipsis-one-lines {
+  position: relative;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .ellipsis-two-lines {
   position: relative;
   display: -webkit-box;
@@ -207,6 +216,17 @@ h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0;
     text-decoration: none;
     padding-left: 0.5em;
   }
+}
+
+.fancy-text{
+  font-family: "Satisfy", cursive;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.2); /* Transparent white background */
+  backdrop-filter: blur(10px); /* Background blur */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border-radius: 8px; /* Optional: Rounding the corners */
 }
 
 @media #{$md-layout},#{$xs-layout} {
