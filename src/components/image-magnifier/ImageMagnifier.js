@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 function ImageMagnifier(props) {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const zoomPreview = useRef(null)
     const gfgImg = useRef(null)
     
@@ -27,7 +28,7 @@ function ImageMagnifier(props) {
             const bgSizeY = imgHeight * 2; // Example: 2x zoom
     
             zoomPreview.current.style.display = "block";
-            zoomPreview.current.style.backgroundImage = `url(${props.imgsrc})`; 
+            zoomPreview.current.style.backgroundImage = `url(${apiUrl}/${props.imgsrc})`; 
             zoomPreview.current.style.backgroundSize = `${bgSizeX}px ${bgSizeY}px`;
             zoomPreview.current.style.backgroundPosition = `-${x}px -${y}px`; // Adjust based on actual size
         }
@@ -39,7 +40,7 @@ function ImageMagnifier(props) {
     }
   return (
     <div className="magnify-main">
-      <img src={props.imgsrc} onMouseMove={(e) => mouseMove(e)} onMouseOut={(e) => mouseOut(e)} ref={gfgImg} />
+      <img src={`${apiUrl}/${props.imgsrc}`} onMouseMove={(e) => mouseMove(e)} onMouseOut={(e) => mouseOut(e)} ref={gfgImg} />
       <div className="zoom-preview" ref={zoomPreview} ></div>
     </div>
   );

@@ -8,6 +8,15 @@ import { getCart } from "../store/slices/cart-slice";
 import { fetchTaxData } from "../store/slices/tax-slice";
 import { fetchWishlist } from "../store/slices/wishlist-slice";
 
+// Function to validate token
+const isTokenValid = (token) => {
+  // Simple check: return false if token is not present
+  if (!token) return false;
+
+  // You can add more complex checks here, such as token expiration
+  return true;
+};
+
 export const useInitialDispatches = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -20,8 +29,8 @@ export const useInitialDispatches = () => {
     dispatch(fetchOffers());
     dispatch(fetchTaxData());
 
-    // Conditionally dispatch getCart if token is available
-    if (token) {
+    // Conditionally dispatch getCart and fetchWishlist if token is valid
+    if (isTokenValid(token)) {
       dispatch(getCart());
       dispatch(fetchWishlist());
     }

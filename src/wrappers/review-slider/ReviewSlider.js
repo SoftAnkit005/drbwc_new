@@ -38,9 +38,6 @@ const ReviewSlider = ({ spaceBottomClass, spaceTopClass }) => {
     }
   }, [error, reviews]);
 
-  console.log(reviews);
-
-
 
   return (
     <div className={clsx("testimonial", spaceBottomClass, spaceTopClass)}>

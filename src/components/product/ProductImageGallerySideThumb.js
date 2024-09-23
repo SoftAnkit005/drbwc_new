@@ -14,6 +14,7 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [index, setIndex] = useState(-1);
   const location = useLocation();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Get the 'color' query parameter
   const queryParams = new URLSearchParams(location.search);
@@ -138,7 +139,7 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
                   return (
                     <SwiperSlide key={key}>
                       <div className="single-image">
-                        <img src={single} className="img-fluid" alt={`Product Image ${key}`} />
+                        <img src={`${apiUrl}/${single}`} className="img-fluid" alt={`Product Image ${key}`} />
                       </div>
                     </SwiperSlide>
                   );

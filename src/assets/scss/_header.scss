@@ -475,6 +475,9 @@ img {
           @media #{$xl-layout} {
             font-size: 13px;
           }
+          @media #{$xx-layout} {
+            font-size: 14px;
+          }
         }
 
         &:hover a {

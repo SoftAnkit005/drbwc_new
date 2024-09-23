@@ -21,6 +21,7 @@ const IconGroup = ({ iconWhiteClass }) => {
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   // console.log('categories', categories.categories);
+  console.log(wishlistItems);
 
 
 

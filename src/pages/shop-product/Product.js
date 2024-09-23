@@ -15,9 +15,12 @@ const Product = () => {
   const [productsData, setProductsData] = useState([]);
   const [relatedProducts, setrelatedProducts] = useState([])
 
+  console.log('products:', products.products);
+
   useEffect(() => {
-    if (products?.success && Array.isArray(products.products)) {
+    if (products?.success) {
       setProductsData(products.products);
+      console.log('productsData:', products.products);
     } else {
       console.log("No products found or products fetching failed.");  // Debugging
     }
@@ -34,7 +37,7 @@ const Product = () => {
   }, [product, products]);
 
   if (!product) {
-    return <div>Product not found</div>;
+    return <div>Video not found</div>;
   }
   
   // useEffect(() => {

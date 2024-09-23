@@ -43,7 +43,7 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
       <nav>
         <ul>
           {categoryData?.map((category) => {
-            const categoryPath = `${apiUrl}` + `/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
+            const categoryPath = `/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
             const categoryPathWithId = `${categoryPath}?id=${category.id}`;
             return (
               <li key={category.id} className={clsx(isActive(categoryPath) ? "active" : "")}>
