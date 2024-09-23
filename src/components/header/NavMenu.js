@@ -71,9 +71,7 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
             );
           })}
           <li>
-            <Link to={`${apiUrl}` + "/corporate-gifts"}>
-              Corporate Gifts
-            </Link>
+            <Link to={"/corporate-gifts"}> Corporate Gifts </Link>
           </li>
         </ul>
       </nav>

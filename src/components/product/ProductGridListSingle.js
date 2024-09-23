@@ -17,6 +17,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
   const cartStatus = useSelector((state) => state.cart.status);
   const { cartItems } = useSelector((state) => state.cart);
   const [wishlistIcon, setwishlistIcon] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   console.log('cartItems', cartItems);
   
@@ -121,7 +122,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
         <div className="product-img rounded-2">
           <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
             {product.image_urls && product.image_urls.length > 0 ? (
-              <img className="default-img" src={process.env.PUBLIC_URL + JSON.parse(product.image_urls)[0]} alt="" />
+              <img className="default-img" src={apiUrl+ '/' + JSON.parse(product.image_urls)[0]} alt="" />
             ) : (
               <img className="default-img" src={process.env.PUBLIC_URL + "/assets/img/placeholder.png"} alt="No image available" />
             )}
