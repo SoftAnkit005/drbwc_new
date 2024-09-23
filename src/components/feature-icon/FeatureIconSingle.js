@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const FeatureIconSingle = ({ singleFeature }) => {
   return (
     <div className="container row">
       <div className="col-md-6 products-img">
-        <img src={process.env.PUBLIC_URL + singleFeature.image} alt="" className="h-90" />
+        <img src={`${apiUrl}/` + singleFeature.image} alt="" className="h-90" />
       </div>
       <div className="col-md-6 products-info">
         <h5 className="products-feature">Auto Wellness Program</h5>

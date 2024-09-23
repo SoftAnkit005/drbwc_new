@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { fetchCategories } from "../../../store/slices/category-slice";
 import { fetchSubcategories } from "../../../store/slices/sub-category-slice";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const MobileNavMenu = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const MobileNavMenu = () => {
     <nav className="offcanvas-navigation" id="offcanvas-navigation">
       <ul>
         {categoryData?.map((category) => {
-          const categoryPath = `${process.env.PUBLIC_URL}/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
+          const categoryPath = `${apiUrl}/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
           const categoryPathWithId = `${categoryPath}?id=${category.id}`;
           return (
             <li key={category.id} className="menu-item-has-children">
