@@ -3,18 +3,16 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import FooterSocialMedia from "../../components/footer/sub-components/FooterSocialMedia";
 import FooterCopyright from "../../components/footer/FooterCopyright";
+import { useSelector } from "react-redux";
 
 
-const FooterOne = ({
-  backgroundColorClass,
-  spaceTopClass,
-  spaceBottomClass,
-  spaceLeftClass,
-  spaceRightClass,
-  containerClass,
-  extraFooterClass,
-  sideMenu
-}) => {
+const FooterOne = ({ spaceTopClass, spaceBottomClass, spaceLeftClass, spaceRightClass, containerClass, extraFooterClass, sideMenu }) => {
+  const { categories } = useSelector((state) => state.categories);
+
+  const formatCategoryName = (name) => {
+    return name.toLowerCase().replace(/\s+/g, '-'); // Converts to lowercase and replaces spaces with hyphens
+  };
+
   return (
     <>
       <footer className={clsx("footer-area", spaceTopClass, spaceBottomClass, extraFooterClass, spaceLeftClass, spaceRightClass )}>
@@ -69,29 +67,13 @@ const FooterOne = ({
                     <li>
                       <Link to={process.env.PUBLIC_URL + "/automatic-thermal-massage-bed"}>Advance Master V4 Thermal Heating Bed</Link>
                     </li>
+                    {categories?.categories.map((category) => (
+                      <li key={category.id}>
+                        <Link to={process.env.PUBLIC_URL + `/category/${formatCategoryName(category.name)}?id=${category.id}`}>{category.name}</Link>
+                      </li>
+                    ))}
                     <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>New Arrivals</Link>
-                    </li>
-                    <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Massage Chairs</Link>
-                    </li>
-                    <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Foot & Leg Massager</Link>
-                    </li>
-                    <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Thermal Massage Bed</Link>
-                    </li>
-                    <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Salon Spa Jacuzzi</Link>
-                    </li>
-                    <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Thermal Heating Mat</Link>
-                    </li>
-                    <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Gym Products</Link>
-                    </li>
-                    <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Corporate Gifts</Link>
+                      <Link to={process.env.PUBLIC_URL + "/corporate-gifts"}>Corporate Gifts</Link>
                     </li>
                   </ul>
                 </div>

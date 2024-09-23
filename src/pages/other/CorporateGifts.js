@@ -77,7 +77,7 @@ const CorporateGifts = () => {
               <h5 className="heading-xl lh-sm text-capitalize fw-bold">about bhanusali wellness corporate gifts</h5>
               <p className="desc-md py-4"> Our curated assortment of gifts makes it effortless to reward loyalty, show appreciation, recognize talent, or celebrate a new venture. Massager Accessories items for the home and office, there is a perfect gift to meet all your needs. </p>
               <div className="d-flex align-items-center">
-                <Link to="/about" type="button" className="btn btn-primary text-white w-fit rounded-0 py-2 px-4 me-3">Get in Touch</Link>
+                <Link to="/contact" type="button" className="btn btn-primary text-white w-fit rounded-0 py-2 px-4 me-3">Get in Touch</Link>
               </div>
             </div>
           </div>
