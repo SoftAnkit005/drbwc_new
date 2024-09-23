@@ -16,7 +16,7 @@ export const fetchSubcategories = createAsyncThunk(
     try {
       const response = await axios.get(`${apiUrl}/api/subcategories/get-subcategories`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          // 'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
