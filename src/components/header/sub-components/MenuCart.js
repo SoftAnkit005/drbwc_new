@@ -163,13 +163,13 @@ const MenuCart = () => {
               return (
                 <li className="single-shopping-cart" key={index}>
                   <div className="shopping-cart-img">
-                    <Link to={apiUrl + "/product/" + product.id}>
-                      <img alt={product.product_name} src={itemImageUrls[0] || "/default-image.jpg"} className="img-fluid" style={{ height: "65px" }} />
+                    <Link to={"/product/" + product.id}>
+                      <img alt={product.product_name} src={apiUrl +'/'+ itemImageUrls[0] || "/default-image.jpg"} className="img-fluid" style={{ height: "65px" }} />
                     </Link>
                   </div>
                   <div className="shopping-cart-title">
                     <h4 className="desc-xs fw-semibold">
-                      <Link to={apiUrl + "/product/" + product.id}>
+                      <Link to={"/product/" + product.id}>
                         {product.product_name}
                       </Link>
                     </h4>
