@@ -7,19 +7,20 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const fetchSubcategories = createAsyncThunk(
   'subcategories/fetchSubcategories',
   async (_, { getState, rejectWithValue }) => {
-    const token = getState().auth.token;
+    // const token = getState().auth.token;
 
-    if (!token) {
-      return rejectWithValue('Authentication token is missing');
-    }
+    // if (!token) {
+    //   return rejectWithValue('Authentication token is missing');
+    // }
 
     try {
       const response = await axios.get(`${apiUrl}/api/subcategories/get-subcategories`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          // 'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
+      console.log("subcate:",response.data );
       return response.data; // Return the subcategories data from the API
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to fetch subcategories';
