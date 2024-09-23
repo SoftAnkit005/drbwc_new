@@ -120,14 +120,14 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
     <Fragment>
       <div className={clsx("product-wrap shadow-lg rounded-2", spaceBottomClass)}>
         <div className="product-img rounded-2">
-          <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
+          <Link to={apiUrl + "/product/" + product.id}>
             {product.image_urls && product.image_urls.length > 0 ? (
               <img className="default-img" src={apiUrl+ '/' + JSON.parse(product.image_urls)[0]} alt="" />
             ) : (
-              <img className="default-img" src={process.env.PUBLIC_URL + "/assets/img/placeholder.png"} alt="No image available" />
+              <img className="default-img" src={apiUrl + "/assets/img/placeholder.png"} alt="No image available" />
             )}
             {product.image_urls && product.image_urls.length > 1 && (
-              <img className="hover-img" src={process.env.PUBLIC_URL + JSON.parse(product.image_urls)[1]} alt="" />
+              <img className="hover-img" src={apiUrl + JSON.parse(product.image_urls)[1]} alt="" />
             )}
           </Link>
           {product.discount || product.new ? (

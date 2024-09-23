@@ -10,6 +10,7 @@ const MenuCart = () => {
   const { products } = useSelector((state) => state.product);
   const [productsData, setProductsData] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
+  const apiUrl = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const [allCart, setAllCart] = useState([]);
   let cartTotalPrice = 0;
@@ -162,13 +163,13 @@ const MenuCart = () => {
               return (
                 <li className="single-shopping-cart" key={index}>
                   <div className="shopping-cart-img">
-                    <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
+                    <Link to={apiUrl + "/product/" + product.id}>
                       <img alt={product.product_name} src={itemImageUrls[0] || "/default-image.jpg"} className="img-fluid" style={{ height: "65px" }} />
                     </Link>
                   </div>
                   <div className="shopping-cart-title">
                     <h4 className="desc-xs fw-semibold">
-                      <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
+                      <Link to={apiUrl + "/product/" + product.id}>
                         {product.product_name}
                       </Link>
                     </h4>

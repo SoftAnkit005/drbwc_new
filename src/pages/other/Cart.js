@@ -10,6 +10,7 @@ import CouponSection from "../../wrappers/coupon-apply/CouponSection";
 const Cart = () => {
   const [itemQuantities, setItemQuantities] = useState({});
   const [totalTaxesAmount, setTotalTaxesAmount] = useState(0);
+  const apiUrl = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { cartItems } = useSelector((state) => state.cart);
@@ -192,7 +193,7 @@ const Cart = () => {
                               <tr key={index}>
                                 <td className="product-thumbnail">
                                   <Link to={`/product/${product.id}`}>
-                                    <img className="img-fluid" src={imageUrls[0] || "path/to/default-image.jpg"} alt={product.product_name} />
+                                    <img className="img-fluid" src={ apiUrl + '/' +imageUrls[0] || "path/to/default-image.jpg"} alt={product.product_name} />
                                   </Link>
                                 </td>
                                 <td className="product-name">

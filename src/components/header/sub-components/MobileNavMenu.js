@@ -1,24 +1,22 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { fetchCategories } from "../../../store/slices/category-slice";
-import { fetchSubcategories } from "../../../store/slices/sub-category-slice";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const MobileNavMenu = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
   const { subcategories } = useSelector((state) => state.subcategories);
   const [categoryData, setCategoryData] = useState([]);
   const [subcategoriesData, setSubcategoriesData] = useState([]);
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(fetchSubcategories());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchCategories());
+  //   dispatch(fetchSubcategories());
+  // }, [dispatch]);
 
   useEffect(() => {
     if (categories?.success) {
