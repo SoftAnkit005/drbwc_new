@@ -50,16 +50,7 @@ const App = () => {
   return (
       <Router>
         <ScrollToTop>
-          <Suspense
-            fallback={
-              <div className="flone-preloader-wrapper">
-                <div className="flone-preloader">
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            }
-          >
+          <Suspense fallback={ <div className="flone-preloader-wrapper"> <div className="flone-preloader"> <span></span> <span></span> </div> </div> } >
             <Routes>
               {/* Home page */}
               <Route path={process.env.PUBLIC_URL + "/"} element={<HomeFashion/>} />

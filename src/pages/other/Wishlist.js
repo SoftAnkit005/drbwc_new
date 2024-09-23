@@ -17,6 +17,7 @@ const Wishlist = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { products } = useSelector((state) => state.product);
   const user = JSON.parse(localStorage.getItem('loggedUser'));
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (wishlistItems) {
@@ -107,7 +108,7 @@ const Wishlist = () => {
                               <tr key={key}>
                                 <td className="product-thumbnail">
                                   <Link to={process.env.PUBLIC_URL + "/product/" + wishlistItem.id}>
-                                    <img className="img-fluid" src={productImages[0]} alt={wishlistItem.name} />
+                                    <img className="img-fluid" src={apiUrl + '/' + productImages[0]} alt={wishlistItem.name} />
                                   </Link>
                                 </td>
 
