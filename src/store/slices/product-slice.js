@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 // Define the async thunk for fetching products
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts', // The action type
@@ -8,7 +10,7 @@ export const fetchProducts = createAsyncThunk(
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
-      const response = await fetch("http://localhost:5000/api/product/get", {
+      const response = await fetch(`${apiUrl}/api/product/get`, {
         method: "GET",
         headers: myHeaders,
         redirect: "follow"

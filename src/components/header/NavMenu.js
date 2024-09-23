@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 // import { fetchSubcategories } from "../../store/slices/sub-category-slice";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
   const { categories } = useSelector((state) => state.categories);
   const { subcategories } = useSelector((state) => state.subcategories);
@@ -41,7 +43,7 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
       <nav>
         <ul>
           {categoryData?.map((category) => {
-            const categoryPath = process.env.PUBLIC_URL + `/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
+            const categoryPath = `${apiUrl}` + `/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
             const categoryPathWithId = `${categoryPath}?id=${category.id}`;
             return (
               <li key={category.id} className={clsx(isActive(categoryPath) ? "active" : "")}>
@@ -69,9 +71,9 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
             );
           })}
           <li>
-          <Link to={process.env.PUBLIC_URL + "/corporate-gifts"}>
-            Corporate Gifts
-          </Link>
+            <Link to={`${apiUrl}` + "/corporate-gifts"}>
+              Corporate Gifts
+            </Link>
           </li>
         </ul>
       </nav>
