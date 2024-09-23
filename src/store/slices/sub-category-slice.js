@@ -20,6 +20,7 @@ export const fetchSubcategories = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       });
+      console.log("subcate:",response.data );
       return response.data; // Return the subcategories data from the API
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to fetch subcategories';
