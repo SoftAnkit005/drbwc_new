@@ -40,10 +40,10 @@ const LoginRegister = () => {
   useEffect(() => {
     if (isSignUpAttempted && signedUser.user?.message) {
       if (signedUser.user.message === "User registered successfully") {
-        cogoToast.success(signedUser.user.message);
+        cogoToast.success(signedUser.user.message, { position: 'top-right', hideAfter: 5 });
         setSignupData({ full_name: '', email: '', password: '' });
       } else {
-        cogoToast.error(signedUser.user.message);
+        cogoToast.error(signedUser.user.message, { position: 'top-right', hideAfter: 5 });
       }
 
       setIsSignUpAttempted(false);
@@ -87,7 +87,7 @@ const LoginRegister = () => {
   // console.log(user);
   useEffect(() => {
     if (user && user.success) {
-      cogoToast.success("Logged in successfully!");
+      cogoToast.success("Logged in successfully!", { position: 'top-right', hideAfter: 5 });
       localStorage.setItem("loggedUser", JSON.stringify(user.user));
       // localStorage.setItem("authToken", user.token);
       dispatch(setToken(user.token));

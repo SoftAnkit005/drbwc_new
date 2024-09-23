@@ -38,6 +38,7 @@
     "yet-another-react-lightbox": "^2.2.0"
   },
   "scripts": {
+    "production": "node server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

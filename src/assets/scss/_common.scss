@@ -95,6 +95,10 @@ h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0;
   background: #6c757d31;
 }
 
+.bg-primary {
+  background-color: $theme-color !important;
+}
+
 .cursor-copy {
   cursor: url("../../../public/assets/img/product/drbwc_images/copy-icon.svg"), auto;
 }

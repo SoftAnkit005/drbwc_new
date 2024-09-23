@@ -15,10 +15,10 @@ function CouponDescModal({ offer, code, description }) {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(code)
       .then(() => {
-        cogoToast.success('Copied to clipboard!');
+        cogoToast.success('Coupon Copied!', { position: 'top-right', hideAfter: 5 });
     })
     .catch((err) => {
-        cogoToast.success('Failed to copy code: ', err);
+        cogoToast.success('Failed to copy code: ', err, { position: 'top-right', hideAfter: 5 });
     });
   };
 

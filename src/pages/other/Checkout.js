@@ -126,7 +126,7 @@ const Checkout = () => {
       qty: quantities,
       tax_id: taxid,
       transaction_id: "",
-      payment_method: "",
+      payment_method: "Cash on Delivery",
       order_date: new Date().toISOString().split('T')[0], // Current date
       shipping_address: `${formData.address}, ${formData.address2}, ${formData.city}, ${formData.state}, ${formData.country} - ${formData.postcode}`,
       tax: taxlist ,
@@ -134,7 +134,7 @@ const Checkout = () => {
       discount_id: discountDetails ? discountDetails.couponId : null,
       discount_type: discountDetails ? discountDetails.type : null,
       discount: discountDetails ? discountDetails.amount : null,
-      status: "pending"
+      status: "confirmed"
     };
 
     console.log("Order data:", orderData);

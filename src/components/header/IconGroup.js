@@ -20,12 +20,6 @@ const IconGroup = ({ iconWhiteClass }) => {
   const [searchText, setSearchText] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
 
-  // console.log('categories', categories.categories);
-  console.log(wishlistItems);
-
-
-
-
   const handleSearchChange = (e) => {
     const searchQuery = e.target.value.toLowerCase();
     setSearchText(searchQuery)

@@ -12,6 +12,7 @@ export const createOrder = createAsyncThunk(
       myHeaders.append("Content-Type", "application/json");
 
       const raw = JSON.stringify(orderData);
+      console.log('orderData', orderData);
 
       const requestOptions = {
         method: 'POST',

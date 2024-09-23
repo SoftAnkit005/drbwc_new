@@ -38,7 +38,7 @@ const MobileNavMenu = () => {
     <nav className="offcanvas-navigation" id="offcanvas-navigation">
       <ul>
         {categoryData?.map((category) => {
-          const categoryPath = `${apiUrl}/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
+          const categoryPath = `/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
           const categoryPathWithId = `${categoryPath}?id=${category.id}`;
           return (
             <li key={category.id} className="menu-item-has-children">
