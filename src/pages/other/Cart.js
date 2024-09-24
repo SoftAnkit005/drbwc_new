@@ -27,7 +27,8 @@ const Cart = () => {
 
   useEffect(() => {
     if (taxdata?.success) {
-      setTaxes(taxdata.taxes);
+      const sortedActiveTaxes = taxdata.taxes.filter(tax => tax.status === 'active')
+      setTaxes(sortedActiveTaxes);
     }
   }, [taxdata]);
 
@@ -218,7 +219,6 @@ const Cart = () => {
                                 </td>
                                 <td className="product-subtotal">{"₹ " + (finalProductPrice * quantity).toFixed(2)}</td>
                                 <td className="product-remove">
-                                  {console.log('cartItem.product_id', cartItem.product_id)}
                                   <button onClick={() => handleRemoveFromCart(cartItem.product_id)}>
                                     <i className="fa fa-times"></i>
                                   </button>

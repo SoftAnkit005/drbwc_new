@@ -20,8 +20,8 @@ const MobileNavMenu = () => {
 
   useEffect(() => {
     if (categories?.success) {
-      const sortedCategories = [...categories.categories].sort((a, b) => a.position - b.position);
-      setCategoryData(sortedCategories);
+      const sortedActiveCategories = categories.categories.filter(category => category.status === 'active').sort((a, b) => a.position - b.position);
+      setCategoryData(sortedActiveCategories);
     }
     if (subcategories?.success) {
       setSubcategoriesData(subcategories.subcategories || []);

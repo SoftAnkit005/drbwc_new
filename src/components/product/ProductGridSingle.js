@@ -1,23 +1,19 @@
 import PropTypes from "prop-types";
-import { Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import { getDiscountPrice } from "../../helpers/product";
-import Rating from "./sub-components/ProductRating";
-import ProductModal from "./ProductModal";
-import { addToCart } from "../../store/slices/cart-slice";
-import { updateWishlist } from "../../store/slices/wishlist-slice";
 // import { addToCompare } from "../../store/slices/compare-slice";
 
 const ProductGridSingle = ({ product,spaceBottomClass }) => {
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   return (
     <Fragment>
       <div className={clsx("product-wrap shadow rounded-2 m-3", spaceBottomClass)}>
         <div className="product-img rounded-2">
           <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
             {product.image_urls && product.image_urls.length > 0 ? (
-              <img className="default-img" src={process.env.PUBLIC_URL + JSON.parse(product.image_urls)[0]} alt="" />
+              <img className="default-img" src={apiUrl + '/' + JSON.parse(product.image_urls)[0]} alt="" />
             ) : (
               <img className="default-img" src={process.env.PUBLIC_URL + "/assets/img/placeholder.png"} alt="No image available" />
             )}

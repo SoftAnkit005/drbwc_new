@@ -62,7 +62,7 @@ const FooterOne = ({ spaceTopClass, spaceBottomClass, spaceLeftClass, spaceRight
                 <div className="footer-list">
                   <ul>
                     <li>
-                      <Link to={process.env.PUBLIC_URL + "#/"}>Home</Link>
+                      <Link to={process.env.PUBLIC_URL + "/"}>Home</Link>
                     </li>
                     <li>
                       <Link to={process.env.PUBLIC_URL + "/automatic-thermal-massage-bed"}>Advance Master V4 Thermal Heating Bed</Link>

@@ -8,6 +8,9 @@ import { IoBagHandle, IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { clearToken } from "../../store/slices/auth-slice";
 import { GiHamburgerMenu } from "react-icons/gi";
+import cogoToast from "cogo-toast";
+// import userIcon from "../../assets/img/users/user-default.jpg";
+
 
 
 const IconGroup = ({ iconWhiteClass }) => {
@@ -35,9 +38,10 @@ const IconGroup = ({ iconWhiteClass }) => {
 
   const token = useSelector((state) => state.auth.token);
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault(); // Prevent the default Link navigation
+    cogoToast.error('Logged out Successfully!', { position: 'top-right', hideAfter: 5 });
     dispatch(clearToken());
-    // window.location.reload();
   };
 
   const triggerMobileMenu = () => {
@@ -119,20 +123,31 @@ const IconGroup = ({ iconWhiteClass }) => {
         </div>
       </div>
 
-      <div className="same-style account-setting d-none d-lg-block">
+      <div className="same-style account-setting">
         <button className="account-setting-active header-icon" onClick={e => handleClick(e)} >
-          <FaUser className="fs-5" />
+          {token ? 
+            <img className="rounded-circle nav-user-icon border border-2" src={`${process.env.PUBLIC_URL}/assets/img/users/user-default.jpg`} alt="User Icon" height={30} width={30}/>
+            : 
+            <FaUser className="fs-5" />
+          }
         </button>
         <div className="account-dropdown">
           <ul>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/login-register"}>Login</Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/login-register"}>
-                Register
-              </Link>
-            </li>
+            {token ? (
+              null
+            ) : 
+            <>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/login-register"}>Login</Link>
+              </li>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/login-register"}>
+                  Register
+                </Link>
+              </li>
+            </>
+            }
+
             <li>
               <Link to={process.env.PUBLIC_URL + "/my-account"}>
                 my account

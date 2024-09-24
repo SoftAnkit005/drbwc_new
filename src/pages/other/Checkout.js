@@ -31,7 +31,8 @@ const Checkout = () => {
   
   useEffect(() => {
     if (taxdata?.success) {
-      setTaxes(taxdata.taxes);
+      const sortedActiveTaxes = taxdata.taxes.filter(tax => tax.status === 'active')
+      setTaxes(sortedActiveTaxes);
     }
   }, [taxdata]);
 
