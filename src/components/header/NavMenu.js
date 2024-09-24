@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 // import { fetchSubcategories } from "../../store/slices/sub-category-slice";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+// const apiUrl = process.env.REACT_APP_API_URL;
 
 const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
   const { categories } = useSelector((state) => state.categories);
@@ -15,15 +15,10 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
   const [subcategoriesData, setSubcategoriesData] = useState([]);
   const location = useLocation(); // Get the current location (URL)
 
-  // useEffect(() => {
-  //   dispatch(fetchCategories());
-  //   dispatch(fetchSubcategories());
-  // }, [dispatch]);
-
   useEffect(() => {
     if (categories?.success) {
-      const sortedCategories = [...categories.categories].sort((a, b) => a.position - b.position);
-      setCategoryData(sortedCategories);
+      const sortedActiveCategories = categories.categories.filter(category => category.status === 'active').sort((a, b) => a.position - b.position);
+      setCategoryData(sortedActiveCategories);
     }
     if (subcategories?.success) {
       setSubcategoriesData(subcategories.subcategories || []);

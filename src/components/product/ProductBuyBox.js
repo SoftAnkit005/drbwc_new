@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/slices/cart-slice';
 import cogoToast from 'cogo-toast';
 import { updateWishlist } from '../../store/slices/wishlist-slice';
+import { isTokenValid } from '../../helpers/product';
 
 const ProductBuyBox = ({ product }) => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const ProductBuyBox = ({ product }) => {
       color: selectedColor,
     };
 
-    if (token) {
+    if (token && isTokenValid(token)) {
       // Use the API if the user is authenticated
       dispatch(addToCart(payload));
       
@@ -84,6 +85,25 @@ const ProductBuyBox = ({ product }) => {
         </div>,
         { position: 'top-right', hideAfter: 5 }
       );
+    }
+  };
+
+  const handleBuyNow = () => {
+    const payload = {
+      product_id: product.id,
+      quantity: selectedQty,
+      color: selectedColor,
+    };
+    if (token && isTokenValid(token)) {
+      // Use the API if the user is authenticated
+      dispatch(addToCart(payload));
+      navigate('/cart', { state: payload });
+    } else {
+      // Use sessionStorage if the user is not authenticated
+      let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      cart.push(payload);
+      sessionStorage.setItem('cart', JSON.stringify(cart));
+      navigate(process.env.PUBLIC_URL + "/cart");     
     }
   };
 
@@ -154,7 +174,7 @@ const ProductBuyBox = ({ product }) => {
             </div>
 
             <button onClick={handleAddToCart} className={`btn ${product.qty <= 0 ? 'btn-secondary cursor-disabled': 'btn-primary'} border w-100 mb-2 desc-sm py-2`} disabled={product.qty <= 0 || cartStatus === 'loading'} > ADD TO CART </button>
-            <button className={`btn btn-secondary ${product.qty <= 0 ? 'cursor-disabled': ''} border w-100 mb-2 desc-sm py-2`} disabled={product.qty <= 0}>BUY NOW</button>
+            <button onClick={handleBuyNow} className={`btn btn-secondary ${product.qty <= 0 ? 'cursor-disabled': ''} border w-100 mb-2 desc-sm py-2`} disabled={product.qty <= 0}>BUY NOW</button>
             <Link to={product.flipkart_link} target="_blank" className="btn btn-dark border w-100 mb-2 desc-sm">Buy now @ <img src="/assets/img/product/drbwc_images/flipkart_logo.png" alt={product.product_name} height={28}/></Link>
             <Link to={product.amazon_link} target="_blank" className="btn btn-dark border w-100 mb-2 desc-sm py-2">Buy now @ <img src="/assets/img/product/drbwc_images/amazon_logo.png" alt={product.product_name} height={18}/></Link>
             

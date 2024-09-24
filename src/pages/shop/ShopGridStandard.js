@@ -11,7 +11,7 @@ import ShopTopbar from '../../wrappers/product/ShopTopbar';
 import ShopProducts from '../../wrappers/product/ShopProducts';
 
 const ShopGridStandard = () => {
-    const [layout, setLayout] = useState('grid three-column');
+    const [layout, setLayout] = useState('grid two-column');
     const [sortType, setSortType] = useState('all');
     const [sortValue, setSortValue] = useState('');
     const [filterSortType, setFilterSortType] = useState('');

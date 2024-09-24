@@ -7,6 +7,7 @@ import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { clearPincodeData, fetchPincodeData } from "../../store/slices/pincode-slice";
 import CouponSection from "../../wrappers/coupon-apply/CouponSection";
 import { createOrder } from "../../store/slices/order-slice";
+import { isTokenValid } from "../../helpers/product";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -26,14 +27,13 @@ const Checkout = () => {
   const user = JSON.parse(localStorage.getItem("loggedUser"));
   const { order } = useSelector((state) => state.orders);
   const [isSubmitting, setIsSubmitting] = useState(false); // Track form submission
+  const token = localStorage.getItem("authToken");
   
   useEffect(() => {
     if (taxdata?.success) {
       setTaxes(taxdata.taxes);
     }
   }, [taxdata]);
-
-  console.log(order);
 
   useEffect(() => {
     if (cartItems) {
@@ -65,7 +65,6 @@ const Checkout = () => {
   }, [formData.postcode, dispatch]);
 
   useEffect(() => {
-    console.log('pincodeData', pincodeData);
     if (pincodeData?.city && pincodeData?.state) {
       setFormData(prev => ({
         ...prev,
@@ -147,11 +146,16 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    if (isSubmitting && order.success) {
-      setIsSubmitting(false); 
-      navigate('/payment', { state: { order } });
+    if (isSubmitting) {
+      if (token && isTokenValid(token) && order.success) {
+        setIsSubmitting(false);
+        navigate('/payment', { state: { order } });
+      } else {
+        navigate('/login-register', { state: { order } });
+      }
     }
-  }, [order, navigate, isSubmitting]);
+  }, [token, order, isSubmitting, navigate]);
+  
 
   return (
     <Fragment>

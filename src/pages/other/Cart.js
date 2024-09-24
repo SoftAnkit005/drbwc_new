@@ -6,6 +6,7 @@ import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { addToCart, removeFromCart } from "../../store/slices/cart-slice";
 import CouponSection from "../../wrappers/coupon-apply/CouponSection";
+import { isTokenValid } from "../../helpers/product";
 
 const Cart = () => {
   const [itemQuantities, setItemQuantities] = useState({});
@@ -39,7 +40,7 @@ const Cart = () => {
   }, [products]);
 
   useEffect(() => {
-    if (token !== null) {
+    if (token && isTokenValid(token)) {
       setLocalCartItems(cartItems); // Sync with Redux store
     } else {
       const storedCartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
@@ -82,7 +83,7 @@ const Cart = () => {
   
       // If quantity is less than 1, remove the item from the cart
       if (newQuantity < 1) {
-        if (token !== null) {
+        if (token && isTokenValid(token)) {
           // For authenticated users
           dispatch(removeFromCart({ product_id }));
         } else {
@@ -95,7 +96,7 @@ const Cart = () => {
       }
   
       // For authenticated users, update the quantity
-      if (token !== null) {
+      if (token && isTokenValid(token)) {
         dispatch(addToCart({ product_id, quantity: newQuantity, color: "default" }));
       } else {
         // For guest users (store updated cart items in sessionStorage)
@@ -153,6 +154,11 @@ const Cart = () => {
   //   setDiscountDetails(details);
   // };
 
+  const handleRemoveFromCart = (product_id) => {
+    if (token && isTokenValid(token)) {
+      dispatch(removeFromCart({ product_id }));
+    }
+  }
   return (
     <Fragment>
       <SEO titleTemplate="Cart" description="Cart page" />
@@ -179,6 +185,7 @@ const Cart = () => {
                             <th>Unit Price</th>
                             <th>Qty</th>
                             <th>Subtotal</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -210,6 +217,12 @@ const Cart = () => {
                                   </div>
                                 </td>
                                 <td className="product-subtotal">{"₹ " + (finalProductPrice * quantity).toFixed(2)}</td>
+                                <td className="product-remove">
+                                  {console.log('cartItem.product_id', cartItem.product_id)}
+                                  <button onClick={() => handleRemoveFromCart(cartItem.product_id)}>
+                                    <i className="fa fa-times"></i>
+                                  </button>
+                                </td>
                               </tr>
                             );
                           })}
@@ -235,7 +248,7 @@ const Cart = () => {
                         );
                       })}
                       <h4 className="grand-totall-title">Grand Total <span>₹ {(discountedPrice + totalTaxesAmount).toFixed(2)}</span></h4>
-                      <Link to={token ? "/checkout" : "/login-register"}>Proceed to Checkout</Link>
+                      <Link to={token && isTokenValid(token) ? "/checkout" : "/login-register"}>Proceed to Checkout</Link>
                     </div>
                   </div>
                 </div>

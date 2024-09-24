@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDiscountPrice } from "../../../helpers/product";
+import { getDiscountPrice, isTokenValid } from "../../../helpers/product";
 import { addToCart, removeFromCart } from "../../../store/slices/cart-slice";
 
 const MenuCart = () => {
@@ -29,7 +29,7 @@ const MenuCart = () => {
   }, [products]);
 
   useEffect(() => {
-    if (token) {
+    if (token && isTokenValid(token)) {
       // Load cart items from API when authenticated
       if (cartItems) {
         const uniqueCartItems = cartItems?.filter(
@@ -74,7 +74,7 @@ const MenuCart = () => {
     }
 
     if (updatedQuantity < 1) {
-      if (token) {
+      if (token && isTokenValid(token)) {
         // Dispatch removeFromCart action if token exists
         dispatch(removeFromCart({ product_id: item.product_id }));
       } else {
@@ -93,7 +93,7 @@ const MenuCart = () => {
         color: item.color || "", // Add color if available
       };
 
-      if (token) {
+      if (token && isTokenValid(token)) {
         // Update the cart via API if authenticated
         dispatch(addToCart(payload));
       } else {
@@ -205,7 +205,7 @@ const MenuCart = () => {
             <Link className="default-btn" to={process.env.PUBLIC_URL + "/cart"}>
               view cart
             </Link>
-            <Link className="default-btn" to={"/checkout"}>
+            <Link className="default-btn" to={token && isTokenValid(token) ? "/checkout" : "/login-register"}>
               checkout
             </Link>
           </div>

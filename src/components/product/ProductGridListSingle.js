@@ -7,6 +7,7 @@ import { updateWishlist } from "../../store/slices/wishlist-slice";
 import { addToCart } from "../../store/slices/cart-slice";
 import cogoToast from "cogo-toast";
 import { FaHeart } from "react-icons/fa";
+import { filterTagsByProductId } from "../../helpers/product";
 
 const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
   const token = localStorage.getItem('authToken');
@@ -16,17 +17,16 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const cartStatus = useSelector((state) => state.cart.status);
   const { cartItems } = useSelector((state) => state.cart);
+  const { tags } = useSelector((state) => state.tags);
   const [wishlistIcon, setwishlistIcon] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
-
-  console.log('cartItems', cartItems);
   
   useEffect(() => {
     // Check if the product exists in cartItems
     const productInCart = cartItems.some(
       (cartItem) => cartItem.product_id === product.id
     );
-    console.log('isInCart', isInCart, product.id, productInCart);
+    // console.log('isInCart', isInCart, product.id, productInCart);
     setIsInCart(productInCart);
   }, [cartItems, product.id]);
   
@@ -50,7 +50,6 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
 
     if (token) {
       dispatch(addToCart(payload));
-
       if (cartStatus === 'succeeded') {
         cogoToast.success(
           <div>
@@ -118,32 +117,30 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
 
   return (
     <Fragment>
-      <div className={clsx("product-wrap shadow-lg rounded-2", spaceBottomClass)}>
-        <div className="product-img rounded-2">
+      <div className={clsx("product-wrap rounded-2", spaceBottomClass)}>
+        <div className="product-img">
           <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
             {product.image_urls && product.image_urls.length > 0 ? (
               <img className="default-img" src={apiUrl+ '/' + JSON.parse(product.image_urls)[0]} alt="" />
             ) : (
-              <img className="default-img" src={apiUrl + "/assets/img/placeholder.png"} alt="No image available" />
+              <img className="default-img" src={apiUrl + "/assets/img/product/drbwc_images/default-product-image.jpg"} alt="No image available" />
             )}
             {product.image_urls && product.image_urls.length > 1 && (
               <img className="hover-img" src={apiUrl + JSON.parse(product.image_urls)[1]} alt="" />
             )}
-          </Link>
-          {product.discount || product.new ? (
-            <div className="product-img-badges">
-              {product.discount ? (
-                <span className="pink">-{product.discount}%</span>
-              ) : (
-                ""
-              )}
-              {product.new ? <span className="purple">New</span> : ""}
-            </div>
-          ) : (
-            ""
-          )}
 
-          <div className="product-action">
+            {tags.success && filterTagsByProductId(tags.tags, product.id).length > 0 && (
+              <div className="product-img-badges">
+                {filterTagsByProductId(tags.tags, product.id).map((tag, i) => (
+                  <div className="ribbon" key={i}>
+                    <span className="ribbon__content">{tag.tags}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Link>
+
+          {/* <div className="product-action">
             <div className="pro-same-action pro-cart">
               {product.qty && product.qty > 0 ? (
                 <button onClick={handleAddToCart} className={isInCart ? "active" : ""} disabled={isInCart} title={isInCart ? "Added to cart" : "Add to cart"} > {" "} <i className="pe-7s-cart"></i>{" "} {isInCart ? "Added" : "Add to cart"} </button>
@@ -156,16 +153,29 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
                 <FaHeart className={`text-${wishlistIcon === 'active' ? 'danger' : ''}`} />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
-        <div className="product-content text-center mt-2">
-          <h3>
-            <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
-              {product.name}
-            </Link>
-          </h3>
-          <h3 className="product-price fw-semibold pb-1">{product.product_name} </h3>
-          <h3 className="product-price fw-semibold pb-2"> ₹ {product.price} </h3>
+        <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
+          <div className="product-content text-center">
+            <h3>
+              <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
+                {product.name}
+              </Link>
+            </h3>
+            <h3 className="product-price fw-semibold pb-1">{product.product_name} </h3>
+            <h3 className="product-price fw-semibold pb-2"> ₹ {product.price} </h3>
+          </div>
+        </Link>
+        <div className="d-flex">
+          {product.qty && product.qty > 0 ? (
+            <button onClick={handleAddToCart} className={`w-50 btn btn-primary rounded-0 border-end ${isInCart ? "cursor-disabled btn-secondary" : ""}`} disabled={isInCart} title={isInCart ? "Added to cart" : "Add to cart"} > {" "} <i className="pe-7s-cart"></i>{" "} {isInCart ? "Added to cart" : "Add to cart"} </button>
+          ) : (
+            <button disabled className="w-50 active"> Out of Stock </button>
+          )}
+          <button className={`w-50 btn btn-primary rounded-0`} disabled={wishlistItem !== undefined} title={wishlistItem !== undefined ? "Added to wishlist" : "Add to wishlist"} onClick={() => handleWishList(product.id, product.product_name)} >
+            <FaHeart className={`me-1 text-${wishlistIcon === 'active' ? 'danger' : ''}`} />
+            {wishlistIcon === 'active' ? "Wishlisted" : "Add to wishlist"}
+          </button>
         </div>
       </div>
     </Fragment>

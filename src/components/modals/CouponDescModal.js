@@ -13,14 +13,30 @@ function CouponDescModal({ offer, code, description }) {
   const handleShow = () => setShow(true);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(code)
-      .then(() => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code)
+        .then(() => {
+          cogoToast.success('Coupon Copied!', { position: 'top-right', hideAfter: 5 });
+        })
+        .catch((err) => {
+          cogoToast.error('Failed to copy code: ', err, { position: 'top-right', hideAfter: 5 });
+        });
+    } else {
+      // Fallback: Select and copy manually
+      const textArea = document.createElement('textarea');
+      textArea.value = code;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
         cogoToast.success('Coupon Copied!', { position: 'top-right', hideAfter: 5 });
-    })
-    .catch((err) => {
-        cogoToast.success('Failed to copy code: ', err, { position: 'top-right', hideAfter: 5 });
-    });
+      } catch (err) {
+        cogoToast.error('Failed to copy code: ', err, { position: 'top-right', hideAfter: 5 });
+      }
+      document.body.removeChild(textArea);
+    }
   };
+  
 
   return (
     <>

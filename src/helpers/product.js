@@ -263,3 +263,33 @@ export const toggleShopTopFilter = e => {
   }
   e.currentTarget.classList.toggle("active");
 };
+
+
+// Function to validate token (for example, a JWT token)
+export const isTokenValid = (token) => {
+  if (!token) return false;
+
+  // For JWT tokens, check if it's expired
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  const expiration = payload.exp * 1000; // Convert to milliseconds
+  return Date.now() < expiration;
+};
+
+export const filterTagsByProductId = (tags, productId) => {
+  // Filter tags by product_id
+  const filteredTags = tags.filter(tag => {
+    const productIds = tag.product_id.split(',').map(id => id.trim());
+    return productIds.includes(productId.toString());
+  });
+
+  // Group tags by id and get the latest updated_at entry
+  const latestTagsMap = filteredTags.reduce((acc, tag) => {
+    if (!acc[tag.id] || new Date(tag.updated_at) > new Date(acc[tag.id].updated_at)) {
+      acc[tag.id] = tag; // Keep the tag with the latest updated_at
+    }
+    return acc;
+  }, {});
+
+  // Return an array of the latest tags
+  return Object.values(latestTagsMap);
+};

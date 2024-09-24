@@ -23,7 +23,7 @@ const ShopTopAction = ({
         </p>
       </div>
 
-      <div className="shop-tab">
+      <div className="shop-tab d-none">
         <button onClick={e => { getLayout("grid two-column"); setActiveLayout(e); }} > <i className="fa fa-th-large" /> </button>
         <button onClick={e => { getLayout("grid three-column"); setActiveLayout(e); }} > <i className="fa fa-th" /> </button>
         {/* <button

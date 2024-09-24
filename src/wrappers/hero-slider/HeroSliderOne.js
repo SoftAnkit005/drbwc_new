@@ -29,6 +29,7 @@ const HeroSliderOne = () => {
   const { banners, error } = useSelector((state) => state.banners);
   const [allBanners, setAllBanners] = useState([]);
 
+  console.log('banners', banners.banners);
 
   useEffect(() => {
     dispatch(getBanners());
@@ -36,7 +37,8 @@ const HeroSliderOne = () => {
 
   useEffect(() => {
     if (banners?.success) {
-      setAllBanners(banners.banners);
+      const sortedActiveBanners = banners.banners.filter(banner => banner.status === 'active')
+      setAllBanners(sortedActiveBanners);
     }
   }, [banners?.success, banners?.banners, error]);
 
