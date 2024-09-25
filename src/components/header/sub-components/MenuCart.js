@@ -217,7 +217,7 @@ const MenuCart = () => {
             <Link className="default-btn" to={process.env.PUBLIC_URL + "/cart"}>
               view cart
             </Link>
-            <Link className="default-btn" to={token && isTokenValid(token) ? "/checkout" : "/login-register"}>
+            <Link className="default-btn" to={token && isTokenValid(token) ? "/checkout" : "/login-user"}>
               checkout
             </Link>
           </div>

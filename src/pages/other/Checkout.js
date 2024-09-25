@@ -152,7 +152,7 @@ const Checkout = () => {
         setIsSubmitting(false);
         navigate('/payment', { state: { order } });
       } else {
-        navigate('/login-register', { state: { order } });
+        navigate('/login-user', { state: { order } });
       }
     }
   }, [token, order, isSubmitting, navigate]);

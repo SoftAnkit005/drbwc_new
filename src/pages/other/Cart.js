@@ -258,7 +258,7 @@ const Cart = () => {
                         );
                       })}
                       <h4 className="grand-totall-title">Grand Total <span>₹ {(discountedPrice + totalTaxesAmount).toFixed(2)}</span></h4>
-                      <Link to={token && isTokenValid(token) ? "/checkout" : "/login-register"}>Proceed to Checkout</Link>
+                      <Link to={token && isTokenValid(token) ? "/checkout" : "/login-user"}>Proceed to Checkout</Link>
                     </div>
                   </div>
                 </div>

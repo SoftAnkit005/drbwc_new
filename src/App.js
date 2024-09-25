@@ -1,7 +1,6 @@
 import { Suspense, lazy } from "react";
 import ScrollToTop from "./helpers/scroll-top";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Gallery from "./pages/other/Gallery";
 import TermsAndCondition from "./pages/other/TermsAndCondition";
 import ShippingPolicies from "./pages/other/ShippingPolicies";
 import PrivacyPolicies from "./pages/other/PrivacyPolicies";
@@ -33,10 +32,12 @@ const ProductFixedImage = lazy(() =>
 );
 
 // other pages
+const Gallery = lazy(() => import("./pages/other/Gallery"));
 const About = lazy(() => import("./pages/other/About"));
 const Contact = lazy(() => import("./pages/other/Contact"));
 const MyAccount = lazy(() => import("./pages/other/MyAccount"));
-const LoginRegister = lazy(() => import("./pages/other/LoginRegister"));
+const LoginPage = lazy(() => import("./pages/other/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/other/RegisterPage"));
 
 const Cart = lazy(() => import("./pages/other/Cart"));
 const Wishlist = lazy(() => import("./pages/other/Wishlist"));
@@ -80,7 +81,9 @@ const App = () => {
               <Route path={process.env.PUBLIC_URL + "/refund-policy"} element={<RefundPolicies/>} />
               <Route path={process.env.PUBLIC_URL + "/automatic-thermal-massage-bed"} element={<MasterV4ThermalBed/>} />
               <Route path={process.env.PUBLIC_URL + "/my-account"} element={<MyAccount/>} />
-              <Route path={process.env.PUBLIC_URL + "/login-register"} element={<LoginRegister/>} />
+              {/* <Route path={process.env.PUBLIC_URL + "/login-register"} element={<LoginRegister/>} /> */}
+              <Route path={process.env.PUBLIC_URL + "/register-user"} element={<RegisterPage/>} />
+              <Route path={process.env.PUBLIC_URL + "/login-user"} element={<LoginPage/>} />
 
               <Route path={process.env.PUBLIC_URL + "/cart"} element={<Cart/>} />
               <Route path={process.env.PUBLIC_URL + "/wishlist"} element={<Wishlist/>} />
