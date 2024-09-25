@@ -10,7 +10,7 @@ const ProductGridSingle = ({ product,spaceBottomClass }) => {
   return (
     <Fragment>
       <div className={clsx("product-wrap shadow rounded-2 m-3", spaceBottomClass)}>
-        <div className="product-img rounded-2">
+        <div className="product-img rounded-2 border-bottom">
           <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
             {product.image_urls && product.image_urls.length > 0 ? (
               <img className="default-img" src={apiUrl + '/' + JSON.parse(product.image_urls)[0]} alt="" />
