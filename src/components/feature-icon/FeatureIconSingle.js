@@ -26,7 +26,7 @@ const FeatureIconSingle = ({ singleFeature }) => {
     ? `/${category.name.toLowerCase().replace(/\s+/g, '-')}`
     : "#";
 
-  const fullPath = `${categoryPath}?id=${singleFeature.id}`;
+  const fullPath = `${categoryPath}?id=${category?.id}`;
 
   return (
     <div className="container row">

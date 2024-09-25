@@ -29,8 +29,6 @@ const HeroSliderOne = () => {
   const { banners, error } = useSelector((state) => state.banners);
   const [allBanners, setAllBanners] = useState([]);
 
-  console.log('banners', banners.banners);
-
   useEffect(() => {
     dispatch(getBanners());
   }, [dispatch]);
