@@ -2,13 +2,21 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import ProductgridList from "./ProductgridList";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const ShopProducts = ({ products, layout }) => {
+  const [activeProducts, setactiveProducts] = useState([])
+  useEffect(() => {
+    const activePrd = products.filter(product => product.status === 'active')
+    setactiveProducts(activePrd);
+  }, [products])
+  
+  console.log('products:', products);
   return (
     <div className="shop-bottom-area mt-35">
       <div className={clsx("row", layout)}>
-        {products.length !== 0 ?
-          <ProductgridList products={products} spaceBottomClass="mb-25" />
+        {activeProducts?.length !== 0 ?
+          <ProductgridList products={activeProducts} spaceBottomClass="mb-25" />
           :
           <div className="container text-center mt-4">
             <div className="alert alert-warning" role="alert">

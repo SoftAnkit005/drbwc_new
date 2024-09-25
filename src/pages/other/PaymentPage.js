@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { processCOD, processPayment } from '../../store/slices/payment-slice';
+import { processCOD, resetPaymentState } from '../../store/slices/payment-slice'; // Import the reset action
 import SEO from '../../components/seo';
 import LayoutOne from '../../layouts/LayoutOne';
 
@@ -11,85 +11,73 @@ const PaymentPage = () => {
     const { order } = useSelector(state => state.orders);
     const { loading, success, error } = useSelector(state => state.payments);
     const [paymentMethod, setPaymentMethod] = useState('cod'); // Default to Cash on Delivery
-    const [ccAvenueFormData, setCcAvenueFormData] = useState(null);
-    const [currentOrder, setCurrentOrder] = useState([])
+    const [currentOrder, setCurrentOrder] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-  console.log(currentOrder);
-  useEffect(() => {
-    if (order) {
-        setCurrentOrder(order.order);
-    }
-  }, [order])
-  
+    useEffect(() => {
+      localStorage.removeItem('transactionDispatched');
+    }, []);
 
+    useEffect(() => {
+        if (order) {
+            // Create a copy of the order and update the payment_method
+            const updatedOrder = {
+                ...order.order,
+                payment_method: paymentMethod, // Update payment_method based on selection
+            };
+            setCurrentOrder(updatedOrder);
+        }
+    }, [order, paymentMethod]); // Add paymentMethod as a dependency
 
-  const handlePaymentSelection = (method) => {
-    setPaymentMethod(method);
-  };
+    const handlePaymentSelection = (method) => {
+        setPaymentMethod(method);
+    };
 
-  const handlePaymentSubmit = () => {
-    if (paymentMethod === 'cod') {
-        setIsSubmitting(true);
-        dispatch(processCOD({ orderId: currentOrder.id }));
-    } else if (paymentMethod === 'ccavenue') {
-      // Handle CCAvenue payment
-      dispatch(processPayment({ orderId: currentOrder?.id }))
-        .then((response) => {
-          if (response.payload.success) {
-            setCcAvenueFormData(response.payload.data); // Form data for CCAvenue
-          }
-        });
-    }
-  };
+    const handlePaymentSubmit = () => {
+        if (paymentMethod === 'cod') {
+            setIsSubmitting(true);
+            dispatch(processCOD({ orderId: currentOrder.id, paymentMethod })); // Include paymentMethod if needed
+        }
+    };
 
-  // Effect to handle redirection after payment success
-  useEffect(() => {
-      if (isSubmitting && success) {
-        setIsSubmitting(false);
-        navigate('/order-confirmation', { state: { order } });
-      }
-  }, [isSubmitting, success])
-  
+    // Effect to handle redirection after payment success and reset state
+    useEffect(() => {
+        if (isSubmitting && success) {
+            setIsSubmitting(false);
+            navigate('/order-confirmation', { state: { order: currentOrder, status: order.success } }); // Pass updated order
+            dispatch(resetPaymentState()); // Reset the payment state after success
+        }
+    }, [isSubmitting, success, navigate, currentOrder, dispatch]); // Ensure dispatch is included as a dependency
 
-  return (
-    <Fragment>
-      <SEO titleTemplate="Checkout" description="Checkout page of Dr BWC." />
-      <LayoutOne headerTop="visible">
-        <div className='container py-5'>
-            <h2 className='heading-xs'>Choose Payment Method</h2>
-            <div className='mb-3'>
-                <label>
-                    <input className='form-check-input me-1' type="radio" value="cod" checked={paymentMethod === 'cod'} onChange={() => handlePaymentSelection('cod')} />
-                    Cash on Delivery
-                </label>
-                <label>
-                    <input className='form-check-input me-1 ms-3' type="radio" value="ccavenue" checked={paymentMethod === 'ccavenue'} onChange={() => handlePaymentSelection('ccavenue')} />
-                    Pay via CCAvenue
-                </label>
-            </div>
+    // Reset payment state on component mount or unmount to avoid carrying over state
+    useEffect(() => {
+        return () => {
+            dispatch(resetPaymentState());
+        };
+    }, [dispatch]);
 
-            <button className='btn btn-primary' onClick={handlePaymentSubmit} disabled={loading}>
-                {loading ? 'Processing...' : 'Submit Payment'}
-            </button>
+    return (
+        <Fragment>
+            <SEO titleTemplate="Checkout" description="Checkout page of Dr BWC." />
+            <LayoutOne headerTop="visible">
+                <div className='container py-5'>
+                    <h2 className='heading-xs'>Choose Payment Method</h2>
+                    <div className='mb-3'>
+                        <label>
+                            <input className='form-check-input me-1' type="radio" value="cod" checked={paymentMethod === 'cod'} onChange={() => handlePaymentSelection('cod')} />
+                            Cash on Delivery
+                        </label>
+                    </div>
 
-            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+                    <button className='btn btn-primary' onClick={handlePaymentSubmit} disabled={loading}>
+                        {loading ? 'Processing...' : 'Submit Payment'}
+                    </button>
 
-            {ccAvenueFormData && (
-                <form id="ccavenueForm" method="post" action="https://test.ccavenue.com/transaction/transaction.do">
-                    {/* Use the response data to fill out the hidden inputs for the CCAvenue payment form */}
-                    <input type="hidden" name="order_id" value={ccAvenueFormData.order_id} />
-                    <input type="hidden" name="amount" value={ccAvenueFormData.amount} />
-                    <input type="hidden" name="merchant_id" value={ccAvenueFormData.merchant_id} />
-                    <input type="hidden" name="currency" value={ccAvenueFormData.currency} />
-                    {/* Add other required CCAvenue inputs here */}
-                    <button type="submit">Proceed to Pay via CCAvenue</button>
-                </form>
-            )}
-        </div>
-    </LayoutOne>
-    </Fragment>
-  );
+                    {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+                </div>
+            </LayoutOne>
+        </Fragment>
+    );
 };
 
 export default PaymentPage;

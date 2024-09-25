@@ -21,7 +21,8 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
       setCategoryData(sortedActiveCategories);
     }
     if (subcategories?.success) {
-      setSubcategoriesData(subcategories.subcategories || []);
+      const sortedActiveSubCategories = subcategories.subcategories.filter(subcategory => subcategory.status === 'active')
+      setSubcategoriesData(sortedActiveSubCategories || []);
     }
   }, [categories, subcategories]);
 

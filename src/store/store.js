@@ -20,6 +20,7 @@ import orderReducer from './slices/order-slice';
 import paymentReducer from './slices/payment-slice';
 import wishlistReducer from './slices/wishlist-slice';
 import tagsReducer from './slices/tags-slice';
+import transactionsReducer from './slices/transaction-slice';
 
 const persistConfig = {
     key: "flone",
@@ -46,6 +47,7 @@ export const rootReducer = combineReducers({
     payments: paymentReducer,
     wishlist: wishlistReducer,
     tags: tagsReducer,
+    transactions: transactionsReducer,
     
 
     currency: currencyReducer,

@@ -9,7 +9,7 @@ const compareSlice = createSlice({
     reducers: {
         addToCompare(state, action) {
             state.compareItems.push(action.payload);
-            cogoToast.success("Added To compare", { position: 'top-right', hideAfter: 5 });
+            cogoToast.success("Added To compare", { position: 'top-right' });
         },
         deleteFromCompare(state, action){
             state.compareItems = state.compareItems.filter(item => item.id !== action.payload);

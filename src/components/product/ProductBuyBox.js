@@ -58,7 +58,7 @@ const ProductBuyBox = ({ product }) => {
           <div>
             <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
           </div>,
-          { position: 'top-right', hideAfter: 5 }
+          { position: 'top-right'}
         );
       }
     } else {
@@ -83,7 +83,7 @@ const ProductBuyBox = ({ product }) => {
         <div>
           <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
         </div>,
-        { position: 'top-right', hideAfter: 5 }
+        { position: 'top-right'}
       );
     }
   };
@@ -133,7 +133,7 @@ const ProductBuyBox = ({ product }) => {
                 {product.qty > 0 ? 'In Stock' : 'Out of Stock'}
             </div>
             
-            {product.qty > 0 ? <p className='desc-xs mb-1 text-danger fw-normal'>Only 4 Left In Stock.</p> : <></>}
+            <p className='desc-xs mb-1 text-danger fw-normal'>{product.qty > 4 ? 'Only 4 Left In Stock' : 'Only ' + product.qty + ' Left In Stock'}</p>
 
             <div className="row mt-2 mx-0">
                 <div className="col-4 px-0 desc-xxs mb-1 text-muted">Fulfilled by</div>
@@ -145,10 +145,21 @@ const ProductBuyBox = ({ product }) => {
             <div className="d-flex align-items-center mb-2">
                 <label htmlFor="quantity" className="desc-xxs mb-1">Quantity:</label>
                 <select name="quantity" id="quantity" className="form-select form-select-sm  w-25 ms-2 border-muted shadow-none" onChange={(e) => setselectedQty(e.target.value)}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                  {console.log('product.qty', product.qty)}
+                  {product.qty < 4 ? (
+                    // Render options dynamically based on product.qty
+                    Array.from({ length: product.qty }, (_, index) => (
+                      <option key={index + 1} value={index + 1}>{index + 1}</option>
+                    ))
+                  ) : (
+                    // Render default options when product.qty >= 4
+                    <>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                    </>
+                  )}
                 </select>
             </div>
 

@@ -65,8 +65,7 @@ const Wishlist = () => {
         <div><span className='fw-semibold'>{product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
       </div>,
       {
-        position: 'top-right',
-        hideAfter: 5,
+        position: 'top-right'
       }
     );
   }

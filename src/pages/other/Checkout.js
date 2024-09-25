@@ -126,7 +126,7 @@ const Checkout = () => {
       qty: quantities,
       tax_id: taxid,
       transaction_id: "",
-      payment_method: "Cash on Delivery",
+      payment_method: "",
       order_date: new Date().toISOString().split('T')[0], // Current date
       shipping_address: `${formData.address}, ${formData.address2}, ${formData.city}, ${formData.state}, ${formData.country} - ${formData.postcode}`,
       tax: taxlist ,

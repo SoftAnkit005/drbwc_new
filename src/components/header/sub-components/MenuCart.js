@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDiscountPrice, isTokenValid } from "../../../helpers/product";
 import { addToCart, removeFromCart } from "../../../store/slices/cart-slice";
+import cogoToast from "cogo-toast";
 
 const MenuCart = () => {
   const currency = useSelector((state) => state.currency);
@@ -63,57 +64,68 @@ const MenuCart = () => {
   };
 
   // Handle quantity change
-  const handleQty = (type, item) => {
-    const currentQuantity = itemQuantities[item.product_id] || 0;
-    let updatedQuantity = currentQuantity;
+ const handleQty = (type, item, product_qty) => {
+  const currentQuantity = itemQuantities[item.product_id] || 0;
+  let updatedQuantity = currentQuantity;
 
-    if (type === "plus") {
-      updatedQuantity = Math.min(currentQuantity + 1, 4);
-    } else if (type === "minus") {
-      updatedQuantity = Math.max(currentQuantity - 1, 0);
+  // Determine the maximum quantity based on product_qty or default to 4
+  const maxQuantity = Math.min(product_qty, 4);
+
+  if (type === "plus") {
+    if (currentQuantity >= maxQuantity) {
+      console.log("Max quantity reached:", currentQuantity); // Debug log
+      // Show warning if max quantity is reached
+      cogoToast.warn("Max quantity reached", { position: "top-right" });
+      return; // Exit early to prevent further updates
     }
+    updatedQuantity = Math.min(currentQuantity + 1, maxQuantity);
+  } else if (type === "minus") {
+    updatedQuantity = Math.max(currentQuantity - 1, 0);
+  }
 
-    if (updatedQuantity < 1) {
-      if (token && isTokenValid(token)) {
-        // Dispatch removeFromCart action if token exists
-        dispatch(removeFromCart({ product_id: item.product_id }));
-      } else {
-        // Remove item from session cart if no token
-        const updatedCart = allCart.filter(
-          (cartItem) => cartItem.product_id !== item.product_id
-        );
-        setAllCart(updatedCart);
-        saveCartToSession(updatedCart);
-      }
+  if (updatedQuantity < 1) {
+    if (token && isTokenValid(token)) {
+      // Dispatch removeFromCart action if token exists
+      dispatch(removeFromCart({ product_id: item.product_id }));
     } else {
-      // Update quantity in cart
-      const payload = {
-        product_id: item.product_id,
-        quantity: updatedQuantity,
-        color: item.color || "", // Add color if available
-      };
-
-      if (token && isTokenValid(token)) {
-        // Update the cart via API if authenticated
-        dispatch(addToCart(payload));
-      } else {
-        // Update the cart in session storage
-        const updatedCart = allCart.map((cartItem) =>
-          cartItem.product_id === item.product_id
-            ? { ...cartItem, quantity: updatedQuantity }
-            : cartItem
-        );
-        setAllCart(updatedCart);
-        saveCartToSession(updatedCart);
-      }
+      // Remove item from session cart if no token
+      const updatedCart = allCart.filter(
+        (cartItem) => cartItem.product_id !== item.product_id
+      );
+      setAllCart(updatedCart);
+      saveCartToSession(updatedCart);
     }
+  } else {
+    // Update quantity in cart
+    const payload = {
+      product_id: item.product_id,
+      quantity: updatedQuantity,
+      color: item.color || "", // Add color if available
+    };
 
-    // Update the quantity state for this specific item
-    setItemQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [item.product_id]: updatedQuantity,
-    }));
-  };
+    if (token && isTokenValid(token)) {
+      // Update the cart via API if authenticated
+      dispatch(addToCart(payload));
+    } else {
+      // Update the cart in session storage
+      const updatedCart = allCart.map((cartItem) =>
+        cartItem.product_id === item.product_id
+          ? { ...cartItem, quantity: updatedQuantity }
+          : cartItem
+      );
+      setAllCart(updatedCart);
+      saveCartToSession(updatedCart);
+    }
+  }
+
+  // Update the quantity state for this specific item
+  setItemQuantities((prevQuantities) => ({
+    ...prevQuantities,
+    [item.product_id]: updatedQuantity,
+  }));
+};
+
+  
 
   // Find product details by product_id
   const getProductDetails = (productId) => {
@@ -175,11 +187,11 @@ const MenuCart = () => {
                     </h4>
 
                     <div className="d-flex align-items-center">
-                      <button onClick={() => handleQty("minus", item)} className="btn btn-sm btn-primary text-dark desc-lg me-2"> - </button>
+                      <button onClick={() => handleQty("minus", item, product.qty)} className="btn btn-sm btn-primary text-dark desc-lg me-2"> - </button>
                       <h6 className="desc-xxs text-theme-red fw-semibold m-0">
                         {itemQuantities[item.product_id]}
                       </h6>
-                      <button onClick={() => handleQty("plus", item)} className="btn btn-sm btn-primary text-dark desc-lg ms-2" disabled={itemQuantities[item.product_id] >= 4}> + </button>
+                      <button onClick={() => handleQty("plus", item, product.qty)} className={`btn btn-sm btn-primary desc-lg ms-2 ${itemQuantities[item.product_id] >= Math.min(product.qty, 4) ? "text-secondary" : "text-dark"}`}>+</button>
                     </div>
 
                     <h6 className="desc-xxs"> ₹ {discountedPrice != null ? finalDiscountedPrice : finalProductPrice} </h6>

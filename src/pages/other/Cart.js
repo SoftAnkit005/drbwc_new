@@ -7,6 +7,7 @@ import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { addToCart, removeFromCart } from "../../store/slices/cart-slice";
 import CouponSection from "../../wrappers/coupon-apply/CouponSection";
 import { isTokenValid } from "../../helpers/product";
+import cogoToast from "cogo-toast";
 
 const Cart = () => {
   const [itemQuantities, setItemQuantities] = useState({});
@@ -71,13 +72,21 @@ const Cart = () => {
 
   // console.log('itemQuantities', itemQuantities);
 
-  const handleQuantityChange = (type, product_id) => {
+  const handleQuantityChange = (type, product_id, product_qty) => {
+    console.log('product_qty:', product_qty);
     setItemQuantities((prevQuantities) => {
       const currentQuantity = prevQuantities[product_id] || 1;
       let newQuantity = currentQuantity;
   
+      // Determine the maximum quantity the user can add (either the available product stock or 4, whichever is smaller)
+      const maxQuantity = Math.min(product_qty, 4);
+  
       if (type === "plus") {
-        newQuantity = Math.min(currentQuantity + 1, 4); // Max quantity is 4
+        if (currentQuantity >= maxQuantity) {
+          cogoToast.warn("Max quantity reached", { position: "top-right"}); // Show toast if max quantity is already reached
+          return prevQuantities; // Don't update if max is reached
+        }
+        newQuantity = Math.min(currentQuantity + 1, maxQuantity); // Max quantity is either the product_qty or 4
       } else if (type === "minus") {
         newQuantity = Math.max(currentQuantity - 1, 0); // Minimum quantity is 0
       }
@@ -191,8 +200,9 @@ const Cart = () => {
                         </thead>
                         <tbody>
                           {localCartItems.map((cartItem, index) => {
-                            const product = getProductDetails(cartItem.product_id);
+                            const product = getProductDetails(cartItem.product_id) || {};
                             const imageUrls = JSON.parse(product.image_urls || "[]");
+                            const imageUrl = imageUrls.length > 0 ? apiUrl + '/' + imageUrls[0] : "path/to/default-image.jpg";
                             const productPrice = product.price ? parseFloat(product.price) : 0;
                             const finalProductPrice = productPrice.toFixed(2);
                             const quantity = itemQuantities[cartItem.product_id] || cartItem.quantity;
@@ -201,7 +211,7 @@ const Cart = () => {
                               <tr key={index}>
                                 <td className="product-thumbnail">
                                   <Link to={`/product/${product.id}`}>
-                                    <img className="img-fluid" src={ apiUrl + '/' +imageUrls[0] || "path/to/default-image.jpg"} alt={product.product_name} />
+                                    <img className="img-fluid" src={imageUrl} alt={product.product_name} />
                                   </Link>
                                 </td>
                                 <td className="product-name">
@@ -212,9 +222,9 @@ const Cart = () => {
                                 </td>
                                 <td className="product-quantity">
                                   <div className="cart-plus-minus">
-                                    <button className="dec qtybutton" onClick={() => handleQuantityChange("minus", cartItem.product_id)}>-</button>
+                                    <button className="dec qtybutton" onClick={() => handleQuantityChange("minus", cartItem.product_id, product.qty)}>-</button>
                                     <input className="cart-plus-minus-box" type="text" value={quantity} readOnly />
-                                    <button className="inc qtybutton" onClick={() => handleQuantityChange("plus", cartItem.product_id)}>+</button>
+                                    <button className="inc qtybutton" onClick={() => handleQuantityChange("plus", cartItem.product_id, product.qty)}>+</button>
                                   </div>
                                 </td>
                                 <td className="product-subtotal">{"₹ " + (finalProductPrice * quantity).toFixed(2)}</td>

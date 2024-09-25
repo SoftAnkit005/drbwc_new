@@ -35,7 +35,7 @@ const HeaderOne = ({
     <header className={clsx("header-area clearfix", headerBgClass, headerPositionClass)}>
       <HeaderDiscount />
       <div className={clsx( headerPaddingClass, "sticky-bar header-res-padding clearfix", scroll > headerTop && "stick" )} >
-        <div className={layout === "container-fluid" ? layout : "px-md-5 px-2"}>
+        <div className={layout === "container-fluid" ? layout : "px-md-4 px-2"}>
           <div className="row">
             <div className="col-md-6 col-4 pb-2">
               {/* header logo */}

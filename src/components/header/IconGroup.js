@@ -40,7 +40,7 @@ const IconGroup = ({ iconWhiteClass }) => {
 
   const handleLogout = (e) => {
     e.preventDefault(); // Prevent the default Link navigation
-    cogoToast.error('Logged out Successfully!', { position: 'top-right', hideAfter: 5 });
+    cogoToast.error('Logged out Successfully!', { position: 'top-right' });
     dispatch(clearToken());
   };
 
@@ -148,15 +148,17 @@ const IconGroup = ({ iconWhiteClass }) => {
             </>
             }
 
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/my-account"}>
-                my account
-              </Link>
-            </li>
             {token ? (
-              <li>
-                <Link onClick={handleLogout}>Logout</Link>
-              </li>
+              <>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/my-account"}>
+                    my account
+                  </Link>
+                </li>
+                <li>
+                  <Link onClick={handleLogout}>Logout</Link>
+                </li>
+              </>
             ) : null}
           </ul>
         </div>

@@ -56,8 +56,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
             <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
           </div>,
           {
-            position: 'top-right',
-            hideAfter: 5,
+            position: 'top-right'
           }
         );
       }
@@ -82,8 +81,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
           <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
         </div>,
         {
-          position: 'top-right',
-          hideAfter: 5,
+          position: 'top-right'
         }
       );
 
@@ -157,10 +155,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
         </div>
         <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
           <div className="product-content text-center">
-            <h3>
-              <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
-                {product.name}
-              </Link>
+            <h3>{product.name}
             </h3>
             <h3 className="product-price fw-semibold pb-1">{product.product_name} </h3>
             <h3 className="product-price fw-semibold pb-2"> ₹ {product.price} </h3>
