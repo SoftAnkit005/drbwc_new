@@ -7,9 +7,11 @@ import PrivacyPolicies from "./pages/other/PrivacyPolicies";
 import RefundPolicies from "./pages/other/RefundPolicies";
 import MasterV4ThermalBed from "./pages/other/MasterV4ThermalBed";
 import { useInitialDispatches } from './hooks/useInitialDispatches';
-import PaymentPage from "./pages/other/PaymentPage";
-import OrderConfirmation from "./pages/other/OrderConfirmation";
+import PaymentPage from "./pages/other/payment/PaymentPage";
 import CorporateGifts from "./pages/other/CorporateGifts";
+import OrderConfirmation from "./pages/other/payment/OrderConfirmation";
+import CancelPage from "./pages/other/payment/CancelPage";
+import SuccessPage from "./pages/other/payment/SuccessPage";
 
 // home page
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -88,8 +90,11 @@ const App = () => {
               <Route path={process.env.PUBLIC_URL + "/cart"} element={<Cart/>} />
               <Route path={process.env.PUBLIC_URL + "/wishlist"} element={<Wishlist/>} />
               <Route path={process.env.PUBLIC_URL + "/checkout"} element={<Checkout/>} /> 
-              <Route path={process.env.PUBLIC_URL + "/payment"} element={<PaymentPage/>} /> 
+              <Route path={process.env.PUBLIC_URL + "/payment"} element={<PaymentPage />} /> 
               <Route path={process.env.PUBLIC_URL + "/order-confirmation"} element={<OrderConfirmation />} />
+
+              <Route path={process.env.PUBLIC_URL + "/order-cancel"} element={<CancelPage />} />
+              <Route path={process.env.PUBLIC_URL + "/order-success"} element={<SuccessPage />} />
 
               <Route path="*" element={<NotFound/>} />
             </Routes>

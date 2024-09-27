@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import SEO from '../../components/seo';
-import LayoutOne from '../../layouts/LayoutOne';
-import { createTransaction } from '../../store/slices/transaction-slice';
+import SEO from '../../../components/seo';
+import LayoutOne from '../../../layouts/LayoutOne';
+import { createTransaction } from '../../../store/slices/transaction-slice';
 import { IoMdCheckmark } from 'react-icons/io';
 
 const OrderConfirmation = () => {
@@ -40,7 +40,7 @@ const OrderConfirmation = () => {
                     {orderConfirmed.status ? (
                         <div>
                             <h1>Thank You for Your Order!</h1>
-                            <p className='text-theme-brown desc-md'> <IoMdCheckmark className='fs-5 me-1'/>Your order is confirmed!</p>
+                            <p className='text-theme-brown desc-md'> <i className="bi bi-check-circle fs-1 text-success me-1"></i>Your order is confirmed!</p>
                             <p>Your order hasn't shipped yet, but we'll notify you when it does.</p>
                             <Link className="btn btn-primary" to={process.env.PUBLIC_URL + "/"}> Continue Shopping </Link>
                         </div>
