@@ -18,9 +18,11 @@ const ProductDescriptionInfo = ({ product, }) => {
     }
   }, [offers])
 
+  console.log('offers:', offers);
+
   const filteredOffers = allOffers.filter(offer => 
-    (offer.offer_type === 'code') || 
-    (offer.offer_type === 'product' && JSON.parse(offer.product_id).includes(Number(id)))
+    ((offer.offer_type === 'code') || 
+    (offer.offer_type === 'product' && JSON.parse(offer.product_id).includes(Number(id)))) && (offer.status !== 'inactive')
   );
 
   return (

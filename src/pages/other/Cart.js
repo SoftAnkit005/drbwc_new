@@ -5,7 +5,6 @@ import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { addToCart, removeFromCart } from "../../store/slices/cart-slice";
-import CouponSection from "../../wrappers/coupon-apply/CouponSection";
 import { isTokenValid } from "../../helpers/product";
 import cogoToast from "cogo-toast";
 

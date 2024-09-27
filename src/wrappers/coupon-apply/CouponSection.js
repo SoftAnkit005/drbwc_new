@@ -93,13 +93,7 @@ const CouponSection = ({ products, cartItems, onDiscountApplied }) => {
     <div className="grand-totall mb-4">
       <h4 className="cart-bottom-title section-bg-gray-cart">Apply Coupon Code</h4>
       <div className="coupon-input-group">
-        <input
-          className="form-control form-control-sm mb-2"
-          type="text"
-          placeholder="Enter coupon code"
-          value={couponCode}
-          onChange={(e) => setCouponCode(e.target.value)}
-        />
+        <input className="form-control form-control-sm mb-2" type="text" placeholder="Enter coupon code" value={couponCode} onChange={(e) => setCouponCode(e.target.value)} />
         <button className="px-5 border-0" onClick={handleApplyCoupon}>
           {discount > 0 ? 'Coupon Applied' : 'Apply'}
         </button>
