@@ -15,7 +15,7 @@ const HomeFashion = () => {
         titleTemplate="Auto Wellness Home"
         description="Fashion home of Dr BWC."
       />
-      <LayoutOne headerContainerClass="container-fluid" headerPaddingClass="header-padding-1" >
+      <LayoutOne headerContainerClass="px-md-4 px-2" headerPaddingClass="header-padding-1" >
         {/* hero slider */}
         <HeroSliderOne />
 

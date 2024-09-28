@@ -131,8 +131,8 @@ const MasterV4ThermalBed = () => {
                             </div>
                         </div>
                         <div className="col-12 col-sm-12 col-lg-6 my-3">
-                            <video autoPlay loop muted className="w-100 h-100 object-fit-cover rounded-1" >
-                                <source src="assets/videos/thermal_massage_bed.mp4" type="video/mp4" />
+                            <video autoPlay loop muted className="w-100 object-fit-cover rounded-1" style={{ objectFit: "cover", maxHeight: 500, objectPosition: "top" }}>
+                                <source src="assets/videos/workout_video.mp4" type="video/mp4" />
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -170,11 +170,11 @@ const MasterV4ThermalBed = () => {
                             </div>
                             <div className="col-12 col-sm-12 col-lg-6 my-3 mt-5">
                                 <video autoPlay loop muted className="w-100 h-100 object-fit-cover rounded-1" >
-                                    <source src="assets/videos/thermal_massage_bed.mp4" type="video/mp4" />
+                                    <source src="assets/videos/massager.mp4" type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
-                            <div className="col-12 col-sm-12 col-lg-6 my-3 mt-5">
+                            <div className="col-12 col-sm-12 col-lg-6 my-3 mt-5 d-flex flex-column justify-content-center">
                                 <h3 className="products-title text-uppercase lh-sm text-dark"> 6 Levels of Intensity Control </h3>
                                 <hr className="hr-line bg-black ms-0" />
                                 <p className="product-desc text-dark my-4"> It presses the spinal region [cervical vertebrae], [back of head vertebrae], [waist vertebrae] and pelvis, etc. </p>
@@ -207,7 +207,7 @@ const MasterV4ThermalBed = () => {
                         
                         <div className="row my-5">
                             <video autoPlay loop muted className="w-100 h-100 object-fit-cover rounded-1" >
-                                <source src="assets/videos/thermal_massage_bed.mp4" type="video/mp4" />
+                                <source src="assets/videos/thermal_massager_bed_2.mp4" type="video/mp4" />
                                 Your browser does not support the video tag.
                             </video>
                             <div className="col-12 col-sm-12 col-lg-6 my-3 mt-5">

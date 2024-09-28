@@ -162,12 +162,18 @@ const IconGroup = ({ iconWhiteClass }) => {
         </div>
       </div>
       <div className="same-style header-wishlist">
-        <Link className="header-icon" to={process.env.PUBLIC_URL + "/wishlist"}>
-          <FaHeart className="fs-5" />
-          <span className="count-style">
-            {wishlistItems && wishlistItems.length ? wishlistItems.length : 0}
-          </span>
-        </Link>
+        {token ? (
+          <Link className="header-icon" to={process.env.PUBLIC_URL + "/wishlist"}>
+            <FaHeart className="fs-5" />
+            <span className="count-style">
+              {wishlistItems && wishlistItems.length ? wishlistItems.length : 0}
+            </span>
+          </Link>
+        ) : (
+          <Link className="header-icon" onClick={e => cogoToast.error('Please login first to see your Wishlist!', { position: 'top-right' })} to={process.env.PUBLIC_URL + "/login-user"}>
+            <FaHeart className="fs-5" />
+          </Link>
+        )}
       </div>
       <div className="same-style cart-wrap d-none d-lg-block">
         <button className="icon-cart header-icon" onClick={e => handleClick(e)}>
