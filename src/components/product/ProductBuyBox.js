@@ -142,11 +142,21 @@ const ProductBuyBox = ({ product }) => {
                 <div className="col-8 desc-xxs mb-1 text-black">&nbsp; Dr.BWC</div>
             </div>
 
+            <p className='desc-xs mb-1 text-cyan fw-semibold d-flex align-items-start'>
+              <input type="checkbox" className="me-2 w-auto h-auto" id="extra-offer" />
+              <label htmlFor='extra-offer' style={{ cursor: 'pointer', lineHeight: '1.4' }}>Add a chair cover @ ₹1500.00 & Stabilizer @₹11000.00</label>
+            </p>
+
             <div className="d-flex align-items-center mb-2">
                 <label htmlFor="quantity" className="desc-xxs mb-1">Quantity:</label>
                 <select name="quantity" id="quantity" className="form-select form-select-sm  w-25 ms-2 border-muted shadow-none" onChange={(e) => setselectedQty(e.target.value)}>
                   {console.log('product.qty', product.qty)}
-                  {product.qty < 4 ? (
+                  {
+                    Array.from({ length: product.qty }, (_, index) => (
+                      <option key={index + 1} value={index + 1}>{index + 1}</option>
+                    ))
+                  }
+                  {/* {product.qty < 4 ? (
                     // Render options dynamically based on product.qty
                     Array.from({ length: product.qty }, (_, index) => (
                       <option key={index + 1} value={index + 1}>{index + 1}</option>
@@ -159,28 +169,28 @@ const ProductBuyBox = ({ product }) => {
                       <option value="3">3</option>
                       <option value="4">4</option>
                     </>
-                  )}
+                  )} */}
                 </select>
             </div>
 
             <div className="pro-details-size mb-3">
                 <span>Colors</span>
                 <div className="pro-details-size-content">
-                <div className="pro-details-size-content">
-                {/* Default option */}
-                <label className="pro-details-size-content--single">
-                    <input type="radio" value="Default" checked={selectedColor === 'Default'} onChange={() => { setSelectedColor('Default'); handleColorChange('Default'); }} />
-                    <span className="size-name">Default</span>
-                </label>
-
-                {/* Dynamically generated color options */}
-                {colorNames.map((color, key) => (
-                    <label className="pro-details-size-content--single" key={key}>
-                    <input type="radio" value={color} checked={selectedColor === color} onChange={() => { setSelectedColor(color); handleColorChange(color); }} />
-                    <span className="size-name">{color}</span>
+                  <div className="pro-details-size-content">
+                    {/* Default option */}
+                    <label className="pro-details-size-content--single">
+                        <input type="radio" value="Default" checked={selectedColor === 'Default'} onChange={() => { setSelectedColor('Default'); handleColorChange('Default'); }} />
+                        <span className="size-name">Default</span>
                     </label>
-                ))}
-                </div>
+
+                    {/* Dynamically generated color options */}
+                    {colorNames.map((color, key) => (
+                        <label className="pro-details-size-content--single" key={key}>
+                        <input type="radio" value={color} checked={selectedColor === color} onChange={() => { setSelectedColor(color); handleColorChange(color); }} />
+                        <span className="size-name">{color}</span>
+                        </label>
+                    ))}
+                  </div>
                 </div>
             </div>
 
@@ -196,7 +206,7 @@ const ProductBuyBox = ({ product }) => {
             <button className={`btn border w-100 mb-2 desc-sm py-2 ${product.qty <= 0 || isInWishlist ? 'cursor-disabled btn-secondary': 'btn-light'}`} onClick={() => handleWishList(product.id, product.product_name)} disabled={product.qty <= 0 || isInWishlist}> {isInWishlist ? 'Added to wishlist' : 'Add to Wishlist'}</button>
         </div>
         <div className="border rounded p-3">
-            <p className='desc-xs mb-1'><span className='fw-semibold'>Save upto 12%</span>with business pricing and GST input tax credit.</p>
+            <p className='desc-xs mb-1'><span className='fw-semibold'>Save upto 10%</span>with business pricing and GST input tax credit.</p>
             <div className='d-flex align-items-center'>
                 <input type="text" className='form-control form-control-sm me-1' style={{height: '35px'}}/>
                 <button className="btn btn-light border desc-sm rounded-pill w-fit">Submit</button>

@@ -72,13 +72,12 @@ const Cart = () => {
   // console.log('itemQuantities', itemQuantities);
 
   const handleQuantityChange = (type, product_id, product_qty) => {
-    console.log('product_qty:', product_qty);
     setItemQuantities((prevQuantities) => {
       const currentQuantity = prevQuantities[product_id] || 1;
       let newQuantity = currentQuantity;
   
       // Determine the maximum quantity the user can add (either the available product stock or 4, whichever is smaller)
-      const maxQuantity = Math.min(product_qty, 4);
+      const maxQuantity = Math.min(product_qty);
   
       if (type === "plus") {
         if (currentQuantity >= maxQuantity) {
@@ -166,6 +165,11 @@ const Cart = () => {
   const handleRemoveFromCart = (product_id) => {
     if (token && isTokenValid(token)) {
       dispatch(removeFromCart({ product_id }));
+    } else {
+      // For guest users (remove from sessionStorage)
+      const updatedCartItems = localCartItems.filter(item => item.product_id !== product_id);
+      sessionStorage.setItem("cart", JSON.stringify(updatedCartItems));
+      setLocalCartItems(updatedCartItems);
     }
   }
   return (

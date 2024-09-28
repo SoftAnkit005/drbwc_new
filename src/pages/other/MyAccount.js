@@ -20,11 +20,11 @@ const MyAccount = () => {
     }
   }, []);
 
-  const handleLogout = (e) => {
-    e.preventDefault(); // Prevent the default Link navigation
-    cogoToast.error('Logged out Successfully!', { position: 'top-right' });
-    dispatch(clearToken());
-  };
+  // const handleLogout = (e) => {
+  //   e.preventDefault(); // Prevent the default Link navigation
+  //   cogoToast.error('Logged out Successfully!', { position: 'top-right' });
+  //   dispatch(clearToken());
+  // };
 
   return (
     <Fragment>
@@ -51,7 +51,7 @@ const MyAccount = () => {
                       <img className="rounded-circle nav-user-icon border border-2 mb-2" src={`${process.env.PUBLIC_URL}/assets/img/users/user-default.jpg`} alt="User Icon" height={200} width={200}/>
                       <h2 className="heading-md">Welcome, {user.full_name}!</h2>
                       <h4 className="desc-md"> Email: <a href={`mailto:${user.email}`}>{user.email}</a> </h4>
-                      <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                      {/* <button className="btn btn-primary" onClick={handleLogout}>Logout</button> */}
                     </div>
                   ) : (
                     <div>
