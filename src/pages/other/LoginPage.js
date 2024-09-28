@@ -112,10 +112,10 @@ const LoginPage = () => {
                                 <div className="login-toggle-btn">
                                   <input id="remember-me" type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}/>
                                   <label htmlFor="remember-me" className="ml-10">Remember me</label>
-                                  <Link to={process.env.PUBLIC_URL + "/"}> Forgot Password? </Link>
+                                  <Link to={process.env.PUBLIC_URL + "/forgot-password"}> Forgot Password? </Link>
                                 </div>
-                                <button type="submit"> <span>Login</span> </button>
                               </div>
+                              <button type="submit" className="btn btn-primary"> Login </button>
                             </form>
                             <p className="pt-4">Do not have an account? <Link to={process.env.PUBLIC_URL + "/register-user"}>Register</Link></p>
                           </div>
