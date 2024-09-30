@@ -16,6 +16,9 @@ const OrderList = () => {
   // Get orders from Redux state
   const { orders, loading, error } = useSelector((state) => state.userOrders);
   const { products } = useSelector((state) => state.product);
+  const user = JSON.parse(localStorage.getItem('loggedUser'));
+
+  console.log(user);
 
   useEffect(() => {
     if (products?.success) {
@@ -26,11 +29,10 @@ const OrderList = () => {
     }
   }, [products]);
 
-  console.log(productsData);
 
   useEffect(() => {
     // Fetch orders for user with ID 1 (or replace with dynamic user ID)
-    dispatch(fetchUserOrders(1));
+    dispatch(fetchUserOrders(user?.id));
   }, [dispatch]);
 
   return (
@@ -121,11 +123,11 @@ const OrderList = () => {
                 <div className="col-lg-12">
                   <div className="item-empty-area text-center">
                     <div className="item-empty-area__icon mb-30">
-                      <i className="pe-7s-like"></i>
+                      <i className="pe-7s-box1"></i>
                     </div>
                     <div className="item-empty-area__text">
                       No orders found <br />
-                      <Link to={process.env.PUBLIC_URL + "/"}>Add Items</Link>
+                      <Link to={process.env.PUBLIC_URL + "/"}>Continue Shopping</Link>
                     </div>
                   </div>
                 </div>
