@@ -23,6 +23,7 @@ import tagsReducer from './slices/tags-slice';
 import transactionsReducer from './slices/transaction-slice';
 import forgotPasswordReducer from './slices/forgot-password-slice';
 import resetForgotPasswordReducer from './slices/reset-password-slice';
+import userOrdersReducer from './slices/user-order-slice';
 
 const persistConfig = {
     key: "flone",
@@ -52,6 +53,7 @@ export const rootReducer = combineReducers({
     transactions: transactionsReducer,
     forgotPassword : forgotPasswordReducer,
     resetForgotPassword : resetForgotPasswordReducer,
+    userOrders: userOrdersReducer,
     
 
     currency: currencyReducer,

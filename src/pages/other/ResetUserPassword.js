@@ -51,8 +51,6 @@ const ResetUserPassword = () => {
     // Clear errors if everything is fine
     setErrors({});
 
-    // Dispatch the action with all necessary data
-    // dispatch(resetForgotPassword({ email: loginEmail, token: passwordToken, password: newPassword }));
     dispatch(resetForgotPassword({ email: loginEmail, token: passwordToken, password: newPassword }))
     .then(response => {
       cogoToast.success('Password Reset Successfully!'); // Show warning toast

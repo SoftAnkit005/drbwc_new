@@ -3,12 +3,7 @@ import PropTypes from "prop-types";
 import { EffectFade, Thumbs } from 'swiper';
 import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Rating from "./sub-components/ProductRating";
-import Swiper, { SwiperSlide } from "../../components/swiper";
 import { getProductCartQuantity } from "../../helpers/product";
-import { addToCart } from "../../store/slices/cart-slice";
-import { addToWishlist } from "../../store/slices/wishlist-slice";
-import { addToCompare } from "../../store/slices/compare-slice";
 
 function ProductModal({ product, discountedPrice, show, onHide, wishlistItem, compareItem }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);

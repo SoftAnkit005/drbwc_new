@@ -14,6 +14,7 @@ import CancelPage from "./pages/other/payment/CancelPage";
 import SuccessPage from "./pages/other/payment/SuccessPage";
 import ForgotPassword from "./pages/other/ForgotPassword";
 import ResetPassword from "./pages/other/ResetUserPassword";
+import OrderList from "./pages/other/OrderList";
 
 // home page
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -93,6 +94,7 @@ const App = () => {
 
               <Route path={process.env.PUBLIC_URL + "/cart"} element={<Cart/>} />
               <Route path={process.env.PUBLIC_URL + "/wishlist"} element={<Wishlist/>} />
+              <Route path={process.env.PUBLIC_URL + "/order-list"} element={<OrderList/>} />
               <Route path={process.env.PUBLIC_URL + "/checkout"} element={<Checkout/>} /> 
               <Route path={process.env.PUBLIC_URL + "/payment"} element={<PaymentPage />} /> 
               <Route path={process.env.PUBLIC_URL + "/order-confirmation"} element={<OrderConfirmation />} />

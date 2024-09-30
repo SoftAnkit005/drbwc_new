@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import MenuCart from "./sub-components/MenuCart";
@@ -15,6 +15,7 @@ import cogoToast from "cogo-toast";
 
 const IconGroup = ({ iconWhiteClass }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
   const { categories } = useSelector((state) => state.categories);
@@ -42,6 +43,7 @@ const IconGroup = ({ iconWhiteClass }) => {
     e.preventDefault(); // Prevent the default Link navigation
     cogoToast.error('Logged out Successfully!', { position: 'top-right' });
     dispatch(clearToken());
+    navigate("/");
   };
 
   const triggerMobileMenu = () => {
@@ -151,6 +153,11 @@ const IconGroup = ({ iconWhiteClass }) => {
                 <li>
                   <Link to={process.env.PUBLIC_URL + "/my-account"}>
                     my account
+                  </Link>
+                </li>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/order-list"}>
+                    my orders
                   </Link>
                 </li>
                 <li>
