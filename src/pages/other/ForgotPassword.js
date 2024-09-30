@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import { forgotPassword, resetForgotPasswordState } from "../../store/slices/forgot-password-slice";
+import cogoToast from "cogo-toast";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const ForgotPassword = () => {
   // Handle navigation after successful submission
   useEffect(() => {
     if (success) {
+      cogoToast.warn('Email sent successfully!'); // Show
       navigate('/reset-password', { state: { email: loginEmail, success: 'Reset link sent successfully!' } });
     }
   }, [success, navigate, loginEmail]);

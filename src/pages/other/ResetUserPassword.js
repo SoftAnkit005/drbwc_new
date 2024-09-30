@@ -55,7 +55,7 @@ const ResetUserPassword = () => {
     // dispatch(resetForgotPassword({ email: loginEmail, token: passwordToken, password: newPassword }));
     dispatch(resetForgotPassword({ email: loginEmail, token: passwordToken, password: newPassword }))
     .then(response => {
-      cogoToast.warn('Password Reset Successfully!'); // Show warning toast
+      cogoToast.success('Password Reset Successfully!'); // Show warning toast
       navigate("/login-user"); // Navigate to login page
     })
     .catch(err => {
