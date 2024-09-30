@@ -1,15 +1,19 @@
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom"; 
+import React, { Fragment, useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom"; 
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import { useDispatch, useSelector } from 'react-redux'; 
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
-import { forgotPassword } from "../../store/slices/forgot-password-slice"; 
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import cogoToast from 'cogo-toast'; // Import cogoToast
+import { resetForgotPassword, resetForgotPasswordState } from "../../store/slices/reset-password-slice";
 
 const ResetUserPassword = () => {
-  const [loginEmail, setLoginEmail] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate(); // Initialize navigate
+  const forgotPassUser = location.state || {};
+  const [loginEmail, setLoginEmail] = useState(forgotPassUser.email || "");
   const [passwordToken, setPasswordToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -17,7 +21,14 @@ const ResetUserPassword = () => {
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false); // State for confirm password visibility
   const [errors, setErrors] = useState({}); 
   const dispatch = useDispatch(); 
-  const { loading, success, error } = useSelector((state) => state.auth); 
+  const { loading, success, error } = useSelector((state) => state.resetForgotPassword); 
+
+  useEffect(() => {
+    // Clear success and error messages when the component mounts
+    if (success || error) {
+      dispatch(resetForgotPasswordState());
+    }
+  }, [dispatch, success, error]);
 
   const handleResetPassword = (e) => {
     e.preventDefault();
@@ -28,7 +39,7 @@ const ResetUserPassword = () => {
     if (!passwordToken) newErrors.passwordToken = "Password token is required.";
     if (!newPassword) newErrors.newPassword = "New password is required.";
     if (newPassword !== confirmNewPassword) {
-      newErrors.confirmNewPassword = "Passwords did not matched.";
+      newErrors.confirmNewPassword = "Passwords do not match.";
     }
 
     // If there are errors, set the errors state and prevent dispatch
@@ -41,7 +52,22 @@ const ResetUserPassword = () => {
     setErrors({});
 
     // Dispatch the action with all necessary data
-    dispatch(forgotPassword({ email: loginEmail, token: passwordToken, newPassword }));
+    // dispatch(resetForgotPassword({ email: loginEmail, token: passwordToken, password: newPassword }));
+    dispatch(resetForgotPassword({ email: loginEmail, token: passwordToken, password: newPassword }))
+    .then(response => {
+      cogoToast.warn('Password Reset Successfully!'); // Show warning toast
+      navigate("/login-user"); // Navigate to login page
+    })
+    .catch(err => {
+      cogoToast.warn('Token Expired!'); // Show warning toast
+      navigate("/login-user"); // Navigate to login page
+    });
+  };
+
+  const handleInputChange = (setter) => (e) => {
+    setter(e.target.value);
+    // Clear corresponding error if user starts typing
+    setErrors((prevErrors) => ({ ...prevErrors, [e.target.name]: undefined }));
   };
 
   return (
@@ -65,9 +91,11 @@ const ResetUserPassword = () => {
                           <div className="login-register-form">
                             <form onSubmit={handleResetPassword}>
                               <input 
+                                className="mt-0" 
                                 type="email" 
+                                name="loginEmail" 
                                 value={loginEmail} 
-                                onChange={(e) => setLoginEmail(e.target.value)} 
+                                onChange={handleInputChange(setLoginEmail)} 
                                 placeholder="Email" 
                                 required 
                               />
@@ -75,40 +103,43 @@ const ResetUserPassword = () => {
                               
                               <input 
                                 type="text" 
+                                name="passwordToken"
                                 value={passwordToken} 
-                                onChange={(e) => setPasswordToken(e.target.value)} 
+                                onChange={handleInputChange(setPasswordToken)} 
                                 placeholder="Password Token" 
                                 required 
                               />
+                              {forgotPassUser?.success && <p className="desc-xxs text-success">Token sent to your email successfully!</p>}
                               {errors.passwordToken && <p className="text-danger desc-xxs">{errors.passwordToken}</p>}
 
                               <div className="password-field position-relative d-flex align-items-center">
-                                <input type={showNewPassword ? "text" : "password"} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="New Password" required />
-                                <span className="position-absolute end-0 cursor-pointer translate-middle-y mb-2 me-3">
-                                  {showNewPassword ?
-                                    <IoEyeOffOutline  onClick={() => setShowNewPassword(!showNewPassword)}/>
-                                    :
-                                    <IoEyeOutline  onClick={() => setShowNewPassword(!showNewPassword)}/>
-                                  }
+                                <input 
+                                  className="mt-0" 
+                                  type={showNewPassword ? "text" : "password"} 
+                                  name="newPassword"
+                                  value={newPassword} 
+                                  onChange={handleInputChange(setNewPassword)} 
+                                  placeholder="New Password" 
+                                  required 
+                                />
+                                <span className="position-absolute end-0 cursor-pointer translate-middle-y mt-3 me-3" onClick={() => setShowNewPassword(!showNewPassword)}>
+                                  {showNewPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
                                 </span>
                                 {errors.newPassword && <p className="text-danger desc-xxs">{errors.newPassword}</p>}
                               </div>
 
                               <div className="password-field position-relative d-flex align-items-center">
                                 <input 
-                                  className="mb-1"
+                                  className="mb-1 mt-0"
                                   type={showConfirmNewPassword ? "text" : "password"} // Toggle between text and password
+                                  name="confirmNewPassword"
                                   value={confirmNewPassword} 
-                                  onChange={(e) => setConfirmNewPassword(e.target.value)} 
+                                  onChange={handleInputChange(setConfirmNewPassword)} 
                                   placeholder="Confirm New Password" 
                                   required 
                                 />
-                                <span className="position-absolute end-0 cursor-pointer translate-middle-y me-3 mt-3">
-                                  {showConfirmNewPassword ?
-                                    <IoEyeOffOutline  onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}/>
-                                    :
-                                    <IoEyeOutline  onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}/>
-                                  }
+                                <span className="position-absolute end-0 cursor-pointer translate-middle-y me-3 mt-3" onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}>
+                                  {showConfirmNewPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
                                 </span>
                               </div>
                               {errors.confirmNewPassword && <p className="text-danger desc-xxs">{errors.confirmNewPassword}</p>}

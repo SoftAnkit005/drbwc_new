@@ -1,25 +1,38 @@
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom"; 
+import React, { Fragment, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
-import { useDispatch, useSelector } from 'react-redux'; // Import from react-redux
+import { useDispatch, useSelector } from 'react-redux';
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
-import { forgotPassword } from "../../store/slices/forgot-password-slice";
+import { forgotPassword, resetForgotPasswordState } from "../../store/slices/forgot-password-slice";
 
 const ForgotPassword = () => {
-  const [loginEmail, setLoginEmail] = useState("");
-  const dispatch = useDispatch(); // Initialize dispatch
-  const { loading, success, error } = useSelector((state) => state.auth); // Access state for loading, success, and error
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, success, error } = useSelector((state) => state.forgotPassword);
+  const rememberedEmail = localStorage.getItem("rememberedEmail");
+  const [loginEmail, setLoginEmail] = useState(rememberedEmail || '');
 
-  console.log('loginEmail:', loginEmail);
-
+  // Handle forgot password form submission
   const handleForgotPassword = (e) => {
     e.preventDefault();
-
-    // Dispatch the forgotPassword action with the email
     dispatch(forgotPassword(loginEmail));
   };
+
+  // Handle navigation after successful submission
+  useEffect(() => {
+    if (success) {
+      navigate('/reset-password', { state: { email: loginEmail, success: 'Reset link sent successfully!' } });
+    }
+  }, [success, navigate, loginEmail]);
+
+  // Reset error and success states when the component mounts (or page refreshes)
+  useEffect(() => {
+    return () => {
+      dispatch(resetForgotPasswordState()); // Reset the state on component unmount
+    };
+  }, [dispatch]);
 
   return (
     <Fragment>
@@ -33,7 +46,9 @@ const ForgotPassword = () => {
                   <Tab.Container defaultActiveKey="login">
                     <Nav variant="pills" className="login-register-tab-list">
                       <Nav.Item>
-                        <Nav.Link eventKey="login"> <h4>Forgot Password</h4> </Nav.Link>
+                        <Nav.Link eventKey="login">
+                          <h4>Forgot Password</h4>
+                        </Nav.Link>
                       </Nav.Item>
                     </Nav>
                     <Tab.Content>
@@ -42,20 +57,23 @@ const ForgotPassword = () => {
                           <div className="login-register-form">
                             <form onSubmit={handleForgotPassword}>
                               <input 
-                                type="text" 
+                                type="email" 
                                 value={loginEmail} 
                                 onChange={(e) => setLoginEmail(e.target.value)} 
                                 placeholder="Email" 
                                 required
                               />
-                              <button type="submit" className="btn btn-primary">
-                                {loading ? 'Sending...' : <span>Send Reset Password</span>}
+                              <button type="submit" className="btn btn-primary mt-4">
+                                {loading ? 'Sending...' : 'Send Reset Password'}
                               </button>
                             </form>
 
-                            {/* Success or Error Messages */}
-                            {success && <p>Reset link sent successfully!</p>}
-                            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+                            {/* Show error message if there's an error */}
+                            {error && (
+                              <p className="desc-xxs text-danger mt-3">
+                                Error: {typeof error === 'object' ? error.message || error.error : error}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </Tab.Pane>

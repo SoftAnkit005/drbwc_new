@@ -22,6 +22,7 @@ import wishlistReducer from './slices/wishlist-slice';
 import tagsReducer from './slices/tags-slice';
 import transactionsReducer from './slices/transaction-slice';
 import forgotPasswordReducer from './slices/forgot-password-slice';
+import resetForgotPasswordReducer from './slices/reset-password-slice';
 
 const persistConfig = {
     key: "flone",
@@ -50,6 +51,7 @@ export const rootReducer = combineReducers({
     tags: tagsReducer,
     transactions: transactionsReducer,
     forgotPassword : forgotPasswordReducer,
+    resetForgotPassword : resetForgotPasswordReducer,
     
 
     currency: currencyReducer,
