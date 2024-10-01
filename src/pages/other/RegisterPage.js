@@ -71,7 +71,7 @@ const RegisterPage = () => {
                               <input type="text" name="full_name" placeholder="Full Name" value={signupData.full_name} onChange={signupChange} required />
                               <input  type="email" name="email" placeholder="Email" value={signupData.email} onChange={signupChange} required/>
                               <input type="password" name="password" placeholder="Password" value={signupData.password} onChange={signupChange} required />
-                              <button type="submit" className="btn btn-primary">Sign Up</button>
+                              <button type="submit" className="btn btn-primary mt-4">Sign Up</button>
                             </form>
                             <p className="pt-4">Already have an account? <Link to={process.env.PUBLIC_URL + "/login-user"}>Login</Link></p>
                           </div>

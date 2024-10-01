@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import SEO from '../../../components/seo';
 import LayoutOne from '../../../layouts/LayoutOne';
 import { createTransaction } from '../../../store/slices/transaction-slice';
-import { IoMdCheckmark } from 'react-icons/io';
 
 const OrderConfirmation = () => {
     const location = useLocation();
@@ -31,6 +30,8 @@ const OrderConfirmation = () => {
             localStorage.setItem('transactionDispatched', 'true'); // Set flag in local storage
         }
     }, [orderConfirmed, dispatch, transactionData]);
+
+
 
     return (
         <Fragment>

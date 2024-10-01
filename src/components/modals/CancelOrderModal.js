@@ -11,10 +11,10 @@ function CancelOrderModal({ ordersData }) {
 
   // Cancelation reasons dropdown options
   const cancelationReasons = [
-    { value: 'wrong-item', label: 'Merchant shipped the wrong item' },
-    { value: 'not-required', label: 'Product is not required anymore' },
-    { value: 'damaged-product', label: 'Damaged or defective product' },
-    { value: 'different-size-color', label: 'Need different size or color' },
+    { value: 'Merchant shipped the wrong item', label: 'Merchant shipped the wrong item' },
+    { value: 'Product is not required anymore', label: 'Product is not required anymore' },
+    { value: 'Damaged or defective product', label: 'Damaged or defective product' },
+    { value: 'Damaged or defective product', label: 'Damaged or defective product' },
   ];
 
   // Modal state
@@ -53,7 +53,7 @@ function CancelOrderModal({ ordersData }) {
 
   return (
     <>
-      <Button className='ms-2' variant="danger" onClick={handleShow}>
+      <Button className='ms-2' size='sm' variant="danger" onClick={handleShow}>
         Cancel Order
       </Button>
 

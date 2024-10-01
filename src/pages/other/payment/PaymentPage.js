@@ -5,6 +5,7 @@ import { processCOD, resetPaymentState } from '../../../store/slices/payment-sli
 import SEO from '../../../components/seo';
 import LayoutOne from '../../../layouts/LayoutOne';
 import axios from "axios";
+import { removeFromCart } from '../../../store/slices/cart-slice';
 
 const PaymentPage = () => {
     const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const PaymentPage = () => {
         localStorage.removeItem('transactionDispatched');
         setCurrentUser(user);
     }, []);
+
+    console.log('currentOrder', order);
 
     // Only update currentOrder if the order is different or payment method changes
     useEffect(() => {
@@ -52,8 +55,6 @@ const PaymentPage = () => {
             });
         }
     }, [currentOrder, currentUser]);
-
-    console.log(`${apiUrl}/api/transactions/order-payment`);
 
     const handlePaymentSelection = (method) => {
         setPaymentMethod(method);
@@ -97,6 +98,12 @@ const PaymentPage = () => {
                 setLoading(false); // Stop loading
             }
         }
+
+        const removeCart = currentOrder.product_id.split(",");
+
+        removeCart.forEach(product_id => {
+          dispatch(removeFromCart({ product_id }));
+        });
     };
 
     console.log('paymentData:', paymentData);
@@ -104,9 +111,18 @@ const PaymentPage = () => {
     // Effect to handle redirection after payment success and reset state
     useEffect(() => {
         if (isSubmitting && success) {
-            setIsSubmitting(false);
-            navigate('/order-confirmation', { state: { order: currentOrder, status: order.success } }); // Pass updated order
-            dispatch(resetPaymentState()); // Reset the payment state after success
+            if (isSubmitting && success) {
+                setIsSubmitting(false);
+        
+                // Check if order.success is true or false and navigate accordingly
+                if (order.success) {
+                    navigate('/order-success'); // Navigate to success page
+                } else {
+                    navigate('/order-cancel'); // Navigate to cancel page
+                }
+        
+                dispatch(resetPaymentState()); // Reset the payment state after handling navigation
+            }
         }
     }, [isSubmitting, success, navigate, currentOrder, dispatch]); // Ensure dispatch is included as a dependency
 

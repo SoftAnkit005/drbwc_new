@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserOrders } from "../../store/slices/user-order-slice";
 import { Col, Row } from "react-bootstrap";
 import CancelOrderModal from "../../components/modals/CancelOrderModal";
+import { PiSealWarningFill } from "react-icons/pi";
+import { BsPatchCheckFill } from "react-icons/bs";
 
 const OrderList = () => {
   const dispatch = useDispatch();
@@ -18,8 +20,6 @@ const OrderList = () => {
   const { orders, loading, error } = useSelector((state) => state.userOrders);
   const { products } = useSelector((state) => state.product);
   const user = JSON.parse(localStorage.getItem('loggedUser'));
-
-  console.log(user);
 
   useEffect(() => {
     if (products?.success) {
@@ -78,7 +78,7 @@ const OrderList = () => {
                             <Col md={9}>
                               <div key={orderItem.id} className="order-item">
                                 <p><strong>Order Date:</strong> {new Date(orderItem.order_date).toLocaleDateString()}</p>
-                                <p><strong>Status:</strong> {orderItem.status}</p>
+                                <p className="text-capitalize"><strong>Status:</strong> {(orderItem.status).split('-').join(' ')}</p>
                                 <p><strong>Total Amount:</strong> ₹{orderItem.total_amount}</p>
 
                                 <div className="product-list mt-3">
@@ -98,16 +98,26 @@ const OrderList = () => {
                               </div>
                             </Col>
                             <Col md={3} className="text-md-end mt-2 mt-md-0">
-                              {orderItem.status !== 'canceled' ?
-                              <>
-                                <OrderStatusModal ordersData={orderItem}/>
-                                <CancelOrderModal ordersData={orderItem}/>
-                              </>
-                              :
-                              <>
-                                <span className="text-capitalize text-danger">Order {orderItem.status}</span>
-                                <p className="text-capitalize text-danger">Reason: {(orderItem.comments).split('-').join(' ')}</p>
-                              </>}
+                              {orderItem.status === 'canceled' ? (
+                                <>
+                                  <span className="text-capitalize text-danger d-flex align-items-center justify-content-end"><PiSealWarningFill className="me-1 fs-5" /> Order {orderItem.status}</span>
+                                  <p className="text-danger"> Reason: {orderItem.comments} </p>
+                                </>
+                              ) : orderItem.status === 'declined' ? (
+                                <>
+                                  <span className="text-capitalize text-danger d-flex align-items-center justify-content-end"><PiSealWarningFill className="me-1 fs-5" /> Order {orderItem.status}</span>
+                                  <p className="text-danger"> Reason: {orderItem.comments} </p>
+                                </>
+                              ) : orderItem.status === 'completed' ? (
+                                <>
+                                  <span className="text-capitalize text-success d-flex align-items-center justify-content-end"><BsPatchCheckFill className="me-1 fs-5" /> Order {orderItem.status}</span>
+                                </>
+                              ) : (
+                                <>
+                                  <OrderStatusModal ordersData={orderItem} />
+                                  <CancelOrderModal ordersData={orderItem} />
+                                </>
+                              )}
                             </Col>
                           </Row>
                           </>
