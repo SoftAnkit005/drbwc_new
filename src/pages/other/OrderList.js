@@ -7,6 +7,7 @@ import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserOrders } from "../../store/slices/user-order-slice";
 import { Col, Row } from "react-bootstrap";
+import CancelOrderModal from "../../components/modals/CancelOrderModal";
 
 const OrderList = () => {
   const dispatch = useDispatch();
@@ -97,7 +98,16 @@ const OrderList = () => {
                               </div>
                             </Col>
                             <Col md={3} className="text-md-end mt-2 mt-md-0">
-                              <OrderStatusModal ordersData={orderItem}/>
+                              {orderItem.status !== 'canceled' ?
+                              <>
+                                <OrderStatusModal ordersData={orderItem}/>
+                                <CancelOrderModal ordersData={orderItem}/>
+                              </>
+                              :
+                              <>
+                                <span className="text-capitalize text-danger">Order {orderItem.status}</span>
+                                <p className="text-capitalize text-danger">Reason: {(orderItem.comments).split('-').join(' ')}</p>
+                              </>}
                             </Col>
                           </Row>
                           </>
