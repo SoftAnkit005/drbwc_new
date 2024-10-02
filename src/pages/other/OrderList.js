@@ -78,6 +78,7 @@ const OrderList = () => {
                             <Col md={9}>
                               <div key={orderItem.id} className="order-item">
                                 <p><strong>Order Date:</strong> {new Date(orderItem.order_date).toLocaleDateString()}</p>
+                                <p><strong>Order Number:</strong> {orderItem.order_prefix}</p>
                                 <p className="text-capitalize"><strong>Status:</strong> {(orderItem.status).split('-').join(' ')}</p>
                                 <p><strong>Total Amount:</strong> ₹{orderItem.total_amount}</p>
 

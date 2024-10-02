@@ -28,6 +28,7 @@ const PaymentPage = () => {
     }, []);
 
 
+    
     // Only update currentOrder if the order is different or payment method changes
     useEffect(() => {
         if (order && order.order && (order.order.id !== currentOrder.id || currentOrder.payment_method !== paymentMethod)) {
@@ -98,11 +99,13 @@ const PaymentPage = () => {
             }
         }
 
+        // Split product IDs and remove from cart
         const removeCart = currentOrder.product_id.split(",");
 
-        removeCart.forEach(product_id => {
-          dispatch(removeFromCart({ product_id }));
-        });
+        // Dispatch removeFromCart actions in parallel and wait for all to complete
+        await Promise.all(
+            removeCart.map(product_id => dispatch(removeFromCart({ product_id })))
+        );
     };
 
     // Effect to handle redirection after payment success and reset state
