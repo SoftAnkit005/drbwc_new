@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../../../components/seo';
 import LayoutOne from '../../../layouts/LayoutOne';
-import { BsFillPatchCheckFill } from 'react-icons/bs';
 import { PiSealWarningFill } from 'react-icons/pi';
 
 const CancelPage = () => {

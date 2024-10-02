@@ -14,7 +14,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
         myHeaders.append('Content-Type', 'application/json');
 
         // Setup request body
-        const raw = JSON.stringify({ payment_method: 'cash on delivery', status: 'shipped' });
+        const raw = JSON.stringify({ payment_method: 'cash on delivery', status: 'confirmed' });
 
         // Setup request options
         const requestOptions = { method: 'POST', headers: myHeaders, body: raw, redirect: 'follow', };

@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { createTransaction } from '../../../store/slices/transaction-slice';
 import SEO from '../../../components/seo';
 import LayoutOne from '../../../layouts/LayoutOne';
-import { createTransaction } from '../../../store/slices/transaction-slice';
 
 const OrderConfirmation = () => {
     const location = useLocation();
@@ -12,7 +12,7 @@ const OrderConfirmation = () => {
 
     const transactionData = {
         order_id: orderConfirmed.order.id,
-        transaction_id: orderConfirmed.order.payment_method === 'cod' ? 'cod' : 'online',
+        transaction_id: orderConfirmed.order.payment_method === 'cash on delivery' ? 'cod' : 'online',
         transaction_date: orderConfirmed.order.updated_at,
         payment_response: JSON.stringify({ 
             status: orderConfirmed.status ? 'success' : 'failed', 

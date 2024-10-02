@@ -36,11 +36,9 @@ const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (rememberMe) {
-      // Store the email and password in localStorage
       localStorage.setItem("rememberedEmail", loginEmail);
       localStorage.setItem("rememberedPassword", loginPass);
     } else {
-      // Clear the saved credentials if "Remember me" is unchecked
       localStorage.removeItem("rememberedEmail");
       localStorage.removeItem("rememberedPassword");
     }

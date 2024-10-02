@@ -27,7 +27,6 @@ const PaymentPage = () => {
         setCurrentUser(user);
     }, []);
 
-    console.log('currentOrder', order);
 
     // Only update currentOrder if the order is different or payment method changes
     useEffect(() => {
@@ -106,8 +105,6 @@ const PaymentPage = () => {
         });
     };
 
-    console.log('paymentData:', paymentData);
-
     // Effect to handle redirection after payment success and reset state
     useEffect(() => {
         if (isSubmitting && success) {
@@ -116,7 +113,7 @@ const PaymentPage = () => {
         
                 // Check if order.success is true or false and navigate accordingly
                 if (order.success) {
-                    navigate('/order-success'); // Navigate to success page
+                    navigate('/order-success', { state: { order: currentOrder } }); // Navigate to success page
                 } else {
                     navigate('/order-cancel'); // Navigate to cancel page
                 }

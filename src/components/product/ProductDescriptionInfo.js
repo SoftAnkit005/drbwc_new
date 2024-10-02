@@ -18,12 +18,24 @@ const ProductDescriptionInfo = ({ product, }) => {
     }
   }, [offers])
 
-  console.log('offers:', offers);
+  console.log('allOffers:', allOffers);
 
-  const filteredOffers = allOffers.filter(offer => 
-    ((offer.offer_type === 'code') || 
-    (offer.offer_type === 'product' && JSON.parse(offer.product_id).includes(Number(id)))) && (offer.status !== 'inactive')
-  );
+  const currentDate = new Date();
+
+  const filteredOffers = allOffers.filter(offer => {
+    const startDate = new Date(offer.start_date); // Parse start_date
+    const endDate = new Date(offer.end_date); // Parse end_date
+  
+    return (
+      ((offer.offer_type === 'code') || 
+      (offer.offer_type === 'product' && JSON.parse(offer.product_id).includes(Number(id)))) && 
+      (offer.status !== 'inactive') &&
+      (currentDate >= startDate && currentDate <= endDate) // Check if current date is within the range
+    );
+  });
+  
+
+  console.log('filteredOffers:', filteredOffers);
 
   return (
     <div className="product-details-content ml-70 position-relative">
@@ -52,27 +64,31 @@ const ProductDescriptionInfo = ({ product, }) => {
         </div>
       :<></>}
 
-      <div className="border rounded-3 mt-3">
-        <div className="d-flex align-items-center p-2">
-          <span className="desc-xs fw-normal text-dark"><BiSolidOffer className="heading-sm ms-1 text-theme-red"/> Save Extra with </span>
-          <span className="desc-xs fw-semibold text-theme-red ms-1"> Offers</span>
-        </div>
-        {filteredOffers.map((item, index) => (
-          <div key={index} className="d-flex align-items-top p-2 border-top">
-            <span className="desc-xs fw-semibold text-theme-red ms-1 text-nowrap">
-              {item.offer_name} ({item.offer_code}):
-            </span>
-            <div className="ellipsis-container-wrapper">
-              <div className="ellipsis-two-lines ps-2">
-                <span className="desc-xs fw-normal text-dark">
-                  {item.offer_description}
-                </span>
-                <CouponDescModal offer={item.offer_name} code={item.offer_code} description={item.offer_description}/>
-              </div>
-            </div>
+      {filteredOffers?.length > 0 ?
+        <div className="border rounded-3 mt-3">
+          <div className="d-flex align-items-center p-2">
+            <span className="desc-xs fw-normal text-dark"><BiSolidOffer className="heading-sm ms-1 text-theme-red"/> Save Extra with </span>
+            <span className="desc-xs fw-semibold text-theme-red ms-1"> Offers</span>
           </div>
-        ))}
-      </div>
+            {filteredOffers.map((item, index) => (
+              <div key={index} className="d-flex align-items-top p-2 border-top">
+                <span className="desc-xs fw-semibold text-theme-red ms-1 text-nowrap">
+                  {item.offer_name} ({item.offer_code}):
+                </span>
+                <div className="ellipsis-container-wrapper">
+                  <div className="ellipsis-two-lines ps-2">
+                    <span className="desc-xs fw-normal text-dark">
+                      {item.offer_description}
+                    </span>
+                    <CouponDescModal offer={item.offer_name} code={item.offer_code} description={item.offer_description}/>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+        :
+        <></>
+      }
 
       <hr/>
 

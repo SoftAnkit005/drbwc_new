@@ -1,10 +1,36 @@
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Fragment, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import SEO from '../../../components/seo';
 import LayoutOne from '../../../layouts/LayoutOne';
 import { BsFillPatchCheckFill } from 'react-icons/bs';
+import { createTransaction } from '../../../store/slices/transaction-slice';
 
 const SuccessPage = () => {
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const orderConfirmed = location.state || {};
+
+    const transactionData = {
+        order_id: orderConfirmed.order?.id,
+        transaction_id: orderConfirmed.order?.payment_method === 'cod' ? 'cod' : 'online',
+        transaction_date: orderConfirmed.order?.updated_at,
+        payment_response: JSON.stringify({ 
+            status: orderConfirmed.status ? 'success' : 'failed', 
+            amount: orderConfirmed.order?.total_amount
+        }),
+        status: orderConfirmed.status ? 'success' : 'failed',
+    };
+
+    useEffect(() => {
+        const hasDispatched = localStorage.getItem('transactionDispatched');
+        // Dispatch createTransaction only if the order is confirmed and it hasn't been dispatched before
+        if (orderConfirmed && !hasDispatched) {
+            dispatch(createTransaction(transactionData));
+            localStorage.setItem('transactionDispatched', 'true'); // Set flag in local storage
+        }
+    }, [orderConfirmed, dispatch, transactionData]);
+
     return (
         <Fragment>
             <SEO titleTemplate="Order Confirmation" description="Your order has been confirmed." />

@@ -148,7 +148,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (isSubmitting) {
-      if (token && isTokenValid(token) && order.success) {
+      if (token && isTokenValid(token) && order?.success) {
         setIsSubmitting(false);
         navigate('/payment', { state: { order } });
       } else {
