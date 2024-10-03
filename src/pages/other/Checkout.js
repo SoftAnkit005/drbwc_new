@@ -28,6 +28,7 @@ const Checkout = () => {
   const { order } = useSelector((state) => state.orders);
   const [isSubmitting, setIsSubmitting] = useState(false); // Track form submission
   const token = localStorage.getItem("authToken");
+  const [isLoading, setIsLoading] = useState(false); // Track loading state for the button
   
   useEffect(() => {
     if (taxdata?.success) {
@@ -107,7 +108,7 @@ const Checkout = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.firstName || !formData.lastName || !formData.address || !formData.postcode || !formData.phone) {
       alert("Please fill in all required fields.");
@@ -140,23 +141,26 @@ const Checkout = () => {
 
     console.log("Order data:", orderData);
     setIsSubmitting(true);
-    dispatch(createOrder(orderData));
+    setIsLoading(true); // Start loading
+    await dispatch(createOrder(orderData)); // Wait for the order creation to finish
+    setIsLoading(false); // Stop loading
   };
 
   const handleDiscountApplied = (details) => {
     setDiscountDetails(details);
   };
 
+  // New useEffect to handle navigation based on isLoading
   useEffect(() => {
-    if (isSubmitting) {
+    if (!isLoading && isSubmitting) { // Check if loading is false and submission is in progress
       if (token && isTokenValid(token) && order?.success) {
         setIsSubmitting(false);
-        navigate('/payment', { state: { order } });
+        navigate('/payment', { state: { order } }); // Navigate only after loading is false
       } else {
         navigate('/login-user', { state: { order } });
       }
     }
-  }, [token, order, isSubmitting, navigate]);
+  }, [isLoading, isSubmitting, token, order, navigate]);
   
 
   return (
@@ -309,7 +313,9 @@ const Checkout = () => {
                           </div>
                         </div>
                         <div className="col-lg-12 d-flex justify-content-end">
-                          <button className="btn btn-primary px-5">Place Order</button>
+                          <button type="submit" disabled={isLoading} className="btn btn-primary btn-hover"> 
+                            {isLoading ? "Placing Order..." : "Place Order"}
+                          </button>
                         </div>
                       </div>
                     </form>

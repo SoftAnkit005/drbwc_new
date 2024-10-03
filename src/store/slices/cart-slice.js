@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -96,6 +97,35 @@ export const removeFromCart = createAsyncThunk(
   }
 );
 
+// Async thunk for removing all items from cart
+export const removeAllCart = createAsyncThunk(
+  'cart/removeAllCart',
+  async (product_ids, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+
+      const productIds = product_ids.includes(",")
+        ? product_ids.split(",")  // Split into array if there are multiple IDs
+        : [product_ids];          // Single product ID as an array
+
+      const deleteRequests = productIds.map(product_id =>
+        axios.delete(`${apiUrl}/api/cart/remove/${product_id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      );
+
+      await Promise.all(deleteRequests);
+
+      return productIds;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to remove items from the cart");
+    }
+  }
+);
+
 // Cart slice
 const cartSlice = createSlice({
   name: 'cart',
@@ -141,7 +171,6 @@ const cartSlice = createSlice({
           state.cartItems.push(cartItem);
         }
       })
-      
       .addCase(addToCart.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
@@ -160,7 +189,25 @@ const cartSlice = createSlice({
       .addCase(removeFromCart.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+
+      // removeAllCart
+      .addCase(removeAllCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removeAllCart.fulfilled, (state, action) => {
+        state.loading = false;
+        
+        // Filter out items whose product IDs are in action.payload (list of removed product IDs)
+        const productIdsToRemove = action.payload;
+        state.cartItems = state.cartItems.filter(item => !productIdsToRemove.includes(String(item.product_id))); // Ensure both are strings
+      })
+      .addCase(removeAllCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
+
   },
 });
 

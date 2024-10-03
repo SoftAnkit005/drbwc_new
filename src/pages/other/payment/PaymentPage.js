@@ -5,7 +5,7 @@ import { processCOD, resetPaymentState } from '../../../store/slices/payment-sli
 import SEO from '../../../components/seo';
 import LayoutOne from '../../../layouts/LayoutOne';
 import axios from "axios";
-import { removeFromCart } from '../../../store/slices/cart-slice';
+import { removeAllCart } from '../../../store/slices/cart-slice';
 
 const PaymentPage = () => {
     const dispatch = useDispatch();
@@ -99,13 +99,7 @@ const PaymentPage = () => {
             }
         }
 
-        // Split product IDs and remove from cart
-        const removeCart = currentOrder.product_id.split(",");
-
-        // Dispatch removeFromCart actions in parallel and wait for all to complete
-        await Promise.all(
-            removeCart.map(product_id => dispatch(removeFromCart({ product_id })))
-        );
+        dispatch(removeAllCart(currentOrder.product_id));
     };
 
     // Effect to handle redirection after payment success and reset state
