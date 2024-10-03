@@ -6,10 +6,11 @@ import OrderStatusModal from "../../components/modals/OrderStatusModal";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserOrders } from "../../store/slices/user-order-slice";
-import { Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import CancelOrderModal from "../../components/modals/CancelOrderModal";
 import { PiSealWarningFill } from "react-icons/pi";
 import { BsPatchCheckFill } from "react-icons/bs";
+import InvoiceDownload from "../../components/order/InvoiceDownload";
 
 const OrderList = () => {
   const dispatch = useDispatch();
@@ -39,11 +40,7 @@ const OrderList = () => {
     }
   }, [products]);
 
-
-
-
   useEffect(() => {
-    // Fetch orders for user with ID 1 (or replace with dynamic user ID)
     dispatch(fetchUserOrders(user?.id));
   }, [dispatch]);
 
@@ -77,60 +74,78 @@ const OrderList = () => {
                       {allOrders?.map((orderItem, i) => {
                         const productIds = orderItem.product_id.split(',').map(id => parseInt(id));
                         const quantities = orderItem.qty.split(',').map(qty => parseInt(qty));
-                        
+                        console.log('orderItem', orderItem);
                         // Find products based on product IDs
                         const orderedProducts = productIds.map(productId => 
                           productsData.find(product => product.id === productId)
                         );
 
                         return (
-                          <Row key={i} className=" rounded mb-4 border p-3">
-                            <Col md={9}>
-                              <div key={orderItem.id} className="order-item">
-                                <p><strong>Order Date:</strong> {new Date(orderItem.order_date).toLocaleDateString()}</p>
-                                <p><strong>Order Number:</strong> {orderItem.order_prefix}</p>
-                                <p className="text-capitalize"><strong>Status:</strong> {(orderItem.status).split('-').join(' ')}</p>
-                                <p><strong>Total Amount:</strong> ₹{orderItem.total_amount}</p>
-
-                                <div className="product-list mt-3">
-                                  <h5><strong>Products:</strong></h5>
-                                  <ul className="ms-4">
-                                    {orderedProducts.map((product, index) => (
-                                      product ? (
-                                        <li key={index}>
-                                          <img src={JSON.parse(product.image_urls)[0]} alt={product.product_name} width={50} height={50} />
-                                          Product Name: {product.product_name} x {quantities[index]}
-                                        </li>
-                                      ) : null // Handle the case if product is not found
-                                    ))}
-
-                                  </ul>
+                          <Card key={i} className="mb-4">
+                            <Card.Header className="d-flex justify-content-between">
+                              <div className="d-md-flex gap-5 align-items-center">
+                                <div className="mb-2 mb-md-0">
+                                  <label className="desc-xs text-muted text-uppercase">Order Placed</label>
+                                  <p className="fw-semibold">{new Date(orderItem.order_date).toLocaleDateString()}</p>
+                                </div>
+                                <div className="mb-2 mb-md-0">
+                                  <label className="desc-xs text-muted text-uppercase">Total Amount</label>
+                                  <p className="fw-semibold">₹{orderItem.total_amount}</p>
                                 </div>
                               </div>
-                            </Col>
-                            <Col md={3} className="text-md-end mt-2 mt-md-0">
-                              {orderItem.status === 'canceled' ? (
-                                <>
-                                  <span className="text-capitalize text-danger d-flex align-items-center justify-content-end"><PiSealWarningFill className="me-1 fs-5" /> Order {orderItem.status}</span>
-                                  <p className="text-danger"> Reason: {orderItem.comments} </p>
-                                </>
-                              ) : orderItem.status === 'declined' ? (
-                                <>
-                                  <span className="text-capitalize text-danger d-flex align-items-center justify-content-end"><PiSealWarningFill className="me-1 fs-5" /> Order {orderItem.status}</span>
-                                  <p className="text-danger"> Reason: {orderItem.comments} </p>
-                                </>
-                              ) : orderItem.status === 'completed' ? (
-                                <>
-                                  <span className="text-capitalize text-success d-flex align-items-center justify-content-end"><BsPatchCheckFill className="me-1 fs-5" /> Order {orderItem.status}</span>
-                                </>
-                              ) : (
-                                <>
-                                  <OrderStatusModal ordersData={orderItem} />
-                                  <CancelOrderModal ordersData={orderItem} />
-                                </>
-                              )}
-                            </Col>
-                          </Row>
+                              <div className="mb-2 mb-md-0 text-end">
+                                <label className="desc-xs text-muted text-uppercase">Order Number: <span className="fw-semibold text-dark">{orderItem.order_prefix}</span></label>
+                                <div>
+                                  <InvoiceDownload orderItem={orderItem} productsData={productsData} />
+                                </div>
+                              </div>
+                            </Card.Header>
+                            <Card.Body>
+                              <Row>
+                                <Col md={9}>
+                                  <div className="order-item">
+                                    <p className="text-capitalize"> {(orderItem.status).split('-').join(' ')}</p>
+
+                                    <div className="product-list mt-3">
+                                      <ul>
+                                        {orderedProducts.map((product, index) => (
+                                          product ? (
+                                            <li className="mb-2" key={index}>
+                                              <img className="me-2" src={JSON.parse(product.image_urls)[0]} alt={product.product_name} width={50} height={50} />
+                                              Product Name: {product.product_name} x {quantities[index]}
+                                            </li>
+                                          ) : null // Handle the case if product is not found
+                                        ))}
+
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col md={3} className="text-md-end mt-2 mt-md-0">
+                                  {orderItem.status === 'canceled' ? (
+                                    <>
+                                      <span className="text-capitalize text-danger d-md-flex align-items-center justify-content-end"><PiSealWarningFill className="me-1 fs-5" /> Order {orderItem.status}</span>
+                                      <p className="text-danger"> Reason: {orderItem.comments} </p>
+                                    </>
+                                  ) : orderItem.status === 'declined' ? (
+                                    <>
+                                      <span className="text-capitalize text-danger d-md-flex align-items-center justify-content-end"><PiSealWarningFill className="me-1 fs-5" /> Order {orderItem.status}</span>
+                                      <p className="text-danger"> Reason: {orderItem.comments} </p>
+                                    </>
+                                  ) : orderItem.status === 'completed' ? (
+                                    <>
+                                      <span className="text-capitalize text-success d-md-flex align-items-center justify-content-end"><BsPatchCheckFill className="me-1 fs-5" /> Order {orderItem.status}</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <OrderStatusModal ordersData={orderItem} />
+                                      <CancelOrderModal ordersData={orderItem} />
+                                    </>
+                                  )}
+                                </Col>
+                              </Row>
+                            </Card.Body>
+                          </Card>
                         );
                       })}
                     </div>

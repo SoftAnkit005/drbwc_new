@@ -29,8 +29,6 @@ function CancelOrderModal({ ordersData }) {
     setShow(true);
   };
 
-  console.log('selectedReason:', selectedReason);
-
   // Handle cancel order form submission
   const handleCancelOrder = () => {
     if (selectedReason) {
@@ -95,10 +93,10 @@ function CancelOrderModal({ ordersData }) {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button size='sm' variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="danger" onClick={handleCancelOrder}>
+          <Button size='sm' variant="danger" onClick={handleCancelOrder}>
             Confirm Cancelation
           </Button>
         </Modal.Footer>

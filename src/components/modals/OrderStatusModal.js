@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 function OrderStatusModal({ordersData}) {
-  console.log('ordersData:', ordersData);
   const currentStatus = ordersData?.status || 'pending';
   const statusOptions = [
     { 
@@ -74,7 +73,7 @@ function OrderStatusModal({ordersData}) {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button size='sm' variant="secondary" onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>
