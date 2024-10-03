@@ -15,12 +15,21 @@ const OrderList = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [productsData, setProductsData] = useState([]);
+  const [allOrders, setAllOrders] = useState([]);
 
   // Get orders from Redux state
   const { orders, loading, error } = useSelector((state) => state.userOrders);
   const { products } = useSelector((state) => state.product);
   const user = JSON.parse(localStorage.getItem('loggedUser'));
 
+  useEffect(() => {
+    if (orders) {
+      const sortedData = [...orders].sort((a, b) => new Date(b.id) - new Date(a.id));
+      setAllOrders(sortedData);
+    } else {
+      console.log("No orders found or orders fetching failed.");  // Debugging
+    }
+  }, [orders]);
   useEffect(() => {
     if (products?.success) {
       setProductsData(products.products);
@@ -29,6 +38,8 @@ const OrderList = () => {
       console.log("No products found or products fetching failed.");  // Debugging
     }
   }, [products]);
+
+
 
 
   useEffect(() => {
@@ -56,14 +67,14 @@ const OrderList = () => {
                 <p>Error: {error.message || "An unknown error occurred."}</p>
               </div>
             </div>
-          )  : orders && orders.length > 0 ? (
+          )  : allOrders && allOrders?.length > 0 ? (
               <Fragment>
                 <h3 className="cart-page-title">Your Order List</h3>
 
                 <div className="row">
                   <div className="col-12">
                     <div className="table-content">
-                      {orders.map((orderItem, i) => {
+                      {allOrders?.map((orderItem, i) => {
                         const productIds = orderItem.product_id.split(',').map(id => parseInt(id));
                         const quantities = orderItem.qty.split(',').map(qty => parseInt(qty));
                         
@@ -73,7 +84,6 @@ const OrderList = () => {
                         );
 
                         return (
-                          <>
                           <Row key={i} className=" rounded mb-4 border p-3">
                             <Col md={9}>
                               <div key={orderItem.id} className="order-item">
@@ -121,7 +131,6 @@ const OrderList = () => {
                               )}
                             </Col>
                           </Row>
-                          </>
                         );
                       })}
                     </div>

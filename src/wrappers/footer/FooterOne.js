@@ -67,7 +67,7 @@ const FooterOne = ({ spaceTopClass, spaceBottomClass, spaceLeftClass, spaceRight
                     <li>
                       <Link to={process.env.PUBLIC_URL + "/automatic-thermal-massage-bed"}>Advance Master V4 Thermal Heating Bed</Link>
                     </li>
-                    {categories?.categories.map((category) => (
+                    {categories?.categories?.map((category) => (
                       <li key={category.id}>
                         <Link to={process.env.PUBLIC_URL + `/category/${formatCategoryName(category.name)}?id=${category.id}`}>{category.name}</Link>
                       </li>
