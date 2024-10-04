@@ -9,6 +9,7 @@ import { addToCart } from '../../store/slices/cart-slice';
 import cogoToast from 'cogo-toast';
 import { updateWishlist } from '../../store/slices/wishlist-slice';
 import { isTokenValid } from '../../helpers/product';
+import { addToGuestCart } from '../../store/slices/guest-cart-slice';
 
 const ProductBuyBox = ({ product }) => {
   const navigate = useNavigate();
@@ -62,22 +63,7 @@ const ProductBuyBox = ({ product }) => {
         );
       }
     } else {
-      // Use sessionStorage if the user is not authenticated
-      let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-      
-      const existingItemIndex = cart.findIndex(
-        (item) => item.product_id === payload.product_id && item.color === payload.color
-      );
-
-      if (existingItemIndex > -1) {
-        // Update quantity if item already exists in the cart
-        cart[existingItemIndex].quantity = parseInt(cart[existingItemIndex].quantity) + parseInt(payload.quantity);
-      } else {
-        // Add new item to the cart
-        cart.push(payload);
-      }
-      
-      sessionStorage.setItem('cart', JSON.stringify(cart));
+      dispatch(addToGuestCart(payload)); // Dispatch to guest cart slice
 
       cogoToast.success(
         <div>

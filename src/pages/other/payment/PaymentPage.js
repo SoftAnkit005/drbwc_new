@@ -6,6 +6,7 @@ import SEO from '../../../components/seo';
 import LayoutOne from '../../../layouts/LayoutOne';
 import axios from "axios";
 import { removeAllCart } from '../../../store/slices/cart-slice';
+import { fetchProducts } from '../../../store/slices/product-slice';
 
 const PaymentPage = () => {
     const dispatch = useDispatch();
@@ -100,6 +101,7 @@ const PaymentPage = () => {
         }
 
         dispatch(removeAllCart(currentOrder.product_id));
+        dispatch(fetchProducts());
     };
 
     // Effect to handle redirection after payment success and reset state

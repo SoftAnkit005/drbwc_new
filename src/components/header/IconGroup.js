@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { clearToken } from "../../store/slices/auth-slice";
 import { GiHamburgerMenu } from "react-icons/gi";
 import cogoToast from "cogo-toast";
+import { fetchGuestCart } from "../../store/slices/guest-cart-slice";
 // import userIcon from "../../assets/img/users/user-default.jpg";
 
 
@@ -18,6 +19,7 @@ const IconGroup = ({ iconWhiteClass }) => {
   const navigate = useNavigate();
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
+  const guestCartItems = useSelector((state) => state.guestCart.cartItems);
   const { categories } = useSelector((state) => state.categories);
   const { products } = useSelector((state) => state.product.products);
   const [allCart, setallCart] = useState([]);
@@ -52,8 +54,15 @@ const IconGroup = ({ iconWhiteClass }) => {
   };
 
   useEffect(() => {
-    let cartData = [];
+    if (!token) {
+      // Dispatch fetchGuestCart when there is no token (guest user)
+      dispatch(fetchGuestCart());
+    }
+  }, [dispatch, token]);
 
+  useEffect(() => {
+    let cartData = [];
+  
     if (token !== null) {
       // Token is available, use cartItems from Redux store
       if (cartItems) {
@@ -63,13 +72,15 @@ const IconGroup = ({ iconWhiteClass }) => {
         );
       }
     } else {
-      // Token is not available, use cartItems from sessionStorage
-      const storedCartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
-      cartData = storedCartItems;
+      // Token is not available, use guest cartItems from the Redux store
+      if (guestCartItems) {
+        cartData = guestCartItems;
+      }
     }
-
+  
     setallCart(cartData);
-  }, [cartItems, token]); // Update cart data when cartItems or token changes
+  }, [cartItems, guestCartItems, token]);  // Add guestCartItems to the dependency array
+  
 
   const getCategoryNameById = (id) => {
     const category = categories?.categories.find((cat) => cat.id === id);

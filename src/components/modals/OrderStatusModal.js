@@ -11,15 +11,20 @@ function OrderStatusModal({ordersData}) {
       description: currentStatus === 'pending' ? ordersData?.comments || 'Order is pending.' : 'Order is pending.'
     },
     { 
+      value: 'confirmed', 
+      label: 'Confirmed', 
+      description: currentStatus === 'confirmed' ? ordersData?.comments || 'Order is confirmed.' : 'Order is confirmed.'
+    },
+    { 
       value: 'awaiting-pickup', 
       label: 'Awaiting pickup', 
       description: currentStatus === 'awaitingpickup' ? ordersData?.comments || 'Waiting for pickup.' : 'Waiting for pickup.'
     },
-    { 
-      value: 'pick-up', 
-      label: 'Pick Up', 
-      description: currentStatus === 'pickup' ? ordersData?.comments || 'Shipment picked up by courier.' : 'Shipment picked up by courier.'
-    },
+    // { 
+    //   value: 'pick-up', 
+    //   label: 'Pick Up', 
+    //   description: currentStatus === 'pickup' ? ordersData?.comments || 'Shipment picked up by courier.' : 'Shipment picked up by courier.'
+    // },
     { 
       value: 'shipped', 
       label: 'Shipped', 

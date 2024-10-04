@@ -8,6 +8,7 @@ import { addToCart } from "../../store/slices/cart-slice";
 import cogoToast from "cogo-toast";
 import { FaHeart } from "react-icons/fa";
 import { filterTagsByProductId } from "../../helpers/product";
+import { addToGuestCart } from "../../store/slices/guest-cart-slice";
 
 const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
   const token = localStorage.getItem('authToken');
@@ -17,6 +18,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const cartStatus = useSelector((state) => state.cart.status);
   const { cartItems } = useSelector((state) => state.cart);
+  const guestCartItems = useSelector((state) => state.guestCart.cartItems);
   const { tags } = useSelector((state) => state.tags);
   const [wishlistIcon, setwishlistIcon] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -38,7 +40,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
       const isProductInCart = cart.some(item => item.product_id === product.id);
       setIsInCart(isProductInCart);
     }
-  }, [product.id, token]);
+  }, [product.id,guestCartItems.length, token]);
 
   // Set wishlist icon state based on product presence in wishlistItems
   useEffect(() => {
@@ -62,19 +64,21 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
       }
     } else {
       // Add product to session storage
-      let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      // let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-      const existingItemIndex = cart.findIndex(
-        (item) => item.product_id === payload.product_id && item.color === payload.color
-      );
+      // const existingItemIndex = cart.findIndex(
+      //   (item) => item.product_id === payload.product_id && item.color === payload.color
+      // );
 
-      if (existingItemIndex > -1) {
-        cart[existingItemIndex].quantity += 1;
-      } else {
-        cart.push(payload);
-      }
+      // if (existingItemIndex > -1) {
+      //   cart[existingItemIndex].quantity += 1;
+      // } else {
+      //   cart.push(payload);
+      // }
 
-      sessionStorage.setItem('cart', JSON.stringify(cart));
+      // sessionStorage.setItem('cart', JSON.stringify(cart));
+
+      dispatch(addToGuestCart(payload)); // Dispatch to guest cart slice
 
       cogoToast.success(
         <div>
@@ -86,7 +90,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
       );
 
       // Update local state
-      // setIsInCart(true);
+      setIsInCart(true);
     }
   };
 

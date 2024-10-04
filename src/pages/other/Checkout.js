@@ -8,6 +8,7 @@ import { clearPincodeData, fetchPincodeData } from "../../store/slices/pincode-s
 import CouponSection from "../../wrappers/coupon-apply/CouponSection";
 import { createOrder } from "../../store/slices/order-slice";
 import { isTokenValid } from "../../helpers/product";
+import cogoToast from "cogo-toast";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -150,17 +151,25 @@ const Checkout = () => {
     setDiscountDetails(details);
   };
 
-  // New useEffect to handle navigation based on isLoading
   useEffect(() => {
-    if (!isLoading && isSubmitting) { // Check if loading is false and submission is in progress
-      if (token && isTokenValid(token) && order?.success) {
-        setIsSubmitting(false);
-        navigate('/payment', { state: { order } }); // Navigate only after loading is false
+    if (!isLoading && isSubmitting) { // Ensure loading is done and the form is being submitted
+      if (token && isTokenValid(token)) {
+        if (order?.success) {
+          // Navigate to payment if the order was successful
+          setIsSubmitting(false);
+          navigate('/payment', { state: { order } });
+        } else {
+          // Handle order failure here (e.g., show an error message)
+          cogoToast.error('Order creation failed. Please try again.');
+          setIsSubmitting(false);
+        }
       } else {
+        // Redirect to login if the token is invalid or expired
         navigate('/login-user', { state: { order } });
       }
     }
   }, [isLoading, isSubmitting, token, order, navigate]);
+  
   
 
   return (

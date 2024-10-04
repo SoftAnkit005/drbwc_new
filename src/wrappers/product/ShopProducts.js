@@ -11,7 +11,7 @@ const ShopProducts = ({ products, layout }) => {
     setactiveProducts(activePrd);
   }, [products])
   
-  console.log('products:', products);
+  // console.log('products:', products);
   return (
     <div className="shop-bottom-area mt-35">
       <div className={clsx("row", layout)}>

@@ -8,6 +8,7 @@ import { getCart } from "../store/slices/cart-slice";
 import { fetchTaxData } from "../store/slices/tax-slice";
 import { fetchWishlist } from "../store/slices/wishlist-slice";
 import { getTags } from "../store/slices/tags-slice";
+import { fetchGuestCart } from "../store/slices/guest-cart-slice";
 
 // Function to validate token
 const isTokenValid = (token) => {
@@ -30,6 +31,7 @@ export const useInitialDispatches = () => {
     dispatch(fetchOffers());
     dispatch(fetchTaxData());
     dispatch(getTags());
+    dispatch(fetchGuestCart());
 
     // Conditionally dispatch getCart and fetchWishlist if token is valid
     if (isTokenValid(token)) {

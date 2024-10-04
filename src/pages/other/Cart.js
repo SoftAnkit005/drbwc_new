@@ -7,6 +7,7 @@ import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { addToCart, removeFromCart } from "../../store/slices/cart-slice";
 import { isTokenValid } from "../../helpers/product";
 import cogoToast from "cogo-toast";
+import { addToGuestCart, removeFromGuestCart } from "../../store/slices/guest-cart-slice";
 
 const Cart = () => {
   const [itemQuantities, setItemQuantities] = useState({});
@@ -15,6 +16,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { cartItems } = useSelector((state) => state.cart);
+  const guestCartItems = useSelector((state) => state.guestCart.cartItems);
   const { products } = useSelector((state) => state.product);
   const { taxdata } = useSelector((state) => state.taxes);
   const [productsData, setProductsData] = useState([]);
@@ -44,8 +46,7 @@ const Cart = () => {
     if (token && isTokenValid(token)) {
       setLocalCartItems(cartItems); // Sync with Redux store
     } else {
-      const storedCartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
-      setLocalCartItems(storedCartItems); // Sync with sessionStorage for guests
+      setLocalCartItems(guestCartItems); // Sync with sessionStorage for guests
     }
   
     // Update item quantities after cartItems are set
@@ -54,7 +55,7 @@ const Cart = () => {
       return acc;
     }, {});
     setItemQuantities(initialQuantities);
-  }, [cartItems, token]);
+  }, [cartItems, guestCartItems.length, token]);
   
 
   useEffect(() => {
@@ -95,10 +96,7 @@ const Cart = () => {
           // For authenticated users
           dispatch(removeFromCart({ product_id }));
         } else {
-          // For guest users (remove from sessionStorage)
-          const updatedCartItems = localCartItems.filter(item => item.product_id !== product_id);
-          sessionStorage.setItem("cart", JSON.stringify(updatedCartItems));
-          setLocalCartItems(updatedCartItems);
+          dispatch(removeFromGuestCart({ product_id }));
         }
         return prevQuantities;
       }
@@ -107,12 +105,7 @@ const Cart = () => {
       if (token && isTokenValid(token)) {
         dispatch(addToCart({ product_id, quantity: newQuantity, color: "default" }));
       } else {
-        // For guest users (store updated cart items in sessionStorage)
-        const updatedCartItems = localCartItems.map((item) =>
-          item.product_id === product_id ? { ...item, quantity: newQuantity } : item
-        );
-        sessionStorage.setItem("cart", JSON.stringify(updatedCartItems));
-        setLocalCartItems(updatedCartItems); // Update local state for immediate UI change
+        dispatch(addToGuestCart({ product_id, quantity: newQuantity, color: "default" }));
       }
   
       return {
@@ -166,12 +159,10 @@ const Cart = () => {
     if (token && isTokenValid(token)) {
       dispatch(removeFromCart({ product_id }));
     } else {
-      // For guest users (remove from sessionStorage)
-      const updatedCartItems = localCartItems.filter(item => item.product_id !== product_id);
-      sessionStorage.setItem("cart", JSON.stringify(updatedCartItems));
-      setLocalCartItems(updatedCartItems);
+      dispatch(removeFromGuestCart({ product_id })); // Use guest cart action
     }
   }
+
   return (
     <Fragment>
       <SEO titleTemplate="Cart" description="Cart page" />

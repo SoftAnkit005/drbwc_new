@@ -42,7 +42,7 @@ const InvoiceDownload = ({ orderItem, productsData }) => {
     // Customer Details
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text(`Shipping Address: ${user?.full_name}`, 14, 70);
+    doc.text(`Shipping To: ${user?.full_name}`, 14, 70);
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     doc.text(`${orderItem.shipping_address}`, 14, 75);

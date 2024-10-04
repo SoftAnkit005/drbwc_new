@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDiscountPrice, isTokenValid } from "../../../helpers/product";
 import { addToCart, removeFromCart } from "../../../store/slices/cart-slice";
 import cogoToast from "cogo-toast";
+import { addToGuestCart, removeFromGuestCart } from "../../../store/slices/guest-cart-slice";
 
 const MenuCart = () => {
   const currency = useSelector((state) => state.currency);
   const { cartItems } = useSelector((state) => state.cart);
+  const guestCartItems = useSelector((state) => state.guestCart.cartItems);
   const { products } = useSelector((state) => state.product);
   const [productsData, setProductsData] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
@@ -16,12 +18,7 @@ const MenuCart = () => {
   const [allCart, setAllCart] = useState([]);
   let cartTotalPrice = 0;
   const token = localStorage.getItem("authToken");
-
-  // Function to load cart from session storage
-  const loadCartFromSession = () => {
-    const sessionCart = sessionStorage.getItem("cart");
-    return sessionCart ? JSON.parse(sessionCart) : [];
-  };
+  
 
   useEffect(() => {
     if (products?.success && Array.isArray(products.products)) {
@@ -29,44 +26,56 @@ const MenuCart = () => {
     }
   }, [products]);
 
+
   useEffect(() => {
     if (token && isTokenValid(token)) {
-      // Load cart items from API when authenticated
+      // Authenticated user: load cart items from Redux store (cartItems)
       if (cartItems) {
         const uniqueCartItems = cartItems?.filter(
           (item, index, self) =>
             index === self.findIndex((t) => t.product_id === item.product_id)
         );
         setAllCart(uniqueCartItems);
-
+  
         const initialQuantities = {};
         uniqueCartItems.forEach((item) => {
-          initialQuantities[item.product_id] = item.quantity;  // Ensure key is product_id
+          initialQuantities[item.product_id] = item.quantity;
         });
         setItemQuantities(initialQuantities);
       }
     } else {
-      // Load cart from session storage
-      const sessionCartItems = loadCartFromSession();
-      setAllCart(sessionCartItems);
-
-      const initialQuantities = {};
-      sessionCartItems.forEach((item) => {
-        initialQuantities[item.product_id] = item.quantity;  // Ensure key is product_id
-      });
-      setItemQuantities(initialQuantities);
+      // Guest user: load cart items from guestCartSlice
+      if (guestCartItems) {
+        const uniqueGuestCartItems = guestCartItems?.filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t.product_id === item.product_id)
+        );
+        setAllCart(uniqueGuestCartItems);
+  
+        const initialQuantities = {};
+        uniqueGuestCartItems.forEach((item) => {
+          initialQuantities[item.product_id] = item.quantity;
+        });
+        setItemQuantities(initialQuantities);
+      }
     }
-  }, [cartItems, token]);
+  }, [cartItems, guestCartItems.length, token]);
+  
+  
 
   // Save cart to session storage
   const saveCartToSession = (cart) => {
     sessionStorage.setItem("cart", JSON.stringify(cart));
   };
 
+
   // Handle quantity change
  const handleQty = (type, item, product_qty) => {
   const currentQuantity = itemQuantities[item.product_id] || 0;
   let updatedQuantity = currentQuantity;
+
+  console.log('currentQuantity:', currentQuantity);
+  console.log('updatedQuantity:', updatedQuantity);
 
   // Determine the maximum quantity based on product_qty or default to 4
   const maxQuantity = Math.min(product_qty, 4);
@@ -85,38 +94,28 @@ const MenuCart = () => {
 
   if (updatedQuantity < 1) {
     if (token && isTokenValid(token)) {
-      // Dispatch removeFromCart action if token exists
+      // Authenticated user: remove from cart
       dispatch(removeFromCart({ product_id: item.product_id }));
     } else {
-      // Remove item from session cart if no token
-      const updatedCart = allCart.filter(
-        (cartItem) => cartItem.product_id !== item.product_id
-      );
-      setAllCart(updatedCart);
-      saveCartToSession(updatedCart);
+      // Guest user: remove from guest cart
+      dispatch(removeFromGuestCart({ product_id: item.product_id }));
     }
   } else {
-    // Update quantity in cart
     const payload = {
       product_id: item.product_id,
       quantity: updatedQuantity,
       color: item.color || "", // Add color if available
     };
-
+  
     if (token && isTokenValid(token)) {
-      // Update the cart via API if authenticated
+      // Authenticated user: update cart
       dispatch(addToCart(payload));
     } else {
-      // Update the cart in session storage
-      const updatedCart = allCart.map((cartItem) =>
-        cartItem.product_id === item.product_id
-          ? { ...cartItem, quantity: updatedQuantity }
-          : cartItem
-      );
-      setAllCart(updatedCart);
-      saveCartToSession(updatedCart);
+      // Guest user: update guest cart
+      dispatch(addToGuestCart(payload));
     }
   }
+  
 
   // Update the quantity state for this specific item
   setItemQuantities((prevQuantities) => ({
