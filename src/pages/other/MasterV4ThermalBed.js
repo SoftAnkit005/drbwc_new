@@ -40,7 +40,7 @@ const MasterV4ThermalBed = () => {
                 <div className="row d-flex align-items-center">
                     <div className="col-12 col-sm-12 col-md-6 col-lg-6">
                     <div className="products-info">
-                        <h3 className="heading-lg text-uppercase lh-sm"> How is Dr.BWC's Advanced Master V4 Bed?​ </h3>
+                        <h3 className="heading-md text-uppercase lh-sm"> How is Dr.BWC's Advanced Master V4 Bed?​ </h3>
                         <p className="desc-md mb-3"> Spine is the central organ of the human body that protects the spinal cord, which connects our nerves. Dr. BWC Master V4 is a thermal device that provides intensive heat and pressure stimulation to the spine and gives a personalised thermal massage experience. </p>
                     </div>
                     </div>

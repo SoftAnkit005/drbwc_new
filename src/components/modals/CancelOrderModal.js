@@ -51,7 +51,7 @@ function CancelOrderModal({ ordersData }) {
 
   return (
     <>
-      <Button className='ms-2' size='sm' variant="danger" onClick={handleShow}>
+      <Button className='ms-2 mb-2' size='sm' variant="danger" onClick={handleShow}>
         Cancel Order
       </Button>
 

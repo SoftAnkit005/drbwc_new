@@ -50,7 +50,7 @@ function OrderStatusModal({ordersData}) {
 
   return (
     <>
-      <Button variant="primary" size='sm' onClick={handleShow}>
+      <Button className='mb-2' variant="primary" size='sm' onClick={handleShow}>
         Track Package
       </Button>
 

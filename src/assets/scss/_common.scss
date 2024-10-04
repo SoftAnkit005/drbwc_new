@@ -241,6 +241,7 @@ h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0;
 
 @media #{$md-layout},#{$xs-layout} {
   .heading-lg{ font-size: $heading-sm; }
+  .heading-sm { font-size: $heading-xxs !important; }
 }
 
 p { font-family: $poppins; font-size: 14px; font-weight: 400; line-height: 24px; margin-bottom: 15px; color: #333; }
@@ -2010,6 +2011,11 @@ textarea:focus {
       }
     }
   }
+}
+
+.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show {
+  background-color: #a58639;
+  border-color: #a58639;
 }
 
 a.default-btn {
