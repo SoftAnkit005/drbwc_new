@@ -1,17 +1,25 @@
-import { Fragment, useState } from "react"; 
+import { Fragment, useState } from "react";
 import { useLocation } from "react-router-dom";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
-import GoogleMap from "../../components/google-map"
+import GoogleMap from "../../components/google-map";
 import { TbTruckDelivery } from "react-icons/tb";
+import emailjs from "emailjs-com"; // Import EmailJS
 
 const Contact = () => {
   let { pathname } = useLocation();
 
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', message: '', });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,21 +31,37 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { name, email, phone, subject, message } = formData;
 
-    // Simple client-side validation
-    const { name, email, phone, company, message } = formData;
-    if (!name || !email || !phone || !company || !message) {
-      setError('All fields are required.');
+    // Simple validation
+    if (!name || !email || !phone || !subject || !message) {
+      setError("All fields are required.");
       return;
     }
 
-    // Simulate form submission
-    console.log('Form submitted:', formData);
+    setLoading(true); // Show loading while submitting
 
-    // Reset form fields and display success message
-    setFormData({ name: '', email: '', phone: '', company: '', message: '', });
-    setSubmitted(true);
-    setError('');
+    // Send email using EmailJS
+    emailjs
+      .send(
+        "service_bgxir6f", // Replace with your EmailJS service ID
+        "template_dufcl98", // Replace with your EmailJS template ID
+        formData,
+        "3tHf_9ngsWrvBvLGK", // Replace with your EmailJS user ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setSubmitted(true);
+          setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+          setError("");
+        },
+        (error) => {
+          console.error(error.text);
+          setError("Failed to send the message. Please try again later.");
+        }
+      )
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -45,15 +69,25 @@ const Contact = () => {
       <SEO titleTemplate="Contact" description="Contact page of Dr BWC." />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
-        <Breadcrumb pages={[ {label: "Home", path: process.env.PUBLIC_URL + "/" }, {label: "Contact", path: process.env.PUBLIC_URL + pathname } ]} />
+        <Breadcrumb
+          pages={[
+            { label: "Home", path: process.env.PUBLIC_URL + "/" },
+            { label: "Contact", path: process.env.PUBLIC_URL + pathname },
+          ]}
+        />
         <div className="contact-area pt-20 pb-100">
           <div className="container">
             <div className="custom-row-2 mb-10">
               <div className="col-12 col-lg-6">
                 <div className="contact-info-wrap">
                   <h3>about bhanusali wellness care</h3>
-                  <p className="desc-sm">DR.BWC is established in 2000 and has continued to grow and expand into India’s leading massage brands. Dr. BWC, The Brand represents value for money and strive for customers around the pan India. Network with best massage experience at affordable prices.</p>
-                  <hr/>
+                  <p className="desc-sm">
+                    DR.BWC is established in 2000 and has continued to grow and expand into
+                    India’s leading massage brands. Dr. BWC, The Brand represents value for money
+                    and strives for customers around the pan India. Network with the best massage
+                    experience at affordable prices.
+                  </p>
+                  <hr />
                   <div className="single-contact-info">
                     <div className="contact-icon"> <i className="fa fa-phone" /> </div>
                     <div className="contact-info-dec">
@@ -76,13 +110,18 @@ const Contact = () => {
                     </div>
                   </div>
                   <div className="single-contact-info">
-                    <div className="contact-icon"><TbTruckDelivery className="p-2"/> </div>
+                    <div className="contact-icon">
+                      <TbTruckDelivery className="p-2" />
+                    </div>
                     <div className="contact-info-dec">
                       <p>Free Delivery</p>
                     </div>
                   </div>
-                  <hr/>
-                  <p className="desc-sm">Do you have questions about how we can help your company? <span className="fw-bold">Send us an email and we’ll get in touch shortly.</span> </p>
+                  <hr />
+                  <p className="desc-sm">
+                    Do you have questions about how we can help your company?{" "}
+                    <span className="fw-bold">Send us an email and we’ll get in touch shortly.</span>
+                  </p>
                 </div>
               </div>
               <div className="col-12 col-lg-6">
@@ -102,18 +141,18 @@ const Contact = () => {
                         <input name="phone" placeholder="Phone*" type="tel" value={formData.phone} onChange={handleChange} required />
                       </div>
                       <div className="col-lg-6">
-                        <input name="company" placeholder="Company*" type="text" value={formData.company} onChange={handleChange} required />
+                        <input name="subject" placeholder="Subject*" type="text" value={formData.subject} onChange={handleChange} required />
                       </div>
                       <div className="col-lg-12">
                         <textarea name="message" placeholder="Your Message*" value={formData.message} onChange={handleChange} required />
-                        <button className="submit btn-primary" type="submit">
-                          ASK A QUESTION
+                        <button className="submit btn-primary" type="submit" disabled={loading}>
+                          {loading ? "Submitting..." : "ASK A QUESTION"}
                         </button>
                       </div>
                     </div>
                   </form>
-                  {submitted && <p className="form-message">Thank you for your inquiry!</p>}
-                  {error && <p className="form-message" style={{ color: 'red' }}>{error}</p>}
+                  {submitted && <><p className="form-message mt-2 mb-0 text-success">Thank You..</p><p className="form-message text-success">Your inquiry has been submitted, we'll contact you shortly!</p></>}
+                  {error && <p className="form-message" style={{ color: "red" }}>{error}</p>}
                 </div>
               </div>
             </div>
