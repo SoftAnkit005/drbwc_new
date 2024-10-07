@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import cogoToast from 'cogo-toast';
 import { LiaAngleRightSolid } from "react-icons/lia";
 
-function CouponDescModal({ offer, code, description }) {
+function CouponDescModal({ offer }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -13,7 +13,7 @@ function CouponDescModal({ offer, code, description }) {
 
   const copyToClipboard = () => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code)
+      navigator.clipboard.writeText(offer?.offer_code)
         .then(() => {
           cogoToast.success('Coupon Copied!', { position: 'top-right'});
         })
@@ -23,7 +23,7 @@ function CouponDescModal({ offer, code, description }) {
     } else {
       // Fallback: Select and copy manually
       const textArea = document.createElement('textarea');
-      textArea.value = code;
+      textArea.value = offer?.offer_code;
       document.body.appendChild(textArea);
       textArea.select();
       try {
@@ -43,12 +43,22 @@ function CouponDescModal({ offer, code, description }) {
 
       <Modal show={show} size="md" onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title className='text-theme-red'>{offer}</Modal.Title>
+          <Modal.Title className='text-theme-red'>{offer?.qty !== null ? 'Buy More Save More' : offer?.offer_name}</Modal.Title>
         </Modal.Header>
         <Modal.Body className='py-2'>
-          <p>{description}</p>
+          <p>
+            {offer?.qty !== null ? (
+              <>
+                {JSON.parse(offer?.qty).map((qty, index) => (
+                  <label key={index} className='mb-0'>Buy {qty} quantity and get {JSON.parse(offer?.discount_value)[index]}% off</label>
+                ))}
+              </>
+            ) : (
+              offer?.offer_description
+            )}
+          </p>
           <p className='badge-coupon cursor-copy' onClick={copyToClipboard}>
-            {code}
+            {offer?.offer_code}
           </p>
         </Modal.Body>
         <Modal.Footer>
@@ -62,9 +72,7 @@ function CouponDescModal({ offer, code, description }) {
 }
 
 CouponDescModal.propTypes = {
-  offer: PropTypes.string.isRequired,
-  code: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  offer: PropTypes.object.isRequired,
 };
 
 export default CouponDescModal;

@@ -19,8 +19,6 @@ const ProductDescriptionInfo = ({ product, }) => {
     }
   }, [offers])
 
-  console.log('allOffers:', allOffers);
-
   const currentDate = new Date();
 
   const filteredOffers = allOffers.filter(offer => {
@@ -34,9 +32,6 @@ const ProductDescriptionInfo = ({ product, }) => {
       (currentDate >= startDate && currentDate <= endDate) // Check if current date is within the range
     );
   });
-  
-
-  console.log('filteredOffers:', filteredOffers);
 
   return (
     <div className="product-details-content ml-70 position-relative">
@@ -76,18 +71,21 @@ const ProductDescriptionInfo = ({ product, }) => {
             <Row className="flex-nowrap overflow-auto mw-100 m-auto" style={{ scrollbarWidth: "thin"}}>
               {filteredOffers.map((item, index) => (
                 <Col key={index} xs={6} md={3} className="mb-2 px-1">
-                  <Card className="d-flex align-items-top p-2 border-top">
-                    <span className="desc-xs fw-bold mb-1 text-nowrap">
-                      {item.offer_name}
-                    </span>
-                    <div className="ellipsis-container-wrapper">
-                      <div className="ellipsis-two-lines lh-sm mb-2">
-                        <span className="desc-xs fw-normal text-dark">
-                          {item.offer_description}
-                        </span>
+                  <Card className="d-flex flex-column justify-content-between p-2 border-top" style={{ minHeight: "100%"}}>
+                    <div>
+                      <span className="desc-xs fw-bold mb-1 text-nowrap">
+                        {console.log('item', item.qty)}
+                        {item.qty && JSON.parse(item.qty)?.length > 1 ? 'Buy More Save More' : item.offer_name}
+                      </span>
+                      <div className="ellipsis-container-wrapper">
+                        <div className="ellipsis-two-lines lh-sm mb-2">
+                          <span className="desc-xs fw-normal text-dark">
+                            {item.offer_description}
+                          </span>
+                        </div>
                       </div>
-                      <CouponDescModal offer={item.offer_name} code={item.offer_code} description={item.offer_description}/>
                     </div>
+                    <CouponDescModal offer={item} />
                   </Card>
                 </Col>                
               ))}

@@ -136,7 +136,6 @@ const ProductBuyBox = ({ product }) => {
             <div className="d-flex align-items-center mb-2">
                 <label htmlFor="quantity" className="desc-xxs mb-1">Quantity:</label>
                 <select name="quantity" id="quantity" className="form-select form-select-sm  w-25 ms-2 border-muted shadow-none" onChange={(e) => setselectedQty(e.target.value)}>
-                  {console.log('product.qty', product.qty)}
                   {
                     Array.from({ length: product.qty }, (_, index) => (
                       <option key={index + 1} value={index + 1}>{index + 1}</option>

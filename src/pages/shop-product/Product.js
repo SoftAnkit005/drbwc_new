@@ -15,12 +15,9 @@ const Product = () => {
   const [productsData, setProductsData] = useState([]);
   const [relatedProducts, setrelatedProducts] = useState([])
 
-  console.log('products:', products.products);
-
   useEffect(() => {
     if (products?.success) {
       setProductsData(products.products);
-      console.log('productsData:', products.products);
     } else {
       console.log("No products found or products fetching failed.");  // Debugging
     }

@@ -8,6 +8,7 @@ const CouponSection = ({ products, cartItems, onDiscountApplied }) => {
   const [discount, setDiscount] = useState(0);
   const [discountValue, setDiscountValue] = useState('');
   const [discountType, setDiscountType] = useState('');
+  const [totalProductCount, settotalProductCount] = useState();
   const coupons = useSelector((state) => state.coupons.offers);
   const [allCoupons, setAllCoupons] = useState([]);
 
@@ -15,7 +16,12 @@ const CouponSection = ({ products, cartItems, onDiscountApplied }) => {
     if (coupons.success) {
       setAllCoupons(coupons.offers);
     }
-  }, [coupons]);
+
+    // Calculate total product count based on cart item quantities
+    const totalCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+    settotalProductCount(totalCount); // Update total product count
+  }, [coupons, cartItems]); // Add cartItems as a dependency
+
 
   const getProductDetails = (product_id) => {
     return products.find(product => product.id === product_id) || {};
@@ -26,42 +32,86 @@ const CouponSection = ({ products, cartItems, onDiscountApplied }) => {
     const startDate = new Date(coupon.start_date);
     const endDate = new Date(coupon.end_date);
 
+    // Validate coupon dates
     if (currentDate < startDate || currentDate > endDate) {
       return { amount: 0, type: coupon.discount_type, value: coupon.discount_value };
     }
 
     let discountAmount = 0;
+    let discountpercentage = 0;
+
+    // Function to calculate discount based on quantity logic
+    const getDiscountBasedOnQty = (itemQuantity, qtyList, discountValues) => {
+      for (let i = 0; i < qtyList.length; i++) {
+        // Check if quantity is in range
+        if (itemQuantity >= qtyList[i] && (i === qtyList.length - 1 || itemQuantity < qtyList[i + 1])) {
+          return parseFloat(discountValues[i]); // Return the matching discount value
+        }
+      }
+      // Check if the quantity is above the last qtyList value
+      if (itemQuantity > qtyList[qtyList.length - 1]) {
+        return parseFloat(discountValues[qtyList.length - 1]); // Apply last discount value for quantity above the highest range
+      }
+      return null; // No matching quantity found
+    };
+    
 
     if (coupon.offer_type === 'product') {
-      const productIds = JSON.parse(coupon.product_id);
+      // Handle product-based discount logic (without qty consideration)
+      const productIds = JSON.parse(coupon.product_id || '[]');
       const applicableCartItems = cartItems.filter(item => productIds.includes(item.product_id));
-      
+
       if (applicableCartItems.length === 0) return { amount: 0, type: coupon.discount_type, value: coupon.discount_value };
 
-      const totalApplicablePrice = applicableCartItems.reduce((acc, item) => {
+      applicableCartItems.forEach(item => {
         const product = getProductDetails(item.product_id);
-        return acc + (parseFloat(product.price) || 0) * item.quantity;
-      }, 0);
+        const productPrice = parseFloat(product.price) || 0;
+        const itemDiscountValue = parseFloat(coupon.discount_value);
 
-      if (coupon.discount_type === 'percentage') {
-        discountAmount = totalApplicablePrice * (parseFloat(coupon.discount_value) / 100);
-      } else if (coupon.discount_type === 'fixed') {
-        discountAmount = Math.min(parseFloat(coupon.discount_value), totalApplicablePrice);
-      }
+        // Calculate discount for product-based offers
+        if (coupon.discount_type === 'percentage') {
+          discountAmount += productPrice * (itemDiscountValue / 100) * item.quantity;
+        } else if (coupon.discount_type === 'fixed') {
+          discountAmount += Math.min(itemDiscountValue, productPrice * item.quantity);
+        }
+      });
+
     } else if (coupon.offer_type === 'code') {
+      // Handle coupon of type "code" with quantity-based discount logic
       const totalCartPrice = cartItems.reduce((acc, item) => {
         const product = getProductDetails(item.product_id);
-        return acc + (parseFloat(product.price) || 0) * item.quantity;
-      }, 0);
+        const productPrice = parseFloat(product.price) || 0;
+        let itemDiscountValue = parseFloat(coupon.discount_value);
 
-      if (coupon.discount_type === 'percentage') {
-        discountAmount = totalCartPrice * (parseFloat(coupon.discount_value) / 100);
-      } else if (coupon.discount_type === 'fixed') {
-        discountAmount = Math.min(parseFloat(coupon.discount_value), totalCartPrice);
-      }
+        // Apply discount based on quantity logic (only for offer_type "code")
+        if (coupon.qty && coupon.qty.length > 0) {
+          try {
+            const qtyList = JSON.parse(coupon.qty);
+            const discountValues = JSON.parse(coupon.discount_value);
+            let matchingDiscount = getDiscountBasedOnQty(totalProductCount, qtyList, discountValues);
+
+            if (matchingDiscount !== null) {
+              discountAmount += productPrice * (matchingDiscount / 100) * item.quantity;; // Override discount value based on quantity
+              discountpercentage = matchingDiscount;
+              setDiscountType(matchingDiscount);
+            }
+          } catch (error) {
+            console.error('Error parsing qty or discount_value:', error);
+          }
+        }
+
+        // Calculate discount based on total cart price and quantity
+        if (coupon.discount_type === 'percentage' && coupon.qty === null) {
+          discountAmount += productPrice * (itemDiscountValue / 100) * item.quantity;
+        } else if (coupon.discount_type === 'fixed' && coupon.qty === null) {
+          discountAmount += Math.min(itemDiscountValue, productPrice * item.quantity);
+        }
+
+        return acc + productPrice * item.quantity;
+      }, 0);
     }
 
-    return { amount: discountAmount.toFixed(2), type: coupon.discount_type, value: coupon.discount_value };
+    return { amount: discountAmount.toFixed(2), type: coupon.discount_type, value: coupon.qty && coupon.qty.length > 0 ? discountpercentage : coupon.discount_value };
   };
 
   const handleApplyCoupon = () => {
@@ -69,6 +119,10 @@ const CouponSection = ({ products, cartItems, onDiscountApplied }) => {
 
     if (coupon) {
       const { amount, type, value } = calculateDiscount(coupon);
+
+      // console.log('amount', amount);
+      // console.log('type', type);
+      // console.log('value', value);
 
       if (amount > 0) {
         setDiscount(amount);
