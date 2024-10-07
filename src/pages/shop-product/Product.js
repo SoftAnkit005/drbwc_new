@@ -37,7 +37,7 @@ const Product = () => {
   }, [product, products]);
 
   if (!product) {
-    return <div>Video not found</div>;
+    return <></>;
   }
   
   // useEffect(() => {

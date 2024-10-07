@@ -5,6 +5,7 @@ import productFrameData from "../../data/product-frame-icon/product-frame-data.j
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import CouponDescModal from "../modals/CouponDescModal";
+import { Card, Col, Row } from "react-bootstrap";
 
 
 const ProductDescriptionInfo = ({ product, }) => {
@@ -64,31 +65,53 @@ const ProductDescriptionInfo = ({ product, }) => {
         </div>
       :<></>}
 
+      <hr/>
+
       {filteredOffers?.length > 0 ?
-        <div className="border rounded-3 mt-3">
-          <div className="d-flex align-items-center p-2">
+        <div>
+          <div className="d-flex align-items-center p-2 pt-0">
             <span className="desc-xs fw-normal text-dark"><BiSolidOffer className="heading-sm ms-1 text-theme-red"/> Save Extra with </span>
             <span className="desc-xs fw-semibold text-theme-red ms-1"> Offers</span>
           </div>
-            {filteredOffers.map((item, index) => (
-              <div key={index} className="d-flex align-items-top p-2 border-top">
-                <span className="desc-xs fw-semibold text-theme-red ms-1 text-nowrap">
-                  {item.offer_name} ({item.offer_code}):
-                </span>
-                <div className="ellipsis-container-wrapper">
-                  <div className="ellipsis-two-lines ps-2">
-                    <span className="desc-xs fw-normal text-dark">
-                      {item.offer_description}
+            <Row className="flex-nowrap overflow-auto mw-100 m-auto" style={{ scrollbarWidth: "thin"}}>
+              {filteredOffers.map((item, index) => (
+                <Col key={index} xs={6} md={3} className="mb-2 px-1">
+                  <Card className="d-flex align-items-top p-2 border-top">
+                    <span className="desc-xs fw-bold mb-1 text-nowrap">
+                      {item.offer_name}
                     </span>
-                    <CouponDescModal offer={item.offer_name} code={item.offer_code} description={item.offer_description}/>
-                  </div>
-                </div>
-              </div>
-            ))}
+                    <div className="ellipsis-container-wrapper">
+                      <div className="ellipsis-two-lines lh-sm mb-2">
+                        <span className="desc-xs fw-normal text-dark">
+                          {item.offer_description}
+                        </span>
+                      </div>
+                      <CouponDescModal offer={item.offer_name} code={item.offer_code} description={item.offer_description}/>
+                    </div>
+                  </Card>
+                </Col>                
+              ))}
+            </Row>
         </div>
         :
         <></>
       }
+
+      <hr/>
+
+      <h2 className="heading-xs fw-semibold mb-2">About this Item</h2>
+      <p className="desc-xs lh-base mb-4">{product.about_item}</p>
+
+      <hr/>
+
+      <div className="row">
+        {productFrameData.map((item) => (
+          <div key={item.id} className="col-4 col-md-3 text-center p-md-3 p-1 py-2">
+            <img src={item.image} alt="" height={40}/>
+            <p className='desc-xs mb-0 text-muted lh-sm mt-2'>{item.title}</p>
+          </div>
+        ))}       
+      </div>
 
       <hr/>
 
@@ -105,22 +128,6 @@ const ProductDescriptionInfo = ({ product, }) => {
           <div className="col-8 desc-xs mb-1 text-muted">&nbsp; {product.size}</div>
           <div className="col-3 px-0 desc-xx fw-semibold mb-1">Brand</div>
           <div className="col-8 desc-xs mb-1 text-muted">&nbsp; DR BWC</div>
-      </div>
-
-      <hr/>
-
-      <h2 className="heading-xs fw-semibold mb-2">About this Item</h2>
-      <p className="desc-xs lh-base mb-4">{product.about_item}</p>
-
-      <hr/>
-
-      <div className="row">
-        {productFrameData.map((item) => (
-          <div key={item.id} className="col-4 col-md-3 text-center p-md-3 p-1 py-2">
-            <img src={item.image} alt="" height={40}/>
-            <p className='desc-xs mb-0 text-muted lh-sm mt-2'>{item.title}</p>
-          </div>
-        ))}       
       </div>
     </div>
   );

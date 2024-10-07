@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import ShareProductButton from "../team-member/ShareProductButton";
 
 function ImageMagnifier(props) {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -42,6 +43,7 @@ function ImageMagnifier(props) {
     <div className="magnify-main">
       <img src={`${apiUrl}/${props.imgsrc}`} onMouseMove={(e) => mouseMove(e)} onMouseOut={(e) => mouseOut(e)} ref={gfgImg} />
       <div className="zoom-preview" ref={zoomPreview} ></div>
+      <ShareProductButton />
     </div>
   );
 }

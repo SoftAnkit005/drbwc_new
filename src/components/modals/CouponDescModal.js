@@ -2,9 +2,8 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import PropTypes from 'prop-types';
-import { IoIosCopy } from 'react-icons/io';
-import { Link } from 'react-router-dom';
 import cogoToast from 'cogo-toast';
+import { LiaAngleRightSolid } from "react-icons/lia";
 
 function CouponDescModal({ offer, code, description }) {
   const [show, setShow] = useState(false);
@@ -40,7 +39,7 @@ function CouponDescModal({ offer, code, description }) {
 
   return (
     <>
-      <span className="more-modal text-danger desc-sm cursor-pointer" onClick={handleShow}>read more</span>
+      <span className="more-modal text-cyan desc-xs cursor-pointer" onClick={handleShow}>Coupon Code<LiaAngleRightSolid className='small'/> </span>
 
       <Modal show={show} size="md" onHide={handleClose}>
         <Modal.Header closeButton>

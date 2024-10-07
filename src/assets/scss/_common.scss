@@ -33,6 +33,10 @@ body {
 
 h1, h2, h3, h4, h5, h6 { font-family: $poppins; font-weight: 400; margin-top: 0; color: $heading-color; }
 
+a {
+  text-decoration: none !important;
+}
+
 .h-fit { height: fit-content; }
 .w-fit { width: fit-content; }
 
@@ -1815,12 +1819,10 @@ textarea:focus {
 .scroll-top {
   position: fixed;
   z-index: 9811 !important;
-  right: 20px;
+  right: 80px;
   bottom: 60px;
-
   // visibility: hidden;
   overflow: hidden;
-
   width: 50px;
   height: 50px;
 
@@ -1831,6 +1833,19 @@ textarea:focus {
   border: none;
   border-radius: 50px;
   background: none;
+  &.whatsapp {
+    background-color: $success;
+    right: 20px;
+    &:hover {
+      & i {
+        animation-name: fadeInUp;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+  
+        color: #fff;
+      }
+    }
+  }
   background-color: $theme-color;
   // &.show {
   //   visibility: visible;
@@ -1932,32 +1947,32 @@ textarea:focus {
 }
 
 .btn-primary{
-  background-color: $theme-color;
-  border-color: $theme-color;
-  color: #fff;
+  background-color: $theme-color !important;
+  border-color: $theme-color !important;
+  color: #fff !important;
   &:hover{
-    background-color: $theme-color-dark;
-    border-color: $theme-color-dark;
+    background-color: $theme-color-dark !important;
+    border-color: $theme-color-dark !important;
   }
 }
 
 .btn-secondary{
-  background-color: $theme-brown;
-  border-color: $theme-brown;
-  color: #fff;
+  background-color: $theme-brown !important;
+  border-color: $theme-brown !important;
+  color: #fff !important;
   &:hover{
-    background-color: $theme-dark-brown;
-    border-color: $theme-dark-brown;
+    background-color: $theme-dark-brown !important;
+    border-color: $theme-dark-brown !important;
   }
 }
 
 .btn-dark{
-  background-color: $theme-black;
-  border-color: $theme-black;
-  color: #fff;
+  background-color: $theme-black !important;
+  border-color: $theme-black !important;
+  color: #fff !important;
   &:hover{
-    background-color: $theme-dark-black;
-    border-color: $theme-dark-black;
+    background-color: $theme-dark-black !important;
+    border-color: $theme-dark-black !important;
   }
 }
 

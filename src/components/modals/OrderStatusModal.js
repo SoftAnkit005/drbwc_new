@@ -2,51 +2,22 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function OrderStatusModal({ordersData}) {
+function OrderStatusModal({ ordersData }) {
   const currentStatus = ordersData?.status || 'pending';
+  
   const statusOptions = [
-    { 
-      value: 'pending', 
-      label: 'Pending', 
-      description: currentStatus === 'pending' ? ordersData?.comments || 'Order is pending.' : 'Order is pending.'
-    },
-    { 
-      value: 'confirmed', 
-      label: 'Confirmed', 
-      description: currentStatus === 'confirmed' ? ordersData?.comments || 'Order is confirmed.' : 'Order is confirmed.'
-    },
-    { 
-      value: 'awaiting-pickup', 
-      label: 'Awaiting pickup', 
-      description: currentStatus === 'awaitingpickup' ? ordersData?.comments || 'Waiting for pickup.' : 'Waiting for pickup.'
-    },
-    // { 
-    //   value: 'pick-up', 
-    //   label: 'Pick Up', 
-    //   description: currentStatus === 'pickup' ? ordersData?.comments || 'Shipment picked up by courier.' : 'Shipment picked up by courier.'
-    // },
-    { 
-      value: 'shipped', 
-      label: 'Shipped', 
-      description: currentStatus === 'shipped' ? ordersData?.comments || 'Shipment is in transit.' : 'Shipment is in transit.'
-    },
-    { 
-      value: 'delivered', 
-      label: 'Delivered', 
-      description: currentStatus === 'delivered' ? ordersData?.comments || 'Shipment delivered to the destination.' : 'Shipment delivered to the destination.'
-    },
-    { 
-      value: 'completed', 
-      label: 'Completed', 
-      description: currentStatus === 'completed' ? ordersData?.comments || 'Order process completed.' : 'Order process completed.'
-    }
+    { value: 'pending', label: 'Pending', defaultDescription: 'Order is pending.' },
+    { value: 'confirmed', label: 'Confirmed', defaultDescription: 'Order is confirmed.' },
+    { value: 'awaiting-pickup', label: 'Awaiting pickup', defaultDescription: 'Waiting for pickup.' },
+    { value: 'shipped', label: 'Shipped', defaultDescription: 'Shipment is in transit.' },
+    { value: 'delivered', label: 'Delivered', defaultDescription: 'Shipment delivered to the destination.' },
+    // { value: 'completed', label: 'Completed', defaultDescription: 'Order process completed.' }
   ];
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
 
   return (
     <>
@@ -67,12 +38,19 @@ function OrderStatusModal({ordersData}) {
           <div className="timeline">
             <div className="line">
               <div className="line-content">
-                {statusOptions.map((status) => (
-                  <div key={status.value} className={`content ${currentStatus === status.value ? 'active' : ''}`}>
-                    <h6 className='desc-md fw-semibold'>{status.label}</h6>
-                    <p className='text-muted desc-xxs'>{status.description}</p>
-                  </div>
-                ))}
+                {statusOptions.map((status) => {
+                  // Dynamically check comments for the current status, or use default if none
+                  const description = currentStatus === status.value 
+                    ? ordersData?.comments || status.defaultDescription 
+                    : status.defaultDescription;
+
+                  return (
+                    <div key={status.value} className={`content ${currentStatus === status.value ? 'active' : ''}`}>
+                      <h6 className='desc-md fw-semibold'>{status.label}</h6>
+                      <p className='text-muted desc-xxs'>{description}</p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

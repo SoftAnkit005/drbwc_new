@@ -132,7 +132,7 @@ const OrderList = () => {
                                       <span className="text-capitalize text-danger d-md-flex align-items-center justify-content-end"><PiSealWarningFill className="me-1 fs-5" /> Order {orderItem.status}</span>
                                       <p className="text-danger"> Reason: {orderItem.comments} </p>
                                     </>
-                                  ) : orderItem.status === 'completed' ? (
+                                  ) : orderItem.status === 'delivered' ? (
                                     <>
                                       <span className="text-capitalize text-success d-md-flex align-items-center justify-content-end"><BsPatchCheckFill className="me-1 fs-5" /> Order {orderItem.status}</span>
                                     </>
