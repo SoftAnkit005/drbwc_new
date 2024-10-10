@@ -2,10 +2,10 @@ import { Fragment, useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { EffectFade, Thumbs } from 'swiper';
-import AnotherLightbox from "yet-another-react-lightbox";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+// import AnotherLightbox from "yet-another-react-lightbox";
+// import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+// import Zoom from "yet-another-react-lightbox/plugins/zoom";
+// import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Swiper, { SwiperSlide } from "../../components/swiper";
 import ImageMagnifier from "../image-magnifier/ImageMagnifier";
 import { useLocation } from "react-router-dom";
@@ -116,13 +116,13 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
                     </div>
                   </SwiperSlide>
                 ))}
-                <AnotherLightbox
+                {/* <AnotherLightbox
                     open={index >= 0}
                     index={index}
                     close={() => setIndex(-1)}
                     slides={slides}
                     plugins={[Thumbnails, Zoom, Fullscreen]}
-                />
+                /> */}
               </Swiper>
             ) : null}
           </div>

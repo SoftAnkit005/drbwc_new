@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { getDiscountPrice } from "../../helpers/product";
 import ProductDescriptionInfo from "../../components/product/ProductDescriptionInfo";
 import ProductImageGallerySideThumb from "../../components/product/ProductImageGallerySideThumb";
 import ProductBuyBox from "../../components/product/ProductBuyBox";

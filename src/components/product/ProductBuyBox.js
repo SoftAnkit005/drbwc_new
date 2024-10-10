@@ -128,7 +128,7 @@ const ProductBuyBox = ({ product }) => {
                 <div className="col-8 desc-xxs mb-1 text-black">&nbsp; Dr.BWC</div>
             </div>
 
-            <p className='desc-xs mb-1 text-cyan fw-semibold d-flex align-items-start'>
+            <p className='desc-xs mb-1 text-cyan fw-semibold d-flex align-items-start py-3'>
               <input type="checkbox" className="me-2 w-auto h-auto" id="extra-offer" />
               <label htmlFor='extra-offer' style={{ cursor: 'pointer', lineHeight: '1.4' }}>Add a chair cover @ ₹1500.00 & Stabilizer @₹11000.00</label>
             </p>

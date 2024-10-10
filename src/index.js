@@ -8,8 +8,8 @@ import 'animate.css';
 import 'swiper/swiper-bundle.min.css';
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-import "./assets/scss/style.scss";
 import "./i18n";
+import "./assets/scss/style.scss";
 
 const container = document.getElementById('root');
 const root = createRoot(container);

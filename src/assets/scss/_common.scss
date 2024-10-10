@@ -1820,7 +1820,7 @@ textarea:focus {
   position: fixed;
   z-index: 9811 !important;
   right: 80px;
-  bottom: 60px;
+  bottom: 20px;
   // visibility: hidden;
   overflow: hidden;
   width: 50px;
@@ -2293,4 +2293,30 @@ button:disabled {
             }
         }
     }
+}
+
+// CK Editor Table
+.description-review-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.description-review-wrapper table th, .description-review-wrapper table td {
+  border: 1px solid #ddd; /* Add borders for visual separation */
+  padding: 8px;
+  text-align: center; /* Center align text */
+}
+
+@media (max-width: 900px) {
+  .description-review-wrapper table,
+  .description-review-wrapper table tr,
+  .description-review-wrapper table th,
+  .description-review-wrapper table td {
+      display: block;
+      width: 100%;
+  }
+  
+  .description-review-wrapper table tr {
+      margin-bottom: 10px; /* Space between rows */
+  }
 }

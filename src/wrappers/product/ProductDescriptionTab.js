@@ -4,6 +4,21 @@ import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 
 const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc }) => {
+  const table = document.querySelector('.productDescription'); // or use the specific selector based on your setup
+  if (table) {
+      const rows = table.querySelectorAll('tr');
+      rows.forEach(row => {
+          const cells = row.querySelectorAll('td');
+          cells.forEach(cell => {
+              const div = document.createElement('div');
+              div.className = 'grid-item';
+              div.innerHTML = cell.innerHTML; // Copy content from the cell
+              table.parentNode.insertBefore(div, table); // Insert the div before the table
+          });
+          row.remove(); // Remove the original row
+      });
+  }
+
   return (
     <div className={clsx("description-review-area", spaceBottomClass)}>
       <div className="px-3 px-md-5">

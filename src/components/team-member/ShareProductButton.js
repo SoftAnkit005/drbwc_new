@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is imported
 import { RiShare2Line } from "react-icons/ri";
 import { FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { FaSquareXTwitter } from "react-icons/fa6";
