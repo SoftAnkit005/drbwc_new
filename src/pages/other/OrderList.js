@@ -17,6 +17,7 @@ const OrderList = () => {
   const { pathname } = useLocation();
   const [productsData, setProductsData] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Get orders from Redux state
   const { orders, loading, error } = useSelector((state) => state.userOrders);
@@ -111,7 +112,7 @@ const OrderList = () => {
                                         {orderedProducts.map((product, index) => (
                                           product ? (
                                             <li className="mb-2" key={index}>
-                                              <img className="me-2" src={JSON.parse(product.image_urls)[0]} alt={product.product_name} width={50} height={50} />
+                                              <img className="me-2" src={apiUrl + '/' + JSON.parse(product.image_urls)[0]} alt={product.product_name} width={50} height={50} />
                                               Product Name: {product.product_name} x {quantities[index]}
                                             </li>
                                           ) : null // Handle the case if product is not found

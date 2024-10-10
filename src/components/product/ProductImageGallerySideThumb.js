@@ -127,11 +127,7 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
             ) : null}
           </div>
         </div>
-        <div
-          className={clsx(thumbPosition && thumbPosition === "left"
-              ? "col-xl-2 order-2 order-xl-1"
-              : "col-xl-2")}
-        >
+        <div className={clsx(thumbPosition && thumbPosition === "left" ? "col-xl-2 order-2 order-xl-1" : "col-xl-2")} >
           <div className="product-small-image-wrapper product-small-image-wrapper--side-thumb">
             {imageArray?.length ? (
               <Swiper options={thumbnailSwiperParams}>

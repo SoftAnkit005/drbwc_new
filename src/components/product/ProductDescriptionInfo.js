@@ -34,9 +34,11 @@ const ProductDescriptionInfo = ({ product, }) => {
   });
 
   return (
-    <div className="product-details-content ml-70 position-relative">
-      <img className="position-absolute top-0 end-0" src="/assets/img/product/drbwc_images/warrenty_logo.png" alt="" height={80}/>
-      <h2>{product.product_name}</h2>
+    <div className="product-details-content ml-70">
+      <div className="position-relative">
+        <h2>{product.product_name}</h2>
+        <img className="position-absolute end-0 top-100 mt-3" src="/assets/img/product/drbwc_images/warrenty_logo.png" alt="" height={65} />
+      </div>
       <p className='desc-xxs mb-1 text-cyan fw-normal'>Brand: DR BWC</p>
       <p className="desc-sm fw-medium d-flex align-items-center blink bg-theme-red px-4 py-1 text-white w-fit rounded mb-2">Special rate <BiSolidOffer className="heading-sm ms-1"/></p>
       <h2 className="heading-sm fw-normal"><span className='desc-sm fw-semibold'>₹</span> {parseFloat(product.price).toLocaleString()} <span className="text-danger desc-xs">20% off</span></h2>
@@ -70,11 +72,10 @@ const ProductDescriptionInfo = ({ product, }) => {
           </div>
             <Row className="flex-nowrap overflow-auto mw-100 m-auto" style={{ scrollbarWidth: "thin"}}>
               {filteredOffers.map((item, index) => (
-                <Col key={index} xs={6} md={3} className="mb-2 px-1">
+                <Col key={index} xs={6} md={4} xxl={3} className="mb-2 px-1">
                   <Card className="d-flex flex-column justify-content-between p-2 border-top" style={{ minHeight: "100%"}}>
                     <div>
-                      <span className="desc-xs fw-bold mb-1 text-nowrap">
-                        {console.log('item', item.qty)}
+                      <span className="desc-xs fw-bold mb-1">
                         {item.qty && JSON.parse(item.qty)?.length > 1 ? 'Buy More Save More' : item.offer_name}
                       </span>
                       <div className="ellipsis-container-wrapper">

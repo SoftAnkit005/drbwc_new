@@ -9,6 +9,7 @@ import { fetchTaxData } from "../store/slices/tax-slice";
 import { fetchWishlist } from "../store/slices/wishlist-slice";
 import { getTags } from "../store/slices/tags-slice";
 import { fetchGuestCart } from "../store/slices/guest-cart-slice";
+import { clearToken } from "../store/slices/auth-slice";
 
 // Function to validate token
 const isTokenValid = (token) => {
@@ -37,6 +38,8 @@ export const useInitialDispatches = () => {
     if (isTokenValid(token)) {
       dispatch(getCart());
       dispatch(fetchWishlist());
+    }else{
+      dispatch(clearToken());
     }
   }, [token, dispatch]);
 };
