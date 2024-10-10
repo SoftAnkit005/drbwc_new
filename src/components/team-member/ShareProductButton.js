@@ -37,7 +37,7 @@ const ShareProductButton = () => {
   return (
     <div className="position-absolute top-0 end-0">
       {/* Share Button with SVG Icon */}
-      <button onClick={() => setIsOpen(!isOpen)} className="btn btn-outline-none border-0" aria-label="Share" >
+      <button onClick={() => setIsOpen(!isOpen)} className="btn btn-light border-0 rounded-circle px-2 m-2" aria-label="Share" >
         <RiShare2Line className='fs-5'/>
       </button>
 

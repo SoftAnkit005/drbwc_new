@@ -3992,20 +3992,109 @@
   }
 }
 
+// .shop-area{
+//   .swiper-wrapper{
+//     .swiper-slide {
+//       &:not(.swiper-slide-active) {
+//         height: 100px !important;
+//         width: 100% !important;
+//       }
+//     }
+//     .swiper-slide-thumb-active{
+//       height: auto !important;
+//     }
+//   }
+  
+//   .product-small-image-wrapper--side-thumb{
+//     height: 100% !important;
+//   }
+// }
+
 .shop-area{
-  .swiper-wrapper{
-    .swiper-slide {
-      &:not(.swiper-slide-active) {
-        height: 100px !important;
-        width: 100% !important;
+    .swiper-wrapper{
+      .swiper-slide {
+        max-height: fit-content !important;
       }
     }
-    .swiper-slide-thumb-active{
-      height: auto !important;
-    }
+}
+
+/* General styling for the table when viewed on mobile devices */
+.description-review-bottom figure.table {
+  display: block;
+  overflow-x: auto;
+}
+
+.description-review-bottom figure.table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Style for the table on mobile: stack columns vertically */
+@media (max-width: 1199px) {
+  .description-review-bottom figure.table table {
+    display: block;
   }
-  
-  .product-small-image-wrapper--side-thumb{
-    height: 100% !important;
+
+  .description-review-bottom figure.table thead, 
+  .description-review-bottom figure.table tbody, 
+  .description-review-bottom figure.table tr, 
+  .description-review-bottom figure.table th, 
+  .description-review-bottom figure.table td {
+    display: block;
+    width: 100%;
+  }
+
+  .description-review-bottom figure.table th, 
+  .description-review-bottom figure.table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Add borders for better readability */
+  }
+
+  .description-review-bottom figure.table th {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .description-review-bottom figure.table th img {
+    max-width: 100%; /* Make images responsive */
+    height: auto;
+  }
+
+  /* Remove table rows to transform into a stacked layout */
+  .description-review-bottom figure.table tr {
+    margin-bottom: 20px; /* Add space between each item */
   }
 }
+
+/* Default styling for larger screens (above 767px) */
+@media (min-width: 1200px) {
+  .description-review-bottom figure.table {
+    display: table;
+  }
+
+  .description-review-bottom figure.table table {
+    display: table;
+  }
+
+  .description-review-bottom figure.table thead, 
+  .description-review-bottom figure.table tbody, 
+  .description-review-bottom figure.table tr, 
+  .description-review-bottom figure.table th, 
+  .description-review-bottom figure.table td {
+    display: table-cell;
+    padding: 20px;
+  }
+
+  .description-review-bottom figure.table th, 
+  .description-review-bottom figure.table td {
+    text-align: left;
+  }
+
+  .description-review-bottom figure.table th img {
+    max-width: 300px;
+    height: auto;
+  }
+}
+
