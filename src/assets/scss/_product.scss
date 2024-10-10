@@ -4010,10 +4010,11 @@
 //   }
 // }
 
-.shop-area{
+.product-small-image-wrapper{
     .swiper-wrapper{
       .swiper-slide {
         max-height: fit-content !important;
+        max-width: fit-content !important;
       }
     }
 }
