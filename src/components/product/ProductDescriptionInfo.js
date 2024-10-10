@@ -73,7 +73,7 @@ const ProductDescriptionInfo = ({ product, }) => {
                 <Col key={index} xs={6} md={3} className="mb-2 px-1">
                   <Card className="d-flex flex-column justify-content-between p-2 border-top" style={{ minHeight: "100%"}}>
                     <div>
-                      <span className="desc-xs fw-bold mb-1 text-nowrap">
+                      <span className="desc-xs fw-bold mb-1">
                         {console.log('item', item.qty)}
                         {item.qty && JSON.parse(item.qty)?.length > 1 ? 'Buy More Save More' : item.offer_name}
                       </span>
