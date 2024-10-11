@@ -41,7 +41,7 @@ const HeroSliderOne = () => {
   }, [banners?.success, banners?.banners, error]);
 
   return (
-    <div className="slider-area">
+    <div className="slider-area home-banner">
       <div className="slider-active nav-style-1">
         {allBanners && (
           <Swiper options={params}>

@@ -1243,6 +1243,23 @@
   }
 }
 
+.image-gallery-pro-details .pro-details-size-content--single{
+  border: 2px solid transparent;
+}
+.image-gallery-pro-details .pro-details-size-content--single:hover{
+  color: #000;
+  background-color : #eceff8 !important;
+  border: 2px solid #007185;
+}
+.image-gallery-pro-details .pro-details-size-content--single:has(input:checked) {
+  border: 2px solid #007185;
+}
+
+.image-gallery-pro-details .pro-details-size-content--single input:checked ~ .size-name{
+  color: #000;
+  background-color : #eceff8 !important;
+}
+
 /*  prodduct 2     */
 
 .tab-filter-wrap {

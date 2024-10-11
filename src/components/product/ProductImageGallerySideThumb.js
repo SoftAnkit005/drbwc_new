@@ -8,13 +8,18 @@ import { EffectFade, Thumbs } from 'swiper';
 // import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Swiper, { SwiperSlide } from "../../components/swiper";
 import ImageMagnifier from "../image-magnifier/ImageMagnifier";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [index, setIndex] = useState(-1);
   const location = useLocation();
+  const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
+  const colorImages = JSON.parse(product.color_image_urls);
+  const colorNames = Object.keys(colorImages);
+  const colorImagesArray = Object.values(colorImages);
+  const [selectedColor, setSelectedColor] = useState('Default');
 
   // Get the 'color' query parameter
   const queryParams = new URLSearchParams(location.search);
@@ -90,6 +95,12 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
     }
   };
 
+  const handleColorChange = (color) => {
+    navigate(`?color=${color}`);
+  };
+
+  console.log('colorImages', colorImages);
+  console.log('colorImagesArray', colorImagesArray);
   return (
     <Fragment>
       <div className="row row-5 test">
@@ -145,6 +156,35 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
           </div>
         </div>
       </div>
+
+      <div className="pro-details-size image-gallery-pro-details my-3 d-lg-none">
+          <div className="pro-details-size-content">
+            <div className="pro-details-size-content">
+              {/* Default option */}
+              <label className="pro-details-size-content--single rounded overflow-hidden">
+                  <div className="d-flex align-items-center justify-content-center p-1">
+                    {defaultImageUrls?.length ? (
+                      <img className="rounded" height={70} width={70} src={apiUrl + '/' + defaultImageUrls[0]} alt="" />
+                    ) : null}
+                  </div>
+                  <input type="radio" value="Default" checked={selectedColor === 'Default'} onChange={() => { setSelectedColor('Default'); handleColorChange('Default'); }} />
+                  <span className="size-name fw-semibold">Default</span>
+              </label>
+
+              {/* Dynamically generated color options */}
+              {colorNames.map((color, key) => (
+                  <label className="pro-details-size-content--single rounded overflow-hidden" key={key}>
+                    <div className="d-flex align-items-center justify-content-center p-1">
+                      <img className="rounded" height={70} width={70} src={apiUrl + '/' + colorImagesArray[key]} alt="" />
+                    </div>
+                    <input type="radio" value={color} checked={selectedColor === color} onChange={() => { setSelectedColor(color); handleColorChange(color); }} />
+                    <span className="size-name fw-semibold">{color}</span>
+                  </label>
+              ))}
+            </div>
+          </div>
+      </div>
+
       {product.video_link && (
         <section className="video-section my-2 my-lg-5">
           <div className="video-wrapper">
