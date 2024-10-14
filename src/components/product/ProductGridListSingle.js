@@ -55,7 +55,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
       if (cartStatus === 'succeeded') {
         cogoToast.success(
           <div>
-            <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
+            <div>Product added to <span className='fw-semibold'>cart.</span></div>
           </div>,
           {
             position: 'top-right'
@@ -82,7 +82,7 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
 
       cogoToast.success(
         <div>
-          <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
+          <div>Product added to <span className='fw-semibold'>cart.</span></div>
         </div>,
         {
           position: 'top-right'

@@ -2,10 +2,6 @@ import { Fragment, useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { EffectFade, Thumbs } from 'swiper';
-// import AnotherLightbox from "yet-another-react-lightbox";
-// import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
-// import Zoom from "yet-another-react-lightbox/plugins/zoom";
-// import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Swiper, { SwiperSlide } from "../../components/swiper";
 import ImageMagnifier from "../image-magnifier/ImageMagnifier";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -95,14 +91,15 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
     }
   };
 
+  console.log('product', product);
+
   const handleColorChange = (color) => {
     navigate(`?color=${color}`);
   };
 
-  console.log('colorImages', colorImages);
-  console.log('colorImagesArray', colorImagesArray);
   return (
     <Fragment>
+      <p className="mb-3 d-lg-none fw-semibold heading-sm">{product.product_name}</p>
       <div className="row row-5 test">
         <div className={clsx("col-xl-10 order-xl-2")} >
           <div className="product-large-image-wrapper">

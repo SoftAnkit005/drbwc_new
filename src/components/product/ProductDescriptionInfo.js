@@ -36,7 +36,7 @@ const ProductDescriptionInfo = ({ product, }) => {
   return (
     <div className="product-details-content ml-70">
       <div className="position-relative">
-        <h2>{product.product_name}</h2>
+        <h2 className="d-none d-lg-block">{product.product_name}</h2>
         <img className="position-absolute end-0 top-100 mt-3" src="/assets/img/product/drbwc_images/warrenty_logo.png" alt="" height={65} />
       </div>
       <p className='desc-xxs mb-1 text-cyan fw-normal'>Brand: DR BWC</p>

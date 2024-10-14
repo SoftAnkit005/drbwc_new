@@ -57,7 +57,7 @@ const ProductBuyBox = ({ product }) => {
       if (cartStatus === 'succeeded') {
         cogoToast.success(
           <div>
-            <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
+            <div>Product added to <span className='fw-semibold'>cart.</span></div>
           </div>,
           { position: 'top-right'}
         );
@@ -67,7 +67,7 @@ const ProductBuyBox = ({ product }) => {
 
       cogoToast.success(
         <div>
-          <div><span className='fw-semibold'>{product.product_name}</span> added to <span className='fw-semibold'>cart.</span></div>
+          <div>Product added to <span className='fw-semibold'>cart.</span></div>
         </div>,
         { position: 'top-right'}
       );
