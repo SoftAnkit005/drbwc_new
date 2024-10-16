@@ -12,10 +12,6 @@ const InvoiceDownload = ({ orderItem, productsData }) => {
   const user = JSON.parse(localStorage.getItem('loggedUser'));
   const { taxdata } = useSelector((state) => state.taxes);
 
-
-  console.log('productsData', productsData);
- 
-
   const generateInvoice = () => {
     const doc = new jsPDF();
 

@@ -104,10 +104,10 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
       await dispatch(updateWishlist({ product_id: id, user_id: user.id })).unwrap();
 
       if (wishlistIcon === 'active') {
-        cogoToast.error(`${prod_name} removed from wishlist.`, { position: 'top-right', });
+        cogoToast.error(`Product removed from wishlist.`, { position: 'top-right', });
         setwishlistIcon(''); // Reset icon
       } else {
-        cogoToast.success(`${prod_name} added to wishlist.`, { position: 'top-right', });
+        cogoToast.success(`Product added to wishlist.`, { position: 'top-right', });
         setwishlistIcon('active'); // Set icon to active
       }
     } catch (error) {
@@ -161,7 +161,8 @@ const ProductGridListSingle = ({ product, wishlistItem, spaceBottomClass }) => {
           <div className="product-content text-center">
             <h3>{product.name}
             </h3>
-            <h3 className="product-price fw-semibold pb-1">{product.product_name} </h3>
+            <h3 className="product-price fw-semibold pb-1 ellipsis-one-lines" title={product.product_name} data-bs-toggle="tooltip" > {product.product_name} </h3>
+
             <h3 className="product-price fw-semibold pb-2"> ₹ {product.price} </h3>
           </div>
         </Link>

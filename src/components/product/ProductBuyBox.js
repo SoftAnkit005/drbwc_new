@@ -98,9 +98,9 @@ const ProductBuyBox = ({ product }) => {
       cogoToast.error("Please log in to manage your wishlist.");
       return;
     }
-
     try {
       await dispatch(updateWishlist({ product_id: id, user_id: user.id })).unwrap();
+      cogoToast.success(`Product added to wishlist.`, { position: 'top-right', });
     } catch (error) {
       cogoToast.error("Failed to update wishlist. Please try again.");
     }

@@ -35,7 +35,6 @@ const OrderList = () => {
   useEffect(() => {
     if (products?.success) {
       setProductsData(products.products);
-      console.log('productsData:', products.products);
     } else {
       console.log("No products found or products fetching failed.");  // Debugging
     }
@@ -75,7 +74,6 @@ const OrderList = () => {
                       {allOrders?.map((orderItem, i) => {
                         const productIds = orderItem.product_id.split(',').map(id => parseInt(id));
                         const quantities = orderItem.qty.split(',').map(qty => parseInt(qty));
-                        console.log('orderItem', orderItem);
                         // Find products based on product IDs
                         const orderedProducts = productIds.map(productId => 
                           productsData.find(product => product.id === productId)

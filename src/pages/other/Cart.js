@@ -17,9 +17,11 @@ const Cart = () => {
   const { pathname } = useLocation();
   const { cartItems } = useSelector((state) => state.cart);
   const guestCartItems = useSelector((state) => state.guestCart.cartItems);
+  const { categories } = useSelector((state) => state.categories);
   const { products } = useSelector((state) => state.product);
   const { taxdata } = useSelector((state) => state.taxes);
   const [productsData, setProductsData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   const [localCartItems, setLocalCartItems] = useState([]);
   // const [discountDetails, setDiscountDetails] = useState(null);
   const [taxes, setTaxes] = useState([]);
@@ -33,6 +35,14 @@ const Cart = () => {
       setTaxes(sortedActiveTaxes);
     }
   }, [taxdata]);
+
+  useEffect(() => {
+    if (categories?.success) {
+      const sortedActiveCategories = categories.categories.filter(category => category.status === 'active').sort((a, b) => a.position - b.position);
+      setCategoryData(sortedActiveCategories);
+    }
+  }, [categories]);
+
 
   useEffect(() => {
     if (products?.success && Array.isArray(products.products)) {
@@ -209,7 +219,7 @@ const Cart = () => {
                                   </Link>
                                 </td>
                                 <td className="product-name">
-                                  <Link to={`/product/${product.id}`}>{product.product_name}</Link>
+                                  <Link className="ellipsis-two-lines" title={product.product_name} data-bs-toggle="tooltip" to={`/product/${product.id}`}>{product.product_name}</Link>
                                 </td>
                                 <td className="product-price-cart">
                                   <span className="amount">{"₹ " + finalProductPrice}</span>
@@ -259,18 +269,27 @@ const Cart = () => {
               </Fragment>
             ) : (
               <div className="row">
-                <div className="col-lg-12">
-                  <div className="item-empty-area text-center">
-                    <div className="item-empty-area__icon mb-30">
-                      <i className="pe-7s-cart"></i>
+                {/* Move variable declarations outside JSX */}
+                {(() => {
+                  const categoryPath = `/${categoryData[0]?.name.toLowerCase().replace(/\s+/g, '-')}`;
+                  const categoryPathWithId = `${categoryPath}?id=${categoryData[0]?.id}`;
+
+                  return (
+                    <div className="col-lg-12">
+                      <div className="item-empty-area text-center">
+                        <div className="item-empty-area__icon mb-30">
+                          <i className="pe-7s-cart"></i>
+                        </div>
+                        <div className="item-empty-area__text">
+                          No items found in cart <br />{" "}
+                          <Link to={process.env.PUBLIC_URL + categoryPathWithId}>Shop Now</Link>
+                        </div>
+                      </div>
                     </div>
-                    <div className="item-empty-area__text">
-                      No items found in cart <br />{" "}
-                      <Link to={process.env.PUBLIC_URL + "/shop"}>Shop Now</Link>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })()}
               </div>
+
             )}
           </div>
         </div>

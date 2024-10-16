@@ -23,8 +23,7 @@ const ShopGridStandard = () => {
     const { products } = useSelector((state) => state.product);
     const [categoryId, setcategoryId] = useState();
     const location = useLocation();
-
-
+    const [sortedData, setsortedData] = useState([])
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -32,7 +31,7 @@ const ShopGridStandard = () => {
         setcategoryId(categoryId);
     }, [location.search]);
 
-    const pageLimit = 15;
+    const pageLimit = 14;
 
     let { pathname } = useLocation();
 
@@ -53,16 +52,21 @@ const ShopGridStandard = () => {
     useEffect(() => {
         if(sortType !== 'all') {
             let categorizedData = sortedProducts.filter(product => product.subcategory_id === sortValue);
+            setsortedData(categorizedData);
             setCurrentData(categorizedData.slice(offset, offset + pageLimit));
         } else {
             // let sortedProducts = getSortedProducts(products.products, sortType, sortValue);
             let sortedProducts = products.products?.filter(product => product.category_id === Number(categoryId));
+            setsortedData(sortedProducts);
             const filterSortedProducts = getSortedProducts(sortedProducts, filterSortType, filterSortValue);
             sortedProducts = filterSortedProducts;
             setSortedProducts(sortedProducts);
             setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
         }
     }, [offset, products, filterSortType, filterSortValue, categoryId, sortType]);
+
+    // console.log('sortedProducts:', sortedProducts);
+    // console.log('currentData', currentData);
 
     return (
         <Fragment>
@@ -94,7 +98,7 @@ const ShopGridStandard = () => {
                                 {/* shop product pagination */}
                                 <div className="pro-pagination-style text-center mt-30">
                                     <Paginator
-                                        totalRecords={sortedProducts.length}
+                                        totalRecords={sortedData?.length}
                                         pageLimit={pageLimit}
                                         pageNeighbours={2}
                                         setOffset={setOffset}

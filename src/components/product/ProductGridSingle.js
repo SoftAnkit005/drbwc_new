@@ -72,8 +72,8 @@ const ProductGridSingle = ({ product,spaceBottomClass }) => {
               {product.name}
             </Link>
           </h3>
-          <h3 className="product-price fw-semibold pb-1">{product.product_name} </h3>
-          <h3 className="product-price fw-semibold pb-2"> ₹ {product.price} </h3>
+          <h3 className="product-price fw-semibold pb-1 ellipsis-one-lines px-2" title={product.product_name} data-bs-toggle="tooltip">{product.product_name} </h3>
+          <h3 className="product-price fw-semibold pb-2 px-2"> ₹ {product.price} </h3>
         </div>
       </div>
       {/* Shop list content (omitted for brevity) */}

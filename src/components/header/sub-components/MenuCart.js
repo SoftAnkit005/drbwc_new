@@ -74,9 +74,6 @@ const MenuCart = () => {
   const currentQuantity = itemQuantities[item.product_id] || 0;
   let updatedQuantity = currentQuantity;
 
-  console.log('currentQuantity:', currentQuantity);
-  console.log('updatedQuantity:', updatedQuantity);
-
   // Determine the maximum quantity based on product_qty or default to 4
   const maxQuantity = Math.min(product_qty, 4);
 
@@ -180,7 +177,7 @@ const MenuCart = () => {
                   </div>
                   <div className="shopping-cart-title">
                     <h4 className="desc-xs fw-semibold">
-                      <Link to={"/product/" + product.id}>
+                      <Link className="ellipsis-two-lines" to={"/product/" + product.id} title={product.product_name} data-bs-toggle="tooltip">
                         {product.product_name}
                       </Link>
                     </h4>

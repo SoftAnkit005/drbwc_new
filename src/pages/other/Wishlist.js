@@ -112,7 +112,7 @@ const Wishlist = () => {
                                 </td>
 
                                 <td className="product-name text-center">
-                                  <Link to={process.env.PUBLIC_URL + "/product/" + wishlistItem.id}> {wishlistItem.product_name} </Link>
+                                  <Link className="ellipsis-two-lines"  title={wishlistItem.product_name} data-bs-toggle="tooltip" to={process.env.PUBLIC_URL + "/product/" + wishlistItem.id}> {wishlistItem.product_name} </Link>
                                 </td>
 
                                 <td className="product-price-cart">

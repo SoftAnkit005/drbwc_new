@@ -23,6 +23,10 @@ const isTokenValid = (token) => {
 export const useInitialDispatches = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+  const { error } = useSelector((state) => state.userOrders);
+
+  console.log('error', error?.message);
+
 
   useEffect(() => {
     // Dispatch global thunks
@@ -35,10 +39,11 @@ export const useInitialDispatches = () => {
     dispatch(fetchGuestCart());
 
     // Conditionally dispatch getCart and fetchWishlist if token is valid
-    if (isTokenValid(token)) {
+    if (isTokenValid(token) && !error) {
       dispatch(getCart());
       dispatch(fetchWishlist());
     }else{
+      console.log('clear token');
       dispatch(clearToken());
     }
   }, [token, dispatch]);
