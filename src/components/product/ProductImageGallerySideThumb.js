@@ -63,33 +63,35 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
     onSwiper: setThumbsSwiper,
     spaceBetween: 10,
     slidesPerView: 4,
-    touchRatio: 0.2,
+    touchRatio: 1, // Increase touch sensitivity
     loop: false,
     slideToClickedSlide: true,
-    direction: "vertical",
+    direction: thumbPosition === "left" ? "vertical" : "horizontal",
     breakpoints: {
       320: {
         slidesPerView: 4,
-        direction: "horizontal"
+        direction: "horizontal",
+        spaceBetween: 5, // Reduce space on smaller screens
       },
       640: {
         slidesPerView: 4,
-        direction: "horizontal"
+        direction: "horizontal",
       },
       768: {
         slidesPerView: 4,
-        direction: "horizontal"
+        direction: "horizontal",
       },
       992: {
         slidesPerView: 4,
-        direction: "horizontal"
+        direction: thumbPosition === "left" ? "vertical" : "horizontal",
       },
       1200: {
         slidesPerView: 4,
-        direction: "vertical"
-      }
-    }
+        direction: "vertical",
+      },
+    },
   };
+  
 
   console.log('product', product);
 
@@ -139,17 +141,16 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
           <div className="product-small-image-wrapper product-small-image-wrapper--side-thumb">
             {imageArray?.length ? (
               <Swiper options={thumbnailSwiperParams}>
-                {imageArray.map((single, key) => {
-                  return (
-                    <SwiperSlide key={key}>
-                      <div className="single-image">
-                        <img src={`${apiUrl}/${single}`} className="img-fluid" alt={`Product Image ${key}`} />
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
+                {imageArray.map((single, key) => (
+                  <SwiperSlide key={key}>
+                    <div className="single-image">
+                      <img src={`${apiUrl}/${single}`} className="img-fluid" alt={`Product Image ${key}`} height={80} width={80}/>
+                    </div>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             ) : null}
+
           </div>
         </div>
       </div>
